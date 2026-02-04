@@ -1,0 +1,5 @@
+C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/CMakeFiles/appStockageFrigorifique.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/CMakeFiles/appStockageFrigorifique_autogen_timestamp_deps.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/CMakeFiles/appStockageFrigorifique_autogen.dir
