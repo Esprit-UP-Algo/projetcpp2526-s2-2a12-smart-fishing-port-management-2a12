@@ -1,5 +1,18 @@
+<<<<<<< HEAD
 build/
 CMakeCache.txt
 CMakeFiles/
 *.user
 *.autosave
+=======
+*.exe
+*.o
+*.out
+build/
+*.dll
+*.so
+*.dylib
+.DS_Store
+.vscode/
+*.user
+>>>>>>> 87394296aaf917e3421a011b0b1f84350e172e30
