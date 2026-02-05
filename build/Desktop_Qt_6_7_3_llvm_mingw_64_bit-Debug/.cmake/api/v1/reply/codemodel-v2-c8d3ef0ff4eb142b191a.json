@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "StockageFrigorifique",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "appStockageFrigorifique::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appStockageFrigorifique-Debug-fe5eb4141e46edc418e8.json",
+					"name" : "appStockageFrigorifique",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appStockageFrigorifique_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appStockageFrigorifique_autogen-Debug-64694c062381f82d9f7e.json",
+					"name" : "appStockageFrigorifique_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appStockageFrigorifique_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appStockageFrigorifique_autogen_timestamp_deps-Debug-fbb450fb276a5f8d8cae.json",
+					"name" : "appStockageFrigorifique_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Raef Jerad/Desktop/interface hedi/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug",
+		"source" : "C:/Users/Raef Jerad/Desktop/interface hedi"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

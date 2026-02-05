@@ -1,0 +1,77 @@
+# ninja log v6
+1076	4079	7917741145820948	CMakeFiles/appStockageFrigorifique.dir/src/stockagelotmodel.cpp.obj	baed9149d136350f
+10	132	7917750398071682	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+10	132	7917750398071682	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+10	132	7917750398071682	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+10	132	7917750398071682	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+978	1053	7917741145441994	appStockageFrigorifique_autogen/3YJK5W5UP7/qrc_resources.cpp	c5c3a11161b19e2c
+978	1053	7917741145441994	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/3YJK5W5UP7/qrc_resources.cpp	c5c3a11161b19e2c
+1090	1432	7917741145970901	CMakeFiles/appStockageFrigorifique.dir/appStockageFrigorifique_autogen/3YJK5W5UP7/qrc_resources.cpp.obj	b256bcbed5bbd570
+1072	3569	7917741145780954	CMakeFiles/appStockageFrigorifique.dir/src/chambrefroidesortfilterproxymodel.cpp.obj	ea1e0198e5c4ad70
+441	1919	7917745630210750	CMakeFiles/appStockageFrigorifique.dir/appStockageFrigorifique_autogen/mocs_compilation.cpp.obj	ba5af0d8260d8cf8
+444	1642	7917742320361630	CMakeFiles/appStockageFrigorifique.dir/src/transactionsortfilterproxymodel.cpp.obj	1fc3c88686c13a32
+1079	3828	7917741145851020	CMakeFiles/appStockageFrigorifique.dir/src/stockagelotsortfilterproxymodel.cpp.obj	4e57991458b62eed
+444	1737	7917745630234661	CMakeFiles/appStockageFrigorifique.dir/src/main.cpp.obj	ce4ea376aabee6bf
+1069	3835	7917741145750933	CMakeFiles/appStockageFrigorifique.dir/src/chambrefroidemodel.cpp.obj	97a3e9f84fc47504
+1064	3918	7917741145700965	CMakeFiles/appStockageFrigorifique.dir/src/pdfexporter.cpp.obj	1e18d9d6d7e24a03
+432	1753	7917742320241650	CMakeFiles/appStockageFrigorifique.dir/src/transactionmodel.cpp.obj	dc0ccb83c50bd152
+132	3030	7917750399297056	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+3030	3798	7917750428270068	appStockageFrigorifique.exe	cb54947aef052bc3
+14	486	7917751857280671	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+14	486	7917751857280671	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+14	486	7917751857280671	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+14	486	7917751857280671	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+494	1806	7917751857751094	CMakeFiles/appStockageFrigorifique.dir/src/transactionmodel.cpp.obj	dc0ccb83c50bd152
+496	1811	7917751857771093	CMakeFiles/appStockageFrigorifique.dir/src/transactionsortfilterproxymodel.cpp.obj	1fc3c88686c13a32
+488	1830	7917751857701092	CMakeFiles/appStockageFrigorifique.dir/src/main.cpp.obj	ce4ea376aabee6bf
+486	2003	7917751857681103	CMakeFiles/appStockageFrigorifique.dir/appStockageFrigorifique_autogen/mocs_compilation.cpp.obj	ba5af0d8260d8cf8
+491	3386	7917751857721088	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+3386	4129	7917751886674531	appStockageFrigorifique.exe	cb54947aef052bc3
+32	171	7919124623886576	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+32	171	7919124623886576	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+32	171	7919124623886576	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+32	171	7919124623886576	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+173	3052	7919124625292097	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+3052	3861	7919124654074944	appStockageFrigorifique.exe	cb54947aef052bc3
+8	121	7919125758529331	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	121	7919125758529331	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+8	121	7919125758529331	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	121	7919125758529331	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+122	2740	7919125759669756	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+2740	3488	7919125785852819	appStockageFrigorifique.exe	cb54947aef052bc3
+9	136	7919127669006119	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+9	136	7919127669006119	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+9	136	7919127669006119	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+9	136	7919127669006119	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+137	2777	7919127670287486	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+2777	3517	7919127696690730	appStockageFrigorifique.exe	cb54947aef052bc3
+37	196	7919352092083628	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+37	196	7919352092083628	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+37	196	7919352092083628	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+37	196	7919352092083628	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+198	3328	7919352093691151	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+3328	4281	7919352124988180	appStockageFrigorifique.exe	cb54947aef052bc3
+8	129	7919356645713919	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	129	7919356645713919	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+8	129	7919356645713919	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	129	7919356645713919	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+129	2796	7919356646923449	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+2796	3581	7919356673599132	appStockageFrigorifique.exe	cb54947aef052bc3
+8	130	7919357583357005	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	130	7919357583357005	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+8	130	7919357583357005	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	130	7919357583357005	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+131	2804	7919357584598534	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+2804	3557	7919357611329467	appStockageFrigorifique.exe	cb54947aef052bc3
+8	138	7919359491730476	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	138	7919359491730476	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+8	138	7919359491730476	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+8	138	7919359491730476	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+139	2811	7919359493037851	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+2811	3551	7919359519763569	appStockageFrigorifique.exe	cb54947aef052bc3
+28	161	7919991981206158	appStockageFrigorifique_autogen/timestamp	22896024e695759a
+28	161	7919991981206158	appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+28	161	7919991981206158	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/timestamp	22896024e695759a
+28	161	7919991981206158	C:/Users/chebbi/Desktop/interface moura/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/appStockageFrigorifique_autogen/mocs_compilation.cpp	22896024e695759a
+164	3080	7919991982567562	CMakeFiles/appStockageFrigorifique.dir/src/mainwindow.cpp.obj	f6dee17fa17f619b
+3080	3929	7919992011718149	appStockageFrigorifique.exe	cb54947aef052bc3
