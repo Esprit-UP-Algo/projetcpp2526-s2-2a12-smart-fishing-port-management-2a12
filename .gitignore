@@ -1,0 +1,10 @@
+*.exe
+*.o
+*.out
+build/
+*.dll
+*.so
+*.dylib
+.DS_Store
+.vscode/
+*.user
