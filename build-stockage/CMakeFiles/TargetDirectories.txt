@@ -1,0 +1,5 @@
+C:/Users/Raef Jerad/Desktop/interface hedi/build-stockage/CMakeFiles/appStockageFrigorifique.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build-stockage/CMakeFiles/edit_cache.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build-stockage/CMakeFiles/rebuild_cache.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build-stockage/CMakeFiles/appStockageFrigorifique_autogen_timestamp_deps.dir
+C:/Users/Raef Jerad/Desktop/interface hedi/build-stockage/CMakeFiles/appStockageFrigorifique_autogen.dir
