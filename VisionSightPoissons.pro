@@ -1,4 +1,4 @@
-QT += core gui sql
+QT += core gui sql printsupport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,6 +20,9 @@ SOURCES += \
     src/mainwindow.cpp \
     src/statcircle.cpp \
     src/documentexporter.cpp \
+    src/lotdialog.cpp \
+    src/chambrefroidedialog.cpp \
+    src/sidebarwidget.cpp \
     models/capturelotmodel.cpp \
     models/capturelotproxymodel.cpp
 
@@ -27,6 +30,9 @@ HEADERS += \
     src/mainwindow.h \
     src/statcircle.h \
     src/documentexporter.h \
+    src/lotdialog.h \
+    src/chambrefroidedialog.h \
+    src/sidebarwidget.h \
     models/capturelot.h \
     models/capturelotmodel.h \
     models/capturelotproxymodel.h

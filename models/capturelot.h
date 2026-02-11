@@ -21,6 +21,7 @@ struct CaptureLot
     CaptureLot() 
         : poids(0), 
           dateCapture(QDateTime::currentDateTime()),
+          qualite("Premium"),
           dateEntreeStock(QDateTime::currentDateTime()) {}
 
     // Constructeur avec paramètres
@@ -28,7 +29,7 @@ struct CaptureLot
                const QDateTime &capture, const QString &nav, const QString &qual, 
                const QDateTime &entree)
         : idLot(id), espece(esp), poids(p), zonePeche(zone), 
-          dateCapture(capture), navire(nav), qualite(qual), 
+          dateCapture(capture), etat("En stock"), navire(nav), qualite(qual), 
           dateEntreeStock(entree) {}
         CaptureLot(const QString &id, const QString &esp, int p, const QString &zone, 
                              const QDateTime &capture, const QString &etatLot, const QString &nav, const QString &qual, 

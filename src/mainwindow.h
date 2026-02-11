@@ -11,6 +11,11 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLabel>
+#include <QtCharts>
+
+// IMPORTANT: Do NOT use 'using namespace QtCharts;' locally
+// Instead, use proper namespacing or macro if needed.
+// However, standard Qt6 syntax is usually straightforward.
 
 #include "models/capturelot.h"
 #include "models/capturelotmodel.h"
@@ -57,6 +62,11 @@ private:
     QLabel *m_statQuantiteEspece;
     QLabel *m_statZonePeche;
     QLabel *m_statAvgPoids;
+    
+    // Charts
+    QChartView *m_chartEspece;
+    QChartView *m_chartZone;
+    QChartView *m_chartPoids;
 
     // UI
     void buildUi();

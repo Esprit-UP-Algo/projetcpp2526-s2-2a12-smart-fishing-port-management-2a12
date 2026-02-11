@@ -82,7 +82,7 @@ SidebarWidget::SidebarWidget(QWidget *parent) : QWidget(parent) {
 
     layout->addStretch();
 
-    connect(buttonGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), this, [=](int idx) {
+    connect(buttonGroup, &QButtonGroup::idClicked, this, [=](int idx) {
         setSelected(idx);
         emit menuClicked(idx);
     });

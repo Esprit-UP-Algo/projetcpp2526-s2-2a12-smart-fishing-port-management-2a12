@@ -6,6 +6,7 @@ CaptureLotProxyModel::CaptureLotProxyModel(QObject *parent)
 {
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setFilterKeyColumn(-1); // Filtre sur toutes les colonnes
+    setSortRole(Qt::EditRole); // Utiliser les valeurs brutes pour le tri
 }
 
 void CaptureLotProxyModel::setSearchLot(const QString &text)

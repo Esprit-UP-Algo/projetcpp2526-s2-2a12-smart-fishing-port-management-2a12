@@ -65,7 +65,7 @@ static QLabel *makeTitle(const QString &text, int px, bool bold, QWidget *parent
     return l;
 }
 
-static QWidget *makeChartPlaceholder(const QString &title, QWidget *parent)
+static QWidget *makeChartCard(const QString &title, QChartView **outChartView, QWidget *parent)
 {
     auto *card = makeCard(parent, "Card");
     auto *vl = new QVBoxLayout(card);
@@ -75,14 +75,23 @@ static QWidget *makeChartPlaceholder(const QString &title, QWidget *parent)
     auto *t = new QLabel(title, card);
     t->setObjectName("SectionTitle");
 
-    auto *ph = new QLabel(card);
-    ph->setObjectName("ChartPlaceholder");
-    ph->setMinimumHeight(140);
-    ph->setAlignment(Qt::AlignCenter);
-    ph->setText(QObject::tr("[Graphique]"));
+    auto *chart = new QChart();
+    chart->setBackgroundVisible(false);
+    chart->layout()->setContentsMargins(0, 0, 0, 0);
+    chart->legend()->setVisible(false);
+
+    auto *chartView = new QChartView(chart, card);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setStyleSheet("background: transparent; border: 0px;");
+    chartView->setMinimumHeight(140);
+    
+    // Set transparent background for chartView
+    chartView->setBackgroundBrush(Qt::transparent);
+
+    *outChartView = chartView;
 
     vl->addWidget(t);
-    vl->addWidget(ph, 1);
+    vl->addWidget(chartView, 1);
 
     return card;
 }
@@ -236,9 +245,9 @@ void MainWindow::buildUi()
     // Top charts row
     auto *chartsRow = new QHBoxLayout();
     chartsRow->setSpacing(12);
-    chartsRow->addWidget(makeChartPlaceholder(tr("Quantité par espèce"), page), 1);
-    chartsRow->addWidget(makeChartPlaceholder(tr("Répartition par zone"), page), 1);
-    chartsRow->addWidget(makeChartPlaceholder(tr("Poids moyen"), page), 1);
+    chartsRow->addWidget(makeChartCard(tr("Quantité par espèce"), &m_chartEspece, page), 1);
+    chartsRow->addWidget(makeChartCard(tr("Répartition par zone"), &m_chartZone, page), 1);
+    chartsRow->addWidget(makeChartCard(tr("Poids moyen"), &m_chartPoids, page), 1);
     pageLayout->addLayout(chartsRow);
 
     // ========== LOTS FORM CARD ==========
@@ -642,31 +651,39 @@ int MainWindow::selectedSourceRow(QTableView *view, const QSortFilterProxyModel 
 void MainWindow::refreshStats()
 {
     const auto &lots = m_lotModel->items();
+
+    // Reset charts if empty
     if (lots.isEmpty())
     {
-        if (m_statQuantiteEspece)
-            m_statQuantiteEspece->setText("—");
-        if (m_statZonePeche)
-            m_statZonePeche->setText("—");
-        if (m_statAvgPoids)
-            m_statAvgPoids->setText("—");
-        if (m_captureCircle)
-            m_captureCircle->setValue(0.0);
+        if (m_statQuantiteEspece) m_statQuantiteEspece->setText("—");
+        if (m_statZonePeche) m_statZonePeche->setText("—");
+        if (m_statAvgPoids) m_statAvgPoids->setText("—");
+        if (m_captureCircle) m_captureCircle->setValue(0.0);
+        
+        // Clear charts
+        if (m_chartEspece) m_chartEspece->chart()->removeAllSeries();
+        if (m_chartZone) m_chartZone->chart()->removeAllSeries();
+        if (m_chartPoids) m_chartPoids->chart()->removeAllSeries();
         return;
     }
 
-    // Quantité par espèce (poids total) et espèce dominante
-    QMap<QString, int> especePoids;
-    QMap<QString, int> especeCount;
+    // 1. Calculate Data Distribution
+    QMap<QString, int> especePoids; // Total weight per species
+    QMap<QString, int> especeCount; // Number of lots per species (for average)
+    QMap<QString, int> zoneCount;   // Number of lots per zone
     int totalPoids = 0;
 
     for (const auto &lot : lots)
     {
         especeCount[lot.espece]++;
         especePoids[lot.espece] += lot.poids;
+        zoneCount[lot.zonePeche]++;
         totalPoids += lot.poids;
     }
 
+    // --- KPI Updates ---
+
+    // 1. Dominant Species
     QString dominantEspece = "—";
     int maxPoids = 0;
     for (auto it = especePoids.begin(); it != especePoids.end(); ++it)
@@ -677,19 +694,11 @@ void MainWindow::refreshStats()
             dominantEspece = it.key();
         }
     }
-
-    if (m_statQuantiteEspece)
-    {
-        const QLocale loc;
-        const QString qty = loc.toString(maxPoids) + " kg";
-        m_statQuantiteEspece->setText(dominantEspece == "—" ? dominantEspece : dominantEspece + " (" + qty + ")");
+    if (m_statQuantiteEspece) {
+        m_statQuantiteEspece->setText(tr("%1 (%2 kg)").arg(dominantEspece).arg(maxPoids));
     }
 
-    // Zone fréquente
-    QMap<QString, int> zoneCount;
-    for (const auto &lot : lots)
-        zoneCount[lot.zonePeche]++;
-
+    // 2. Frequent Zone
     QString frequentZone = "—";
     int maxCount = 0;
     for (auto it = zoneCount.begin(); it != zoneCount.end(); ++it)
@@ -700,20 +709,138 @@ void MainWindow::refreshStats()
             frequentZone = it.key();
         }
     }
+    if (m_statZonePeche) m_statZonePeche->setText(frequentZone);
 
-    if (m_statZonePeche)
-        m_statZonePeche->setText(frequentZone);
+    // 3. Average Weight (Global)
+    const double avgPoidsDetails = lots.isEmpty() ? 0 : double(totalPoids) / double(lots.size());
+    if (m_statAvgPoids) m_statAvgPoids->setText(QString::number(avgPoidsDetails, 'f', 1) + " kg");
 
-    // Poids moyen
-    const double avgPoids = double(totalPoids) / double(lots.size());
-    const QLocale loc;
-    if (m_statAvgPoids)
-        m_statAvgPoids->setText(loc.toString(avgPoids, 'f', 1) + " kg");
+    // 4. Circle Widget
+    if (m_captureCircle) m_captureCircle->setValue(qMin(1.0, double(lots.size()) / 100.0));
 
-    // Circle: nombre de lots / capacité théorique (100 lots max)
-    const double occupancy = qMin(1.0, double(lots.size()) / 100.0);
-    if (m_captureCircle)
-        m_captureCircle->setValue(occupancy);
+
+    // --- CHARTS IMPLEMENTATION ---
+
+    auto setupChart = [](QChart *chart, QAbstractSeries *series, const QString &title) {
+        // Correctly clean up old series and axes to prevent memory leaks
+        auto oldSeries = chart->series();
+        chart->removeAllSeries();
+        qDeleteAll(oldSeries);
+
+        auto oldAxes = chart->axes();
+        for (auto *axis : oldAxes) {
+            chart->removeAxis(axis);
+            delete axis;
+        }
+
+        if (series) {
+            chart->addSeries(series);
+        }
+        
+        chart->setTitle(title);
+        chart->setTitleBrush(QBrush(QColor(0xe6, 0xee, 0xf6)));
+        
+        QFont font = chart->titleFont();
+        font.setBold(true);
+        chart->setTitleFont(font);
+
+        chart->legend()->setVisible(false);
+        chart->layout()->setContentsMargins(0, 0, 0, 0);
+        chart->setBackgroundVisible(false);
+    };
+
+    // Chart 1: Quantité par Espèce (Bar Chart)
+    if (m_chartEspece) {
+        auto *set = new QBarSet("Poids");
+        set->setColor(QColor(0x39, 0xc0, 0xfa)); // Cyan
+        set->setBorderColor(Qt::transparent);
+
+        QStringList categories;
+        for (auto it = especePoids.begin(); it != especePoids.end(); ++it) {
+            *set << it.value();
+            categories << it.key();
+        }
+
+        auto *series = new QBarSeries();
+        series->append(set);
+        series->setBarWidth(0.6);
+
+        setupChart(m_chartEspece->chart(), series, "");
+
+        auto *axisX = new QBarCategoryAxis();
+        axisX->append(categories);
+        axisX->setLabelsColor(QColor(0x9b, 0xb0, 0xc3));
+        axisX->setLabelsFont(QFont("Segoe UI", 8));
+        m_chartEspece->chart()->addAxis(axisX, Qt::AlignBottom);
+        series->attachAxis(axisX);
+
+        auto *axisY = new QValueAxis();
+        axisY->setLabelsColor(QColor(0x9b, 0xb0, 0xc3));
+        m_chartEspece->chart()->addAxis(axisY, Qt::AlignLeft);
+        series->attachAxis(axisY);
+    }
+
+    // Chart 2: Répartition par Zone (Donut Chart)
+    if (m_chartZone) {
+        auto *series = new QPieSeries();
+        series->setHoleSize(0.4); 
+
+        int i = 0;
+        // Pallete
+        QList<QColor> colors = { 
+            QColor(0x39, 0xc0, 0xfa), // Cyan
+            QColor(0x1e, 0x8d, 0xe0), // Blue
+            QColor(0xe0, 0xe0, 0xe0), // Grey
+            QColor(0x23, 0x37, 0x4e)  // Dark
+        };
+
+        for (auto it = zoneCount.begin(); it != zoneCount.end(); ++it) {
+            QPieSlice *slice = series->append(it.key(), it.value());
+            slice->setLabelVisible(true);
+            slice->setLabelColor(QColor(0xe6, 0xee, 0xf6));
+            slice->setBrush(colors[i % colors.size()]);
+            slice->setBorderColor(Qt::transparent);
+            i++;
+        }
+
+        setupChart(m_chartZone->chart(), series, "");
+        m_chartZone->chart()->legend()->setVisible(true);
+        m_chartZone->chart()->legend()->setLabelColor(QColor(0x9b, 0xb0, 0xc3));
+        m_chartZone->chart()->legend()->setAlignment(Qt::AlignRight);
+        m_chartZone->chart()->legend()->setBackgroundVisible(false);
+    }
+
+    // Chart 3: Poids Moyen par Espèce (Bar Chart)
+    if (m_chartPoids) {
+         auto *set = new QBarSet("Poids Moy.");
+         set->setColor(QColor(0x1e, 0x8d, 0xe0)); // Darker Blue
+         set->setBorderColor(Qt::transparent);
+
+         QStringList categories;
+         for (auto it = especePoids.begin(); it != especePoids.end(); ++it) {
+             double avg = double(it.value()) / double(especeCount[it.key()]);
+             *set << avg;
+             categories << it.key();
+         }
+
+         auto *series = new QBarSeries();
+         series->append(set);
+         series->setBarWidth(0.5);
+
+         setupChart(m_chartPoids->chart(), series, "");
+
+         auto *axisX = new QBarCategoryAxis();
+         axisX->append(categories);
+         axisX->setLabelsColor(QColor(0x9b, 0xb0, 0xc3));
+         axisX->setLabelsFont(QFont("Segoe UI", 8));
+         m_chartPoids->chart()->addAxis(axisX, Qt::AlignBottom);
+         series->attachAxis(axisX);
+
+         auto *axisY = new QValueAxis();
+         axisY->setLabelsColor(QColor(0x9b, 0xb0, 0xc3));
+         m_chartPoids->chart()->addAxis(axisY, Qt::AlignLeft);
+         series->attachAxis(axisY);
+    }
 }
 
 void MainWindow::onAddLot()
