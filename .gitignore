@@ -1,0 +1,41 @@
+# Compiled Object files
+*.o
+*.obj
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.user
+*.pro.user
+
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Qt
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+.qmake.stash
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+
+# Build directories
+build/
+bin/
+debug/
+release/
+
+# OS generated files
+.DS_Store
+Thumbs.db
