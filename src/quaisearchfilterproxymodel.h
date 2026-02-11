@@ -1,25 +1,14 @@
 #pragma once
 
 #include <QSortFilterProxyModel>
-#include <QDate>
+#include <QDateTime>
 
-class QuaiSortFilterProxyModel final : public QSortFilterProxyModel
+class QuaiSearchFilterProxyModel final : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 public:
-    enum class SortMode
-    {
-        TableColumn = 0,
-        TailleAsc,
-        Statut,
-        LiberationBientot,
-        OccupeDepuisLongtemps,
-        PrixAsc
-    };
-    Q_ENUM(SortMode)
-
-    explicit QuaiSortFilterProxyModel(QObject *parent = nullptr);
+    explicit QuaiSearchFilterProxyModel(QObject *parent = nullptr);
 
     void setSearchMatricule(const QString &text);
     void setSearchIdQuai(const QString &text);
@@ -37,12 +26,8 @@ public:
     void setRangeStart(const QDateTime &dt);
     void setRangeEnd(const QDateTime &dt);
 
-    void setSortMode(SortMode mode);
-    SortMode sortMode() const;
-
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
-    bool lessThan(const QModelIndex &sourceLeft, const QModelIndex &sourceRight) const override;
 
 private:
     QString m_matricule;
@@ -61,8 +46,6 @@ private:
     bool m_rangeEnabled = false;
     QDateTime m_rangeStart;
     QDateTime m_rangeEnd;
-
-    SortMode m_sortMode = SortMode::TableColumn;
 
     static QString norm(const QString &s);
 };

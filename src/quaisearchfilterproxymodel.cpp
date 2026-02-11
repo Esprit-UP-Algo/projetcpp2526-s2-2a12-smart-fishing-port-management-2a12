@@ -1,103 +1,88 @@
-#include "quaisortfilterproxymodel.h"
-
-#include <QDateTime>
+#include "quaisearchfilterproxymodel.h"
 
 #include "quaimodel.h"
 
-QuaiSortFilterProxyModel::QuaiSortFilterProxyModel(QObject *parent)
+QuaiSearchFilterProxyModel::QuaiSearchFilterProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
     setDynamicSortFilter(true);
 }
 
-QString QuaiSortFilterProxyModel::norm(const QString &s)
+QString QuaiSearchFilterProxyModel::norm(const QString &s)
 {
     return s.trimmed().toLower();
 }
 
-void QuaiSortFilterProxyModel::setSearchMatricule(const QString &text)
+void QuaiSearchFilterProxyModel::setSearchMatricule(const QString &text)
 {
     m_matricule = norm(text);
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setSearchIdQuai(const QString &text)
+void QuaiSearchFilterProxyModel::setSearchIdQuai(const QString &text)
 {
     m_idQuai = norm(text);
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setSearchDate(const QString &yyyyMmDd)
+void QuaiSearchFilterProxyModel::setSearchDate(const QString &yyyyMmDd)
 {
     m_date = norm(yyyyMmDd);
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setStatusFilter(const QString &status)
+void QuaiSearchFilterProxyModel::setStatusFilter(const QString &status)
 {
     m_status = norm(status);
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setPriceRangeEnabled(bool enabled)
+void QuaiSearchFilterProxyModel::setPriceRangeEnabled(bool enabled)
 {
     m_priceEnabled = enabled;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setMinPrice(double value)
+void QuaiSearchFilterProxyModel::setMinPrice(double value)
 {
     m_minPrice = value;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setMaxPrice(double value)
+void QuaiSearchFilterProxyModel::setMaxPrice(double value)
 {
     m_maxPrice = value;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setAvailableAtEnabled(bool enabled)
+void QuaiSearchFilterProxyModel::setAvailableAtEnabled(bool enabled)
 {
     m_availableAtEnabled = enabled;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setAvailableAt(const QDateTime &dt)
+void QuaiSearchFilterProxyModel::setAvailableAt(const QDateTime &dt)
 {
     m_availableAt = dt;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setRangeAvailabilityEnabled(bool enabled)
+void QuaiSearchFilterProxyModel::setRangeAvailabilityEnabled(bool enabled)
 {
     m_rangeEnabled = enabled;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setRangeStart(const QDateTime &dt)
+void QuaiSearchFilterProxyModel::setRangeStart(const QDateTime &dt)
 {
     m_rangeStart = dt;
     invalidateFilter();
 }
 
-void QuaiSortFilterProxyModel::setRangeEnd(const QDateTime &dt)
+void QuaiSearchFilterProxyModel::setRangeEnd(const QDateTime &dt)
 {
     m_rangeEnd = dt;
     invalidateFilter();
-}
-
-void QuaiSortFilterProxyModel::setSortMode(SortMode mode)
-{
-    if (m_sortMode == mode)
-        return;
-    m_sortMode = mode;
-    invalidate();
-}
-
-QuaiSortFilterProxyModel::SortMode QuaiSortFilterProxyModel::sortMode() const
-{
-    return m_sortMode;
 }
 
 static bool isOccupied(const QString &etat)
@@ -125,7 +110,7 @@ static bool intervalOverlaps(const QDateTime &a1, const QDateTime &a2, const QDa
     return start < end;
 }
 
-bool QuaiSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool QuaiSearchFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     const QModelIndex idxId = sourceModel()->index(sourceRow, QuaiModel::IdQuai, sourceParent);
     const QModelIndex idxMat = sourceModel()->index(sourceRow, QuaiModel::Matricule, sourceParent);
@@ -197,67 +182,4 @@ bool QuaiSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex
     }
 
     return true;
-}
-
-bool QuaiSortFilterProxyModel::lessThan(const QModelIndex &sourceLeft, const QModelIndex &sourceRight) const
-{
-    if (m_sortMode != SortMode::TableColumn)
-    {
-        const auto getStr = [&](int column, const QModelIndex &idx) {
-            return sourceModel()->data(sourceModel()->index(idx.row(), column, idx.parent()), Qt::DisplayRole).toString();
-        };
-        const auto getDt = [&](int column, const QModelIndex &idx) {
-            return sourceModel()->data(sourceModel()->index(idx.row(), column, idx.parent()), QuaiModel::SortValueRole).toDateTime();
-        };
-        const auto getNum = [&](int column, const QModelIndex &idx) {
-            return sourceModel()->data(sourceModel()->index(idx.row(), column, idx.parent()), QuaiModel::SortValueRole).toDouble();
-        };
-
-        switch (m_sortMode)
-        {
-        case SortMode::TailleAsc:
-            return getNum(QuaiModel::Taille, sourceLeft) < getNum(QuaiModel::Taille, sourceRight);
-        case SortMode::Statut:
-            return getStr(QuaiModel::Etat, sourceLeft).localeAwareCompare(getStr(QuaiModel::Etat, sourceRight)) < 0;
-        case SortMode::PrixAsc:
-            return getNum(QuaiModel::Prix, sourceLeft) < getNum(QuaiModel::Prix, sourceRight);
-        case SortMode::LiberationBientot:
-        {
-            const QString lEtat = getStr(QuaiModel::Etat, sourceLeft);
-            const QString rEtat = getStr(QuaiModel::Etat, sourceRight);
-            const int lRank = isOccupied(lEtat) ? 0 : 1;
-            const int rRank = isOccupied(rEtat) ? 0 : 1;
-            if (lRank != rRank)
-                return lRank < rRank;
-            return getDt(QuaiModel::Depart, sourceLeft) < getDt(QuaiModel::Depart, sourceRight);
-        }
-        case SortMode::OccupeDepuisLongtemps:
-        {
-            const QString lEtat = getStr(QuaiModel::Etat, sourceLeft);
-            const QString rEtat = getStr(QuaiModel::Etat, sourceRight);
-            const int lRank = isOccupied(lEtat) ? 0 : 1;
-            const int rRank = isOccupied(rEtat) ? 0 : 1;
-            if (lRank != rRank)
-                return lRank < rRank;
-            return getDt(QuaiModel::Arrivee, sourceLeft) < getDt(QuaiModel::Arrivee, sourceRight);
-        }
-        case SortMode::TableColumn:
-        default:
-            break;
-        }
-    }
-
-    const QVariant leftSort = sourceModel()->data(sourceLeft, QuaiModel::SortValueRole);
-    const QVariant rightSort = sourceModel()->data(sourceRight, QuaiModel::SortValueRole);
-
-    // QDateTime sorts naturally
-    if (leftSort.userType() == QMetaType::QDateTime && rightSort.userType() == QMetaType::QDateTime)
-        return leftSort.toDateTime() < rightSort.toDateTime();
-
-    // Numeric
-    if (leftSort.canConvert<double>() && rightSort.canConvert<double>())
-        return leftSort.toDouble() < rightSort.toDouble();
-
-    // Fallback string compare
-    return leftSort.toString().localeAwareCompare(rightSort.toString()) < 0;
 }

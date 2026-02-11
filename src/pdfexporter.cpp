@@ -1,10 +1,15 @@
 #include "pdfexporter.h"
 
 #include <QAbstractItemModel>
+#include <QDate>
 #include <QDateTime>
 #include <QFile>
+#include <QLocale>
+#include <QMap>
 #include <QPdfWriter>
 #include <QTextDocument>
+
+#include "quaimodel.h"
 
 static QString htmlEscape(const QString &s)
 {
@@ -14,6 +19,99 @@ static QString htmlEscape(const QString &s)
     out.replace('>', "&gt;");
     out.replace('"', "&quot;");
     return out;
+}
+
+static bool exportHtmlToPdf(const QString &filePath, const QString &html, QString *error)
+{
+    QPdfWriter writer(filePath);
+    writer.setPageSize(QPageSize(QPageSize::A4));
+    writer.setPageMargins(QMarginsF(15, 15, 15, 15));
+
+    QTextDocument doc;
+    doc.setHtml(html);
+    doc.setPageSize(writer.pageLayout().fullRectPoints().size());
+    doc.print(&writer);
+
+    if (!QFile::exists(filePath))
+    {
+        if (error)
+            *error = QStringLiteral("PDF export failed");
+        return false;
+    }
+    return true;
+}
+
+static QString htmlDocHeader(const QString &title)
+{
+    QString html;
+    html += "<div style='font-family:Segoe UI,Arial;'>";
+    html += "<h2 style='color:#0c1a29; margin:0 0 6px 0;'>" + htmlEscape(title) + "</h2>";
+    html += "<div style='color:#444; font-size:10pt; margin-bottom:12px;'>";
+    html += "Généré le " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm") + "</div>";
+    return html;
+}
+
+static QString htmlDocFooter()
+{
+    return "</div>";
+}
+
+static QDateTime modelDateTime(const QAbstractItemModel *model, int row, int col)
+{
+    if (!model)
+        return {};
+    const QModelIndex idx = model->index(row, col);
+    QVariant v = idx.data(QuaiModel::SortValueRole);
+    if (v.canConvert<QDateTime>())
+        return v.toDateTime();
+
+    const QString s = idx.data(Qt::DisplayRole).toString();
+    const QDateTime dt = QDateTime::fromString(s, "yyyy-MM-dd HH:mm");
+    return dt;
+}
+
+static double modelDouble(const QAbstractItemModel *model, int row, int col)
+{
+    if (!model)
+        return 0.0;
+    const QModelIndex idx = model->index(row, col);
+    QVariant v = idx.data(QuaiModel::SortValueRole);
+    if (v.isValid() && v.canConvert<double>())
+        return v.toDouble();
+
+    bool ok = false;
+    const double d = QLocale().toDouble(idx.data(Qt::DisplayRole).toString(), &ok);
+    return ok ? d : idx.data(Qt::DisplayRole).toDouble();
+}
+
+static int modelInt(const QAbstractItemModel *model, int row, int col)
+{
+    if (!model)
+        return 0;
+    const QModelIndex idx = model->index(row, col);
+    QVariant v = idx.data(QuaiModel::SortValueRole);
+    if (v.isValid() && v.canConvert<int>())
+        return v.toInt();
+    return idx.data(Qt::DisplayRole).toInt();
+}
+
+static QString modelString(const QAbstractItemModel *model, int row, int col)
+{
+    if (!model)
+        return {};
+    return model->index(row, col).data(Qt::DisplayRole).toString();
+}
+
+static double overlapHours(const QDateTime &aStart, const QDateTime &aEnd, const QDateTime &bStart, const QDateTime &bEnd)
+{
+    if (!aStart.isValid() || !aEnd.isValid() || !bStart.isValid() || !bEnd.isValid())
+        return 0.0;
+    const QDateTime start = (aStart > bStart) ? aStart : bStart;
+    const QDateTime end = (aEnd < bEnd) ? aEnd : bEnd;
+    const qint64 secs = start.secsTo(end);
+    if (secs <= 0)
+        return 0.0;
+    return static_cast<double>(secs) / 3600.0;
 }
 
 bool PdfExporter::exportTableToPdf(const QString &filePath,
@@ -28,14 +126,7 @@ bool PdfExporter::exportTableToPdf(const QString &filePath,
         return false;
     }
 
-    QPdfWriter writer(filePath);
-    writer.setPageSize(QPageSize(QPageSize::A4));
-    writer.setPageMargins(QMarginsF(15, 15, 15, 15));
-
-    QString html;
-    html += "<h2 style='font-family:Segoe UI,Arial; color:#0c1a29; margin:0 0 6px 0;'>" + htmlEscape(title) + "</h2>";
-    html += "<div style='font-family:Segoe UI,Arial; color:#444; font-size:10pt; margin-bottom:10px;'>";
-    html += "Généré le " + QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm") + "</div>";
+    QString html = htmlDocHeader(title);
 
     html += "<table cellspacing='0' cellpadding='4' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.5pt;'>";
 
@@ -65,10 +156,266 @@ bool PdfExporter::exportTableToPdf(const QString &filePath,
 
     html += "</table>";
 
-    QTextDocument doc;
-    doc.setHtml(html);
-    doc.setPageSize(writer.pageLayout().fullRectPoints().size());
-    doc.print(&writer);
+    html += htmlDocFooter();
+    return exportHtmlToPdf(filePath, html, error);
+}
 
-    return true;
+bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
+                                    const QString &title,
+                                    const QAbstractItemModel *model,
+                                    int row,
+                                    QString *error)
+{
+    if (!model)
+    {
+        if (error)
+            *error = QStringLiteral("Model is null");
+        return false;
+    }
+    if (row < 0 || row >= model->rowCount())
+    {
+        if (error)
+            *error = QStringLiteral("Invalid row selection");
+        return false;
+    }
+
+    const QString idQuai = modelString(model, row, QuaiModel::IdQuai);
+    const QString matricule = modelString(model, row, QuaiModel::Matricule);
+    const double taille = modelDouble(model, row, QuaiModel::Taille);
+    const QDateTime arrivee = modelDateTime(model, row, QuaiModel::Arrivee);
+    const QDateTime depart = modelDateTime(model, row, QuaiModel::Depart);
+    const QString etat = modelString(model, row, QuaiModel::Etat);
+    const double prixH = modelDouble(model, row, QuaiModel::Prix);
+    const int retardMin = modelInt(model, row, QuaiModel::Retard);
+
+    const qint64 secs = arrivee.isValid() && depart.isValid() ? arrivee.secsTo(depart) : 0;
+    const double dureeHeures = secs > 0 ? static_cast<double>(secs) / 3600.0 : 0.0;
+    const double total = dureeHeures * prixH;
+
+    const QLocale loc;
+
+    QString html = htmlDocHeader(title);
+    html += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Facture - Location de quai</b></div>";
+    html += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:10pt;'>";
+
+    auto addRow = [&html](const QString &k, const QString &v) {
+        html += "<tr>";
+        html += "<td style='width:34%; background:#f4f7fb; border:1px solid #dbe5f0;'><b>" + htmlEscape(k) + "</b></td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(v) + "</td>";
+        html += "</tr>";
+    };
+
+    addRow("ID Quai", idQuai);
+    addRow("Matricule", matricule);
+    addRow("Taille (m)", loc.toString(taille, 'f', 1));
+    addRow("Arrivée", arrivee.isValid() ? arrivee.toString("yyyy-MM-dd HH:mm") : QString());
+    addRow("Départ", depart.isValid() ? depart.toString("yyyy-MM-dd HH:mm") : QString());
+    addRow("Durée (h)", loc.toString(dureeHeures, 'f', 2));
+    addRow("Prix par heure (DT/h)", loc.toString(prixH, 'f', 2));
+    addRow("Total (DT)", loc.toString(total, 'f', 2));
+    addRow("État quai", etat);
+    addRow("Retard (min)", QString::number(retardMin));
+
+    html += "</table>";
+    html += htmlDocFooter();
+    return exportHtmlToPdf(filePath, html, error);
+}
+
+bool PdfExporter::exportDailyOccupationReportToPdf(const QString &filePath,
+                                                  const QString &title,
+                                                  const QAbstractItemModel *model,
+                                                  const QDate &day,
+                                                  QString *error)
+{
+    if (!model)
+    {
+        if (error)
+            *error = QStringLiteral("Model is null");
+        return false;
+    }
+
+    const QDateTime dayStart(day, QTime(0, 0));
+    const QDateTime dayEnd = dayStart.addDays(1);
+    const QLocale loc;
+
+    QString html = htmlDocHeader(title);
+    html += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Rapport journalier d’occupation</b> — " + htmlEscape(day.toString("yyyy-MM-dd")) + "</div>";
+
+    html += "<table cellspacing='0' cellpadding='5' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.8pt;'>";
+    html += "<tr>";
+    const QStringList headers = {"ID Quai", "Matricule", "Arrivée", "Départ", "Heures (jour)", "État", "Prix (DT/h)"};
+    for (const QString &h : headers)
+        html += "<th style='text-align:left; background:#1e8de0; color:white; border:1px solid #1e8de0;'>" + htmlEscape(h) + "</th>";
+    html += "</tr>";
+
+    double totalHours = 0.0;
+    int shown = 0;
+    for (int r = 0; r < model->rowCount(); ++r)
+    {
+        const QDateTime a = modelDateTime(model, r, QuaiModel::Arrivee);
+        const QDateTime d = modelDateTime(model, r, QuaiModel::Depart);
+        const double h = overlapHours(a, d, dayStart, dayEnd);
+        if (h <= 0.0)
+            continue;
+
+        totalHours += h;
+        ++shown;
+
+        const QString rowBg = (shown % 2 == 1) ? "#f4f7fb" : "#ffffff";
+        html += "<tr style='background:" + rowBg + "'>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(modelString(model, r, QuaiModel::IdQuai)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(modelString(model, r, QuaiModel::Matricule)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(a.toString("yyyy-MM-dd HH:mm")) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(d.toString("yyyy-MM-dd HH:mm")) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(loc.toString(h, 'f', 2)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(modelString(model, r, QuaiModel::Etat)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(loc.toString(modelDouble(model, r, QuaiModel::Prix), 'f', 2)) + "</td>";
+        html += "</tr>";
+    }
+    html += "</table>";
+
+    html += "<div style='margin-top:10px; color:#444; font-size:10pt;'>";
+    html += "Total enregistrements: <b>" + QString::number(shown) + "</b> — Heures cumulées: <b>" + loc.toString(totalHours, 'f', 2) + "</b></div>";
+
+    html += htmlDocFooter();
+    return exportHtmlToPdf(filePath, html, error);
+}
+
+bool PdfExporter::exportMonthlyRevenueByQuaiToPdf(const QString &filePath,
+                                                 const QString &title,
+                                                 const QAbstractItemModel *model,
+                                                 int year,
+                                                 int month,
+                                                 QString *error)
+{
+    if (!model)
+    {
+        if (error)
+            *error = QStringLiteral("Model is null");
+        return false;
+    }
+
+    const QDate startDate(year, month, 1);
+    if (!startDate.isValid())
+    {
+        if (error)
+            *error = QStringLiteral("Invalid month");
+        return false;
+    }
+
+    const QDateTime periodStart(startDate, QTime(0, 0));
+    const QDateTime periodEnd = periodStart.addMonths(1);
+    const QLocale loc;
+
+    QMap<QString, double> revenue;
+    QMap<QString, double> hours;
+
+    for (int r = 0; r < model->rowCount(); ++r)
+    {
+        const QString id = modelString(model, r, QuaiModel::IdQuai);
+        const double priceH = modelDouble(model, r, QuaiModel::Prix);
+        const QDateTime a = modelDateTime(model, r, QuaiModel::Arrivee);
+        const QDateTime d = modelDateTime(model, r, QuaiModel::Depart);
+        const double h = overlapHours(a, d, periodStart, periodEnd);
+        if (h <= 0.0)
+            continue;
+        hours[id] += h;
+        revenue[id] += h * priceH;
+    }
+
+    // Sort keys by revenue desc
+    QList<QString> keys = revenue.keys();
+    std::sort(keys.begin(), keys.end(), [&revenue](const QString &a, const QString &b) {
+        return revenue.value(a) > revenue.value(b);
+    });
+
+    QString html = htmlDocHeader(title);
+    html += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Rapport mensuel de revenus par quai</b> — " + htmlEscape(startDate.toString("yyyy-MM")) + "</div>";
+
+    html += "<table cellspacing='0' cellpadding='5' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.8pt;'>";
+    html += "<tr>";
+    const QStringList headers = {"ID Quai", "Heures", "Revenu (DT)"};
+    for (const QString &h : headers)
+        html += "<th style='text-align:left; background:#1e8de0; color:white; border:1px solid #1e8de0;'>" + htmlEscape(h) + "</th>";
+    html += "</tr>";
+
+    int idx = 0;
+    double totalRevenue = 0.0;
+    for (const QString &id : keys)
+    {
+        ++idx;
+        const QString rowBg = (idx % 2 == 1) ? "#f4f7fb" : "#ffffff";
+        const double r = revenue.value(id);
+        totalRevenue += r;
+        html += "<tr style='background:" + rowBg + "'>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(id) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(loc.toString(hours.value(id), 'f', 2)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'><b>" + htmlEscape(loc.toString(r, 'f', 2)) + "</b></td>";
+        html += "</tr>";
+    }
+    html += "</table>";
+    html += "<div style='margin-top:10px; color:#444; font-size:10pt;'>Total revenu: <b>" + loc.toString(totalRevenue, 'f', 2) + "</b> DT</div>";
+    html += htmlDocFooter();
+    return exportHtmlToPdf(filePath, html, error);
+}
+
+bool PdfExporter::exportAnomaliesReportToPdf(const QString &filePath,
+                                            const QString &title,
+                                            const QAbstractItemModel *model,
+                                            const QDateTime &now,
+                                            QString *error)
+{
+    if (!model)
+    {
+        if (error)
+            *error = QStringLiteral("Model is null");
+        return false;
+    }
+
+    QString html = htmlDocHeader(title);
+    html += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Rapport anomalies</b> (retards, dépassements)</div>";
+
+    html += "<table cellspacing='0' cellpadding='5' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.6pt;'>";
+    html += "<tr>";
+    const QStringList headers = {"ID Quai", "Matricule", "État", "Arrivée", "Départ", "Retard (min)", "Dépassement (min)"};
+    for (const QString &h : headers)
+        html += "<th style='text-align:left; background:#1e8de0; color:white; border:1px solid #1e8de0;'>" + htmlEscape(h) + "</th>";
+    html += "</tr>";
+
+    int shown = 0;
+    for (int r = 0; r < model->rowCount(); ++r)
+    {
+        const QString etat = modelString(model, r, QuaiModel::Etat);
+        const QDateTime d = modelDateTime(model, r, QuaiModel::Depart);
+        const int retard = modelInt(model, r, QuaiModel::Retard);
+        int depassement = 0;
+        if (d.isValid() && now.isValid() && now > d)
+        {
+            if (etat.compare("Libre", Qt::CaseInsensitive) != 0 && etat.compare("En maintenance", Qt::CaseInsensitive) != 0)
+                depassement = static_cast<int>(d.secsTo(now) / 60);
+        }
+
+        if (retard <= 0 && depassement <= 0)
+            continue;
+
+        ++shown;
+        const QString rowBg = (shown % 2 == 1) ? "#f4f7fb" : "#ffffff";
+        const QDateTime a = modelDateTime(model, r, QuaiModel::Arrivee);
+        html += "<tr style='background:" + rowBg + "'>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(modelString(model, r, QuaiModel::IdQuai)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(modelString(model, r, QuaiModel::Matricule)) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(etat) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(a.isValid() ? a.toString("yyyy-MM-dd HH:mm") : QString()) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(d.isValid() ? d.toString("yyyy-MM-dd HH:mm") : QString()) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'>" + QString::number(retard) + "</td>";
+        html += "<td style='border:1px solid #dbe5f0;'><b>" + QString::number(depassement) + "</b></td>";
+        html += "</tr>";
+    }
+    html += "</table>";
+
+    if (shown == 0)
+        html += "<div style='margin-top:10px; color:#444; font-size:10pt;'>Aucune anomalie détectée.</div>";
+
+    html += htmlDocFooter();
+    return exportHtmlToPdf(filePath, html, error);
 }

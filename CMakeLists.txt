@@ -14,14 +14,24 @@ qt_add_executable(appArriveesAccostage
     src/main.cpp
     src/mainwindow.h
     src/mainwindow.cpp
+    src/mainwindow.ui
+    src/widgets/circularstatwidget.h
+    src/widgets/circularstatwidget.cpp
+    src/widgets/minimapwidget.h
+    src/widgets/minimapwidget.cpp
     src/quai.h
+    src/quaidialogs.h
+    src/quaidialogs.cpp
     src/quaimodel.h
     src/quaimodel.cpp
-    src/quaisortfilterproxymodel.h
-    src/quaisortfilterproxymodel.cpp
+    src/quaisearchfilterproxymodel.h
+    src/quaisearchfilterproxymodel.cpp
+    src/quaisortproxymodel.h
+    src/quaisortproxymodel.cpp
     src/pdfexporter.h
     src/pdfexporter.cpp
     resources/resources.qrc
 )
 
+target_include_directories(appArriveesAccostage PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(appArriveesAccostage PRIVATE Qt6::Widgets Qt6::PrintSupport)

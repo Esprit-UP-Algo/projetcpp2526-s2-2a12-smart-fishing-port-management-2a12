@@ -14,6 +14,7 @@ public:
     {
         IdQuai = 0,
         Matricule,
+        Taille,
         Arrivee,
         Depart,
         Etat,
@@ -38,6 +39,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     const QVector<Quai> &items() const;
+    const QVector<Quai> &history() const;
+    QVector<Quai> historyForId(const QString &idQuai) const;
 
     bool addQuai(const Quai &quai, QString *error = nullptr);
     bool updateQuai(int row, const Quai &quai, QString *error = nullptr);
@@ -47,6 +50,7 @@ public:
 
 private:
     QVector<Quai> m_items;
+    QVector<Quai> m_history;
 
     static QString normalize(const QString &s);
     static bool validate(const Quai &quai, QString *error);

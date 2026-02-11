@@ -2,16 +2,17 @@
 
 #include <QMainWindow>
 
-class QLabel;
-class QLineEdit;
-class QComboBox;
-class QDateTimeEdit;
-class QDoubleSpinBox;
-class QPushButton;
+class CircularStatWidget;
 class QTableView;
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class QStandardItemModel;
 class QuaiModel;
-class QuaiSortFilterProxyModel;
+class QuaiSearchFilterProxyModel;
+class QuaiSortProxyModel;
 
 class MainWindow final : public QMainWindow
 {
@@ -19,50 +20,55 @@ class MainWindow final : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 private:
-    void buildUi();
+    void applyStyleNames();
+    void setupCardEffects();
+    void setupLogo();
+    void setupMenuIcon();
+    void setupFonts();
+    void setupModels();
+    void setupTable();
+    void setupMiniMaps();
+    void setupStatWidgets();
     void applyTheme();
     void wireSignals();
 
     void refreshStats();
-    void loadSelectedRowToForm();
+    void refreshMiniMap();
+    void refreshTraceability();
 
-    void onAdd();
+    void onCreate();
     void onUpdate();
     void onDelete();
-    void onClearForm();
     void onExportPdf();
 
-    // Form
-    QLineEdit *m_idQuai = nullptr;
-    QLineEdit *m_matricule = nullptr;
-    QDateTimeEdit *m_arrivee = nullptr;
-    QDateTimeEdit *m_depart = nullptr;
-    QComboBox *m_etat = nullptr;
-    QDoubleSpinBox *m_prix = nullptr;
+    Ui::MainWindow *ui;
 
-    QPushButton *m_btnAdd = nullptr;
-    QPushButton *m_btnUpdate = nullptr;
-    QPushButton *m_btnDelete = nullptr;
-    QPushButton *m_btnClear = nullptr;
-
-    // Search
-    QLineEdit *m_searchMatricule = nullptr;
-    QLineEdit *m_searchDate = nullptr;
-    QLineEdit *m_searchQuai = nullptr;
-    QPushButton *m_btnPdf = nullptr;
-
-    // Table
-    QTableView *m_table = nullptr;
-
-    // Stats labels
-    QLabel *m_statQuaisOcc = nullptr;
-    QLabel *m_statRetards = nullptr;
-    QLabel *m_statArrivees = nullptr;
-    QLabel *m_statTopQuai = nullptr;
-
-    // Models
     QuaiModel *m_model = nullptr;
-    QuaiSortFilterProxyModel *m_proxy = nullptr;
+    QuaiSearchFilterProxyModel *m_searchProxy = nullptr;
+    QuaiSortProxyModel *m_sortProxy = nullptr;
+
+    QStandardItemModel *m_revByQuaiModel = nullptr;
+    QStandardItemModel *m_occByQuaiModel = nullptr;
+    QStandardItemModel *m_occHistoryModel = nullptr;
+    QStandardItemModel *m_revHistoryModel = nullptr;
+
+    bool m_internalTableSelectionChange = false;
+    bool m_internalSelectAllChange = false;
+    bool m_selectAllWanted = false;
+
+    CircularStatWidget *m_statEtat = nullptr;
+    CircularStatWidget *m_statTauxGlobal = nullptr;
+    CircularStatWidget *m_statRevenuPeriode = nullptr;
+    CircularStatWidget *m_statRevenuMoyen = nullptr;
+    CircularStatWidget *m_statPlusRentable = nullptr;
+    CircularStatWidget *m_statMoinsUtilise = nullptr;
+
+    QTableView *m_table = nullptr;
+    QTableView *m_revByQuaiTable = nullptr;
+    QTableView *m_occByQuaiTable = nullptr;
+    QTableView *m_occHistoryTable = nullptr;
+    QTableView *m_revHistoryTable = nullptr;
 };

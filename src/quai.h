@@ -7,6 +7,10 @@ struct Quai
 {
     QString idQuai;
     QString matricule;
+    QString typeQuai;
+    double taille = 0.0;
+    double posX = 0.0;
+    double posY = 0.0;
     QDateTime dateHeureArrivee;
     QDateTime dateHeureDepart;
     QString etatQuai;
