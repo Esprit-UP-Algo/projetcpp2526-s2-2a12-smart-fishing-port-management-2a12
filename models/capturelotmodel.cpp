@@ -26,7 +26,7 @@ int CaptureLotModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return 8; // ID, Espèce, Poids, Zone, Date Capture, Navire, Qualité, Date Entrée
+    return 9; // ID, Espèce, Poids, Zone, Date Capture, Etat, Navire, Qualité, Date Entrée
 }
 
 QVariant CaptureLotModel::data(const QModelIndex &index, int role) const
@@ -45,9 +45,10 @@ QVariant CaptureLotModel::data(const QModelIndex &index, int role) const
         case 2: return QString::number(lot.poids);
         case 3: return lot.zonePeche;
         case 4: return lot.dateCapture.toString("yyyy-MM-dd HH:mm");
-        case 5: return lot.navire;
-        case 6: return lot.qualite;
-        case 7: return lot.dateEntreeStock.toString("yyyy-MM-dd HH:mm");
+        case 5: return lot.etat;
+        case 6: return lot.navire;
+        case 7: return lot.qualite;
+        case 8: return lot.dateEntreeStock.toString("yyyy-MM-dd HH:mm");
         default: return QVariant();
         }
     }
@@ -67,9 +68,10 @@ QVariant CaptureLotModel::headerData(int section, Qt::Orientation orientation, i
     case 2: return QObject::tr("Poids (kg)");
     case 3: return QObject::tr("Zone Pêche");
     case 4: return QObject::tr("Date Capture");
-    case 5: return QObject::tr("Navire");
-    case 6: return QObject::tr("Qualité");
-    case 7: return QObject::tr("Date Entrée Stock");
+    case 5: return QObject::tr("Etat");
+    case 6: return QObject::tr("Navire");
+    case 7: return QObject::tr("Qualité");
+    case 8: return QObject::tr("Date Entrée Stock");
     default: return QVariant();
     }
 }
@@ -160,4 +162,37 @@ void CaptureLotModel::clear()
         m_lots.clear();
         endRemoveRows();
     }
+}
+
+QList<CaptureLot> CaptureLotModel::searchByEspece(const QString &espece) const
+{
+    QList<CaptureLot> out;
+    for (const auto &lot : m_lots)
+    {
+        if (lot.espece.contains(espece, Qt::CaseInsensitive))
+            out.append(lot);
+    }
+    return out;
+}
+
+QList<CaptureLot> CaptureLotModel::searchByZone(const QString &zone) const
+{
+    QList<CaptureLot> out;
+    for (const auto &lot : m_lots)
+    {
+        if (lot.zonePeche.contains(zone, Qt::CaseInsensitive))
+            out.append(lot);
+    }
+    return out;
+}
+
+QList<CaptureLot> CaptureLotModel::searchByEtat(const QString &etat) const
+{
+    QList<CaptureLot> out;
+    for (const auto &lot : m_lots)
+    {
+        if (lot.etat.contains(etat, Qt::CaseInsensitive))
+            out.append(lot);
+    }
+    return out;
 }

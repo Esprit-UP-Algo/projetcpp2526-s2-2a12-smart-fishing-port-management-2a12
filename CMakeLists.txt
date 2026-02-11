@@ -7,6 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(Qt6 COMPONENTS Core Gui Widgets Sql REQUIRED)
 
@@ -21,6 +22,13 @@ set(SOURCES
     models/capturelotmodel.h
     models/capturelotproxymodel.cpp
     models/capturelotproxymodel.h
+    src/documentexporter.cpp
+    src/documentexporter.h
+    src/lotdialog.cpp
+    src/lotdialog.h
+    src/chambrefroidedialog.cpp
+    src/chambrefroidedialog.h
+    src/gestioncapture.ui
 )
 
 set(RESOURCES

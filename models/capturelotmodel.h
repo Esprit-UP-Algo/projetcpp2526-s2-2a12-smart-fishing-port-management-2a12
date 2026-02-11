@@ -27,6 +27,9 @@ public:
     bool addLot(const CaptureLot &lot, QString *error = nullptr);
     bool updateLot(int row, const CaptureLot &lot, QString *error = nullptr);
     bool removeLot(int row, QString *error = nullptr);
+    QList<CaptureLot> searchByEspece(const QString &espece) const;
+    QList<CaptureLot> searchByZone(const QString &zone) const;
+    QList<CaptureLot> searchByEtat(const QString &etat) const;
     void clear();
 
 private:

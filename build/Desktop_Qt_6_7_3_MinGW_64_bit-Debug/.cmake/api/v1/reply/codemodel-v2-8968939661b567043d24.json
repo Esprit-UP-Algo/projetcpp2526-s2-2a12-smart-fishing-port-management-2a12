@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "VisionSightPoissons",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "VisionSightPoissons::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VisionSightPoissons-Debug-1d62b3ccadc6386e3982.json",
+					"name" : "VisionSightPoissons",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "VisionSightPoissons_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VisionSightPoissons_autogen-Debug-681d4cbf297f5e074f50.json",
+					"name" : "VisionSightPoissons_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "VisionSightPoissons_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VisionSightPoissons_autogen_timestamp_deps-Debug-97040cd3478679286884.json",
+					"name" : "VisionSightPoissons_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/GIGABYTE/OneDrive - ESPRIT/Bureau/Suivi des capture iinterface/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/GIGABYTE/OneDrive - ESPRIT/Bureau/Suivi des capture iinterface"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

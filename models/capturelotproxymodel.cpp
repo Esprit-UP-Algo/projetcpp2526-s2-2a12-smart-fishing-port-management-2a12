@@ -54,10 +54,10 @@ bool CaptureLotProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
             return false;
     }
 
-    // Filtrer par Navire (colonne 5)
+    // Filtrer par Navire (colonne 6)
     if (!m_searchNavire.isEmpty())
     {
-        const QString navire = model->data(model->index(sourceRow, 5, sourceParent)).toString();
+        const QString navire = model->data(model->index(sourceRow, 6, sourceParent)).toString();
         if (!navire.contains(m_searchNavire, Qt::CaseInsensitive))
             return false;
     }

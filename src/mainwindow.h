@@ -15,7 +15,7 @@
 #include "models/capturelot.h"
 #include "models/capturelotmodel.h"
 #include "models/capturelotproxymodel.h"
-#include "src/statcircle.h"
+#include "statcircle.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,30 +24,26 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     // Models
     CaptureLotModel *m_lotModel;
     CaptureLotProxyModel *m_lotProxy;
 
-    // Form fields - Lots
-    QLineEdit *m_idLot;
-    QLineEdit *m_espece;
-    QSpinBox *m_poids;
-    QLineEdit *m_zonePeche;
-    QDateTimeEdit *m_dateCapture;
-    QLineEdit *m_navire;
-    QComboBox *m_qualite;
-    QDateTimeEdit *m_dateEntreeStock;
-
     // Buttons
     QPushButton *m_btnAddLot;
     QPushButton *m_btnUpdateLot;
     QPushButton *m_btnDeleteLot;
-    QPushButton *m_btnClearLot;
+    QCheckBox *m_chkSelectAll;
+    QPushButton *m_btnTraceLot;
+    QPushButton *m_btnIceYield; // Nouveau bouton Analyse Glace
     QPushButton *m_btnExportPdf;
     QPushButton *m_btnExportExcel;
 
     // Search/Filter
+    QComboBox *m_sortCombo;
     QLineEdit *m_searchLot;
     QLineEdit *m_searchEspece;
     QLineEdit *m_searchNavire;
@@ -70,14 +66,15 @@ private:
     // Helpers
     int selectedSourceRow(QTableView *view, const QSortFilterProxyModel *proxy) const;
     void refreshStats();
-    void loadSelectedLotToForm();
 
 private slots:
     // CRUD operations
     void onAddLot();
     void onUpdateLot();
     void onDeleteLot();
-    void onClearLotForm();
+    void onTraceLot();
+    void onIceYieldAnalysis();
+    void onSortChanged(int index);
     void onExportPdf();
     void onExportExcel();
 };
