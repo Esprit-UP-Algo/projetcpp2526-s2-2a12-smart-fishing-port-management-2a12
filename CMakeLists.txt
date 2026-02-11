@@ -3,6 +3,7 @@ project(integration_transaction_quais LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -12,10 +13,31 @@ find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network)
 
 qt_add_executable(integration_transaction_quais
     src/main.cpp
+    
+    # Capture Module (SuiviDesCaptures)
+    src/mainwindow.cpp
+    src/mainwindow.h
+    src/statcircle.cpp
+    src/statcircle.h
+    models/capturelot.h
+    models/capturelotmodel.cpp
+    models/capturelotmodel.h
+    models/capturelotproxymodel.cpp
+    models/capturelotproxymodel.h
+    src/documentexporter.cpp
+    src/documentexporter.h
+    src/lotdialog.cpp
+    src/lotdialog.h
+    src/chambrefroidedialog.cpp
+    src/chambrefroidedialog.h
+    src/gestioncapture.ui
+
+    # Integration - Host
     src/host_mainwindow.h
     src/host_mainwindow.cpp
     src/host_mainwindow.ui
 
+    # Quais Module
     src/quais/mainwindow.h
     src/quais/mainwindow.cpp
     src/quais/quais_mainwindow.ui
@@ -35,6 +57,7 @@ qt_add_executable(integration_transaction_quais
     src/quais/pdfexporter.h
     src/quais/pdfexporter.cpp
 
+    # Transaction Module
     src/transaction/mainwindow.h
     src/transaction/mainwindow.cpp
     src/transaction/transaction_mainwindow.ui
