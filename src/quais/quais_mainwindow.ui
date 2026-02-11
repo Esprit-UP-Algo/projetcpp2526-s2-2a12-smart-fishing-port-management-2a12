@@ -1,0 +1,1521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QuaisMainWindow</class>
+ <widget class="QMainWindow" name="QuaisMainWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1366</width><height>768</height></rect>
+  </property>
+  <property name="windowTitle">
+   <string>VISION SIGHT</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QMainWindow, QDialog {
+  background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #ffffff, stop:1 #ADD8E6);
+}
+QScrollArea#scroll { background: transparent; }
+QWidget#page { background: transparent; }
+
+QScrollBar:vertical {
+  background: #101c2c;
+  width: 8px;
+  border-radius: 4px;
+}
+QScrollBar::handle:vertical {
+  background: #23374e;
+  border-radius: 4px;
+  min-height: 30px;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }
+
+QFrame#sidebar {
+  background: #101c2c;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+QLabel#logo {
+  background: #ffffff; color: #132437;
+  border: 2px solid #ffffff; border-radius: 48px; padding: 0px;
+}
+QLabel#brandTitle {
+  color: #e6eef6; font-size: 16px; font-weight: 800;
+}
+
+QPushButton#sideBtn0, QPushButton#sideBtn1, QPushButton#sideBtn2,
+QPushButton#sideBtn3, QPushButton#sideBtn4, QPushButton#sideBtn5 {
+  text-align: left; padding-left: 12px; color: #e6eef6;
+  background: transparent; border: 1px solid transparent;
+  border-radius: 10px; font-size: 16px; font-weight: 600;
+}
+QPushButton#sideBtn0:hover, QPushButton#sideBtn1:hover, QPushButton#sideBtn2:hover,
+QPushButton#sideBtn3:hover, QPushButton#sideBtn4:hover, QPushButton#sideBtn5:hover {
+  background: #18304a; border-color: #23374e;
+}
+QPushButton#sideBtn0:checked, QPushButton#sideBtn1:checked, QPushButton#sideBtn2:checked,
+QPushButton#sideBtn3:checked, QPushButton#sideBtn4:checked, QPushButton#sideBtn5:checked {
+  color: #39c0fa; background: rgba(57,192,250,22); border-color: rgba(57,192,250,90);
+}
+QPushButton#sideBtn0:pressed, QPushButton#sideBtn1:pressed, QPushButton#sideBtn2:pressed,
+QPushButton#sideBtn3:pressed, QPushButton#sideBtn4:pressed, QPushButton#sideBtn5:pressed {
+  background: #1a3552;
+}
+
+QLabel#headerH1 { color: #132437; font-size: 18px; font-weight: 700; }
+
+QLabel#sectionTitle, QLabel#advTitle, QLabel#searchTitle, QLabel#sortTitle,
+QLabel#exportTitle, QLabel#statsTitle, QLabel#revTitle, QLabel#occTitle,
+QLabel#histTitle, QLabel#rotTitle, QLabel#revHistTitle {
+  color: #39c0fa; font-size: 18px; font-weight: 700;
+}
+
+QLabel#mapCaption, QLabel#advSub, QLabel#labRef, QLabel#labShip,
+QLabel#labShipType, QLabel#proposeResult, QLabel#mapHint, QLabel#histHint,
+QLabel#rotSub, QLabel#revHistHint, QLabel#periodLabel, QLabel#pickLab,
+QLabel#rotationOcc, QLabel#rotationLibre {
+  color: #9bb0c3;
+}
+
+QToolButton#menuButton {
+  color: #e6eef6; background: #132437;
+  border: 1px solid #23374e; border-radius: 10px; font-size: 18px;
+}
+QToolButton#menuButton:hover { background: #18304a; }
+
+QFrame#actionsCard, QFrame#advancedCard, QFrame#tableCard, QFrame#statsCard {
+  background: #132437; border: 1px solid #23374e; border-radius: 16px;
+}
+QFrame#searchCard, QFrame#sortCard, QFrame#exportCard,
+QFrame#revCard, QFrame#occCard, QFrame#histCard,
+QFrame#rotCard, QFrame#revHistCard {
+  background: #132437; border: 1px solid #23374e; border-radius: 12px;
+}
+
+QFrame#mapBox {
+  background: #101c2c; border: 1px solid #23374e; border-radius: 12px;
+}
+
+QLineEdit#searchQuai, QLineEdit#searchDate, QLineEdit#traceQuai,
+QComboBox#searchEtat, QComboBox#sortMode, QComboBox#exportType,
+QComboBox#revenuePeriod, QComboBox#shipType,
+QDateTimeEdit#availAt, QDateTimeEdit#rangeStart, QDateTimeEdit#rangeEnd,
+QDoubleSpinBox#minPrice, QDoubleSpinBox#maxPrice,
+QDoubleSpinBox#refX, QDoubleSpinBox#refY, QDoubleSpinBox#shipLength {
+  background: #101c2c; border: 1px solid #23374e; border-radius: 8px;
+  min-height: 44px; font-size: 15px; padding: 8px 14px;
+  color: #e6eef6; selection-background-color: #1e8de0;
+}
+QLineEdit#searchQuai:disabled, QLineEdit#searchDate:disabled, QLineEdit#traceQuai:disabled,
+QComboBox#searchEtat:disabled, QComboBox#sortMode:disabled, QComboBox#exportType:disabled,
+QComboBox#revenuePeriod:disabled, QComboBox#shipType:disabled,
+QDateTimeEdit#availAt:disabled, QDateTimeEdit#rangeStart:disabled, QDateTimeEdit#rangeEnd:disabled,
+QDoubleSpinBox#minPrice:disabled, QDoubleSpinBox#maxPrice:disabled,
+QDoubleSpinBox#refX:disabled, QDoubleSpinBox#refY:disabled, QDoubleSpinBox#shipLength:disabled {
+  color: rgba(230,238,246,120); background: rgba(16,28,44,160);
+}
+
+QCheckBox { color: #9bb0c3; spacing: 10px; font-size: 14px; }
+QCheckBox::indicator {
+  width: 16px; height: 16px; border-radius: 4px;
+  background: #101c2c; border: 1px solid #23374e;
+}
+QCheckBox::indicator:checked {
+  background: #1e8de0; border: 1px solid #1e8de0;
+}
+QComboBox::drop-down { border: 0px; width: 20px; }
+
+QPushButton#btnCreate, QPushButton#btnProposeFit, QPushButton#btnPdf {
+  background: #1e8de0; color: white; border: 0px;
+  border-radius: 10px; padding: 9px 14px; font-weight: 700;
+}
+QPushButton#btnCreate:hover, QPushButton#btnProposeFit:hover, QPushButton#btnPdf:hover {
+  background: #2a99ec;
+}
+
+QPushButton#btnUpdate, QPushButton#btnProposeCheapest, QPushButton#btnProposeNearest {
+  background: #23374e; color: #e6eef6; border: 1px solid #2b4561;
+  border-radius: 10px; padding: 9px 14px;
+}
+QPushButton#btnUpdate:hover, QPushButton#btnProposeCheapest:hover, QPushButton#btnProposeNearest:hover {
+  background: #2b4561;
+}
+
+QPushButton#btnDelete {
+  background: #39c0fa; color: #0c1a29; border: 0px;
+  border-radius: 10px; padding: 9px 14px; font-weight: 700;
+}
+QPushButton#btnDelete:hover { background: #56cdfc; }
+
+QTableView#table, QTableWidget#table,
+QTableView#revByQuaiTable, QTableWidget#revByQuaiTable,
+QTableView#occByQuaiTable, QTableWidget#occByQuaiTable,
+QTableView#occHistoryTable, QTableWidget#occHistoryTable,
+QTableView#revHistoryTable, QTableWidget#revHistoryTable {
+  background: transparent; color: #e6eef6; border: 0px;
+  selection-background-color: #1e3c5c; selection-color: #e6eef6; font-size: 16px;
+}
+QTableView::item:selected { background: #1e8de0; color: #ffffff; }
+QTableView::item:selected:!active { background: #1769a8; color: #ffffff; }
+QTableView::item:focus { outline: none; border: 0px; }
+QTableView:focus { outline: none; }
+QHeaderView::section {
+  background: #101c2c; color: #9bb0c3; border: 0px;
+  padding: 10px 12px; font-weight: 700; font-size: 15px;
+}
+QTableCornerButton::section { background: #101c2c; border: 0px; }
+QTableView::item { padding: 10px 12px; border-radius: 6px; }
+
+QLabel#HeaderH1 { color: #132437; font-size: 18px; font-weight: 700; }
+QDialog QLabel#Muted { color: #5c6e80; font-size: 13px; }
+QDialog QLabel#FormLabel { color: #132437; font-weight: 700; font-size: 13px; }
+
+QDialog QLineEdit#Input,
+QDialog QDoubleSpinBox#Input,
+QDialog QDateTimeEdit#Input,
+QDialog QComboBox#Input {
+  background: #132437;
+  border: 1px solid #23374e;
+  border-radius: 8px;
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: #e6eef6;
+  selection-background-color: #1e8de0;
+}
+QDialog QLineEdit#Input:focus,
+QDialog QDoubleSpinBox#Input:focus,
+QDialog QDateTimeEdit#Input:focus,
+QDialog QComboBox#Input:focus {
+  border-color: #1e8de0;
+}
+
+QPushButton#AltPrimaryButton {
+  background: transparent;
+  color: #1e8de0;
+  border: 2px solid #1e8de0;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-weight: 700;
+  font-size: 14px;
+}
+QPushButton#AltPrimaryButton:hover {
+  background: rgba(30,141,224,30);
+}
+QPushButton#AltPrimaryButton:pressed {
+  background: rgba(30,141,224,60);
+}
+
+QPushButton#PrimaryButton {
+  background: #1e8de0;
+  color: #ffffff;
+  border: 0px;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-weight: 700;
+  font-size: 14px;
+}
+QPushButton#PrimaryButton:hover {
+  background: #2a99ec;
+}
+QPushButton#PrimaryButton:pressed {
+  background: #1a7cc5;
+}
+
+QPushButton#DangerButton {
+  background: #e74c3c;
+  color: #ffffff;
+  border: 0px;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-weight: 700;
+  font-size: 14px;
+}
+QPushButton#DangerButton:hover {
+  background: #f05a4a;
+}
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="rootLayout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>0</number></property>
+    <property name="topMargin"><number>0</number></property>
+    <property name="rightMargin"><number>0</number></property>
+    <property name="bottomMargin"><number>0</number></property>
+
+    <item>
+     <widget class="QFrame" name="sidebar">
+      <property name="minimumSize"><size><width>270</width><height>0</height></size></property>
+      <property name="maximumSize"><size><width>270</width><height>16777215</height></size></property>
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="sidebarLayout">
+       <property name="spacing"><number>10</number></property>
+       <property name="leftMargin"><number>18</number></property>
+       <property name="topMargin"><number>18</number></property>
+       <property name="rightMargin"><number>18</number></property>
+       <property name="bottomMargin"><number>18</number></property>
+
+       <item>
+        <widget class="QWidget" name="brandBox" native="true">
+         <layout class="QVBoxLayout" name="brandBoxLayout">
+          <property name="spacing"><number>8</number></property>
+          <property name="leftMargin"><number>0</number></property>
+          <property name="topMargin"><number>0</number></property>
+          <property name="rightMargin"><number>0</number></property>
+          <property name="bottomMargin"><number>0</number></property>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="logo">
+            <property name="minimumSize"><size><width>96</width><height>96</height></size></property>
+            <property name="maximumSize"><size><width>96</width><height>96</height></size></property>
+            <property name="text"><string/></property>
+            <property name="alignment"><set>Qt::AlignCenter</set></property>
+            <property name="pixmap">
+             <pixmap resource="../resources/resources.qrc">:/logo_circle.png</pixmap>
+            </property>
+            <property name="scaledContents"><bool>true</bool></property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="brandTitle">
+            <property name="text"><string>VISION SIGHT</string></property>
+            <property name="alignment"><set>Qt::AlignCenter</set></property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="sidebarSpacer1">
+         <property name="orientation"><enum>Qt::Vertical</enum></property>
+         <property name="sizeType"><enum>QSizePolicy::Fixed</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>0</width><height>12</height></size></property>
+        </spacer>
+       </item>
+
+       <item>
+        <widget class="QPushButton" name="sideBtn0">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Gestion Des employées</string></property>
+         <property name="toolTip"><string>Gestion Des employées</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="checked"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sideBtn1">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Gestion Des Navires</string></property>
+         <property name="toolTip"><string>Gestion Des Navires</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sideBtn2">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Gestion Des Quais</string></property>
+         <property name="toolTip"><string>Gestion Des Quais</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sideBtn3">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Gestion Des Captures</string></property>
+         <property name="toolTip"><string>Gestion Des Captures</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sideBtn4">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Stockage Frigorifique</string></property>
+         <property name="toolTip"><string>Stockage Frigorifique</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sideBtn5">
+         <property name="minimumSize"><size><width>0</width><height>42</height></size></property>
+         <property name="text"><string>Gestion Des Ventes</string></property>
+         <property name="toolTip"><string>Gestion Des Ventes</string></property>
+         <property name="checkable"><bool>true</bool></property>
+         <property name="autoExclusive"><bool>true</bool></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="sidebarStretch">
+         <property name="orientation"><enum>Qt::Vertical</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <item>
+     <widget class="QScrollArea" name="scroll">
+      <property name="widgetResizable"><bool>true</bool></property>
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <widget class="QWidget" name="page">
+       <property name="geometry"><rect><x>0</x><y>0</y><width>1090</width><height>4000</height></rect></property>
+       <layout class="QVBoxLayout" name="pageLayout" stretch="0,0,0,0,1,0,0,0,0">
+        <property name="spacing"><number>14</number></property>
+        <property name="leftMargin"><number>24</number></property>
+        <property name="topMargin"><number>18</number></property>
+        <property name="rightMargin"><number>24</number></property>
+        <property name="bottomMargin"><number>24</number></property>
+
+        <item>
+         <layout class="QHBoxLayout" name="headerRow">
+          <item>
+           <layout class="QVBoxLayout" name="titleCol">
+            <property name="spacing"><number>2</number></property>
+            <item>
+             <widget class="QLabel" name="headerH1">
+              <property name="text"><string>VISION SIGHT</string></property>
+              <property name="font"><font><bold>true</bold></font></property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="headerSpacer">
+            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+            <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="menuButton">
+            <property name="minimumSize"><size><width>36</width><height>36</height></size></property>
+            <property name="maximumSize"><size><width>36</width><height>36</height></size></property>
+            <property name="text"><string/></property>
+            <property name="iconSize"><size><width>18</width><height>18</height></size></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QFrame" name="actionsCard">
+          <property name="minimumSize"><size><width>0</width><height>170</height></size></property>
+          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+          <layout class="QHBoxLayout" name="actionsCardLayout" stretch="1,0">
+           <property name="spacing"><number>18</number></property>
+           <property name="leftMargin"><number>18</number></property>
+           <property name="topMargin"><number>18</number></property>
+           <property name="rightMargin"><number>18</number></property>
+           <property name="bottomMargin"><number>18</number></property>
+           <item>
+            <layout class="QVBoxLayout" name="actionsLeftCol" stretch="0,0,1">
+             <property name="spacing"><number>10</number></property>
+             <item>
+              <widget class="QLabel" name="sectionTitle">
+               <property name="text"><string>Gestion des quais</string></property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="btnRow">
+               <property name="spacing"><number>10</number></property>
+               <item>
+                <widget class="QPushButton" name="btnCreate">
+                 <property name="text"><string>Créer</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnUpdate">
+                 <property name="text"><string>Modifier</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnDelete">
+                 <property name="text"><string>Supprimer</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="btnRowSpacer">
+                 <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="actionsLeftStretch">
+               <property name="orientation"><enum>Qt::Vertical</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QFrame" name="mapBox">
+             <property name="minimumSize"><size><width>280</width><height>0</height></size></property>
+             <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+             <layout class="QVBoxLayout" name="mapBoxLayout">
+              <property name="leftMargin"><number>12</number></property>
+              <property name="topMargin"><number>12</number></property>
+              <property name="rightMargin"><number>12</number></property>
+              <property name="bottomMargin"><number>12</number></property>
+              <item>
+               <widget class="MiniMapWidget" name="mapPreview">
+                <property name="minimumSize"><size><width>0</width><height>120</height></size></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="mapCaption">
+                <property name="text"><string>Occupation des quais</string></property>
+                <property name="alignment"><set>Qt::AlignCenter</set></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QFrame" name="advancedCard">
+          <property name="minimumSize"><size><width>0</width><height>230</height></size></property>
+          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+          <layout class="QHBoxLayout" name="advancedCardLayout" stretch="2,1">
+           <property name="spacing"><number>18</number></property>
+           <property name="leftMargin"><number>18</number></property>
+           <property name="topMargin"><number>18</number></property>
+           <property name="rightMargin"><number>18</number></property>
+           <property name="bottomMargin"><number>18</number></property>
+
+           <item>
+            <layout class="QVBoxLayout" name="advLeft" stretch="0,0,0,0,0,1">
+             <property name="spacing"><number>10</number></property>
+             <item>
+              <widget class="QLabel" name="advTitle">
+               <property name="text"><string>Proposition de quai</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="advSub">
+               <property name="text"><string>Propositions automatiques: moins cher, plus proche (mini map), et adapté au navire.</string></property>
+               <property name="wordWrap"><bool>true</bool></property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="advGrid">
+               <property name="horizontalSpacing"><number>12</number></property>
+               <property name="verticalSpacing"><number>10</number></property>
+               <property name="leftMargin"><number>0</number></property>
+               <property name="topMargin"><number>0</number></property>
+               <property name="rightMargin"><number>0</number></property>
+               <property name="bottomMargin"><number>0</number></property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="labRef">
+                 <property name="text"><string>Référence (X,Y)</string></property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QWidget" name="refRow" native="true">
+                 <layout class="QHBoxLayout" name="refRowLayout">
+                  <property name="leftMargin"><number>0</number></property>
+                  <property name="topMargin"><number>0</number></property>
+                  <property name="rightMargin"><number>0</number></property>
+                  <property name="bottomMargin"><number>0</number></property>
+                  <property name="spacing"><number>10</number></property>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="refX">
+                    <property name="minimum"><double>-1000000000.000000000000000</double></property>
+                    <property name="maximum"><double>1000000000.000000000000000</double></property>
+                    <property name="decimals"><number>2</number></property>
+                    <property name="value"><double>0.000000000000000</double></property>
+                    <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                    <property name="prefix"><string notr="true">X </string></property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="refY">
+                    <property name="minimum"><double>-1000000000.000000000000000</double></property>
+                    <property name="maximum"><double>1000000000.000000000000000</double></property>
+                    <property name="decimals"><number>2</number></property>
+                    <property name="value"><double>0.000000000000000</double></property>
+                    <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                    <property name="prefix"><string notr="true">Y </string></property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="labShip">
+                 <property name="text"><string>Longueur navire</string></property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="shipLength">
+                 <property name="minimum"><double>0.000000000000000</double></property>
+                 <property name="maximum"><double>1000000.000000000000000</double></property>
+                 <property name="decimals"><number>1</number></property>
+                 <property name="singleStep"><double>1.000000000000000</double></property>
+                 <property name="value"><double>40.000000000000000</double></property>
+                 <property name="suffix"><string> m</string></property>
+                 <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labShipType">
+                 <property name="text"><string>Type navire</string></property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="shipType">
+                 <item><property name="text"><string>Tous</string></property></item>
+                 <item><property name="text"><string>Général</string></property></item>
+                 <item><property name="text"><string>Cargo</string></property></item>
+                 <item><property name="text"><string>Plaisance</string></property></item>
+                 <item><property name="text"><string>Pêche</string></property></item>
+                 <item><property name="text"><string>Ferry</string></property></item>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="advBtnRow">
+               <property name="spacing"><number>10</number></property>
+               <item>
+                <widget class="QPushButton" name="btnProposeCheapest">
+                 <property name="text"><string>Proposer le moins cher</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnProposeNearest">
+                 <property name="text"><string>Proposer le plus proche</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnProposeFit">
+                 <property name="text"><string>Proposer adapté</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="advBtnSpacer">
+                 <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="proposeResult">
+               <property name="text"><string/></property>
+               <property name="wordWrap"><bool>true</bool></property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="advLeftStretch">
+               <property name="orientation"><enum>Qt::Vertical</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+
+           <item>
+            <layout class="QVBoxLayout" name="advRight" stretch="1,0">
+             <property name="spacing"><number>8</number></property>
+             <item>
+              <widget class="MiniMapWidget" name="miniMap"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="mapHint">
+               <property name="text"><string>Cliquez sur la mini map pour définir la référence.</string></property>
+               <property name="alignment"><set>Qt::AlignCenter</set></property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <layout class="QVBoxLayout" name="toolsCol">
+          <property name="spacing"><number>12</number></property>
+
+          <item>
+           <widget class="QFrame" name="searchCard">
+            <property name="minimumSize"><size><width>0</width><height>380</height></size></property>
+            <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+            <layout class="QVBoxLayout" name="searchOuter">
+             <property name="spacing"><number>8</number></property>
+             <property name="leftMargin"><number>14</number></property>
+             <property name="topMargin"><number>12</number></property>
+             <property name="rightMargin"><number>14</number></property>
+             <property name="bottomMargin"><number>12</number></property>
+             <item>
+              <widget class="QLabel" name="searchTitle">
+               <property name="text"><string>Recherche / Filtres</string></property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="searchGrid">
+               <property name="horizontalSpacing"><number>14</number></property>
+               <property name="verticalSpacing"><number>8</number></property>
+               <property name="leftMargin"><number>0</number></property>
+               <property name="topMargin"><number>0</number></property>
+               <property name="rightMargin"><number>0</number></property>
+               <property name="bottomMargin"><number>0</number></property>
+
+               <item row="0" column="0" colspan="2">
+                <widget class="QLineEdit" name="searchQuai">
+                 <property name="placeholderText"><string>Recherche par matricule quai</string></property>
+                </widget>
+               </item>
+
+               <item row="1" column="0">
+                <widget class="QLineEdit" name="searchDate">
+                 <property name="placeholderText"><string>Arrivée: AAAA-MM-JJ</string></property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="searchEtat">
+                 <item><property name="text"><string>Tous</string></property></item>
+                 <item><property name="text"><string>Libre</string></property></item>
+                 <item><property name="text"><string>Occupé</string></property></item>
+                 <item><property name="text"><string>En maintenance</string></property></item>
+                </widget>
+               </item>
+
+               <item row="2" column="0" colspan="2">
+                <spacer name="searchSpacer">
+                 <property name="orientation"><enum>Qt::Vertical</enum></property>
+                 <property name="sizeType"><enum>QSizePolicy::Fixed</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>2</height></size></property>
+                </spacer>
+               </item>
+
+               <item row="3" column="0" colspan="2">
+                <layout class="QGridLayout" name="advancedFilterGrid">
+                 <property name="horizontalSpacing"><number>12</number></property>
+                 <property name="verticalSpacing"><number>14</number></property>
+                 <property name="leftMargin"><number>0</number></property>
+                 <property name="topMargin"><number>0</number></property>
+                 <property name="rightMargin"><number>0</number></property>
+                 <property name="bottomMargin"><number>0</number></property>
+
+                 <item row="0" column="0" alignment="Qt::AlignVCenter">
+                  <widget class="QCheckBox" name="chkPrice">
+                   <property name="text"><string>Prix/h</string></property>
+                   <property name="checked"><bool>false</bool></property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1" alignment="Qt::AlignVCenter">
+                  <widget class="QWidget" name="priceRowWidget" native="true">
+                   <layout class="QHBoxLayout" name="priceRowLayout">
+                    <property name="leftMargin"><number>0</number></property>
+                    <property name="topMargin"><number>0</number></property>
+                    <property name="rightMargin"><number>0</number></property>
+                    <property name="bottomMargin"><number>0</number></property>
+                    <property name="spacing"><number>12</number></property>
+                    <item>
+                     <widget class="QDoubleSpinBox" name="minPrice">
+                      <property name="enabled"><bool>false</bool></property>
+                      <property name="minimum"><double>0.000000000000000</double></property>
+                      <property name="maximum"><double>1000000000.000000000000000</double></property>
+                      <property name="decimals"><number>2</number></property>
+                      <property name="prefix"><string>Min </string></property>
+                      <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDoubleSpinBox" name="maxPrice">
+                      <property name="enabled"><bool>false</bool></property>
+                      <property name="minimum"><double>0.000000000000000</double></property>
+                      <property name="maximum"><double>1000000000.000000000000000</double></property>
+                      <property name="decimals"><number>2</number></property>
+                      <property name="prefix"><string>Max </string></property>
+                      <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+
+                 <item row="1" column="0" alignment="Qt::AlignVCenter">
+                  <widget class="QCheckBox" name="chkAvailAt">
+                   <property name="text"><string>Dispo à</string></property>
+                   <property name="checked"><bool>false</bool></property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1" alignment="Qt::AlignVCenter">
+                  <widget class="QDateTimeEdit" name="availAt">
+                   <property name="enabled"><bool>false</bool></property>
+                   <property name="displayFormat"><string>yyyy-MM-dd HH:mm</string></property>
+                   <property name="calendarPopup"><bool>true</bool></property>
+                  </widget>
+                 </item>
+
+                 <item row="2" column="0" alignment="Qt::AlignVCenter">
+                  <widget class="QCheckBox" name="chkRange">
+                   <property name="text"><string>Dispo plage</string></property>
+                   <property name="checked"><bool>false</bool></property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1" alignment="Qt::AlignVCenter">
+                  <widget class="QWidget" name="rangeRowWidget" native="true">
+                   <layout class="QHBoxLayout" name="rangeRowLayout">
+                    <property name="leftMargin"><number>0</number></property>
+                    <property name="topMargin"><number>0</number></property>
+                    <property name="rightMargin"><number>0</number></property>
+                    <property name="bottomMargin"><number>0</number></property>
+                    <property name="spacing"><number>12</number></property>
+                    <item>
+                     <widget class="QDateTimeEdit" name="rangeStart">
+                      <property name="enabled"><bool>false</bool></property>
+                      <property name="displayFormat"><string>yyyy-MM-dd HH:mm</string></property>
+                      <property name="calendarPopup"><bool>true</bool></property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDateTimeEdit" name="rangeEnd">
+                      <property name="enabled"><bool>false</bool></property>
+                      <property name="displayFormat"><string>yyyy-MM-dd HH:mm</string></property>
+                      <property name="calendarPopup"><bool>true</bool></property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+
+          <item>
+           <layout class="QHBoxLayout" name="belowRow">
+            <property name="spacing"><number>12</number></property>
+
+            <item>
+             <widget class="QFrame" name="sortCard">
+              <property name="minimumSize"><size><width>0</width><height>150</height></size></property>
+              <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+              <layout class="QVBoxLayout" name="sortCardLayout" stretch="0,0,1">
+               <property name="spacing"><number>10</number></property>
+               <property name="leftMargin"><number>16</number></property>
+               <property name="topMargin"><number>14</number></property>
+               <property name="rightMargin"><number>16</number></property>
+               <property name="bottomMargin"><number>14</number></property>
+               <item>
+                <widget class="QLabel" name="sortTitle">
+                 <property name="text"><string>Tri</string></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="sortMode">
+                 <item><property name="text"><string>Par taille de quai</string></property></item>
+                 <item><property name="text"><string>Statut</string></property></item>
+                 <item><property name="text"><string>Qui se libèrent bientôt</string></property></item>
+                 <item><property name="text"><string>Qui sont occupés depuis longtemps</string></property></item>
+                 <item><property name="text"><string>Prix de location par heure</string></property></item>
+                </widget>
+               </item>
+               <item>
+                <spacer name="sortStretch">
+                 <property name="orientation"><enum>Qt::Vertical</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+
+            <item>
+             <widget class="QFrame" name="exportCard">
+              <property name="minimumSize"><size><width>0</width><height>150</height></size></property>
+              <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+              <layout class="QVBoxLayout" name="exportCardLayout" stretch="0,0,0,1">
+               <property name="spacing"><number>10</number></property>
+               <property name="leftMargin"><number>16</number></property>
+               <property name="topMargin"><number>14</number></property>
+               <property name="rightMargin"><number>16</number></property>
+               <property name="bottomMargin"><number>14</number></property>
+               <item>
+                <widget class="QLabel" name="exportTitle">
+                 <property name="text"><string>Export</string></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="exportType">
+                 <item><property name="text"><string>Facturation de location de quai</string></property></item>
+                 <item><property name="text"><string>Rapport journalier d'occupation</string></property></item>
+                 <item><property name="text"><string>Rapport mensuel de revenus par quai</string></property></item>
+                 <item><property name="text"><string>Rapport anomalies (retards, dépassements)</string></property></item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnPdf">
+                 <property name="text"><string>Exporter PDF</string></property>
+                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="exportStretch">
+                 <property name="orientation"><enum>Qt::Vertical</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QFrame" name="tableCard">
+          <property name="minimumSize"><size><width>0</width><height>360</height></size></property>
+          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+          <layout class="QVBoxLayout" name="tableCardLayout" stretch="0,1">
+           <property name="leftMargin"><number>12</number></property>
+           <property name="topMargin"><number>12</number></property>
+           <property name="rightMargin"><number>12</number></property>
+           <property name="bottomMargin"><number>12</number></property>
+           <item>
+            <layout class="QHBoxLayout" name="tableTopRow">
+             <property name="spacing"><number>12</number></property>
+             <item>
+              <widget class="QCheckBox" name="selectAll">
+               <property name="text"><string>Tout sélectionner</string></property>
+               <property name="checked"><bool>false</bool></property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="tableTopSpacer">
+               <property name="orientation"><enum>Qt::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="table">
+             <property name="minimumSize"><size><width>0</width><height>320</height></size></property>
+             <property name="selectionMode"><enum>QAbstractItemView::ExtendedSelection</enum></property>
+             <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+             <property name="showGrid"><bool>false</bool></property>
+             <property name="sortingEnabled"><bool>true</bool></property>
+             <property name="alternatingRowColors"><bool>false</bool></property>
+             <property name="wordWrap"><bool>true</bool></property>
+             <property name="textElideMode"><enum>Qt::ElideNone</enum></property>
+             <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+             <property name="rowCount"><number>3</number></property>
+             <property name="columnCount"><number>8</number></property>
+             <attribute name="horizontalHeaderVisible"><bool>true</bool></attribute>
+             <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize"><number>70</number></attribute>
+             <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+             <attribute name="verticalHeaderDefaultSectionSize"><number>66</number></attribute>
+             <column>
+              <property name="text"><string>ID Quai</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Matricule quai</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Taille (m)</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Arrivée</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Départ</string></property>
+             </column>
+             <column>
+              <property name="text"><string>État</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Prix (DT/h)</string></property>
+             </column>
+             <column>
+              <property name="text"><string>Retard (min)</string></property>
+             </column>
+             <row/>
+             <row/>
+             <row/>
+             <item row="0" column="0"><property name="text"><string>Q-101</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="1"><property name="text"><string>MQ-401</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="2"><property name="text"><string>45,0</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="3"><property name="text"><string>2026-02-01 08:30</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="4"><property name="text"><string>2026-02-01 18:30</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="5"><property name="text"><string>Occupé</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="6"><property name="text"><string>120,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="0" column="7"><property name="text"><string>120</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="0"><property name="text"><string>Q-102</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="1"><property name="text"><string>MQ-233</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="2"><property name="text"><string>32,5</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="3"><property name="text"><string>2026-02-01 10:15</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="4"><property name="text"><string>2026-02-01 22:00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="5"><property name="text"><string>Libre</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="6"><property name="text"><string>95,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="1" column="7"><property name="text"><string>225</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="0"><property name="text"><string>Q-103</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="1"><property name="text"><string>MQ-778</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="2"><property name="text"><string>60,0</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="3"><property name="text"><string>2026-02-03 06:00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="4"><property name="text"><string>2026-02-03 20:30</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="5"><property name="text"><string>En maintenance</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="6"><property name="text"><string>0,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+             <item row="2" column="7"><property name="text"><string>390</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QFrame" name="statsCard">
+          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+          <layout class="QVBoxLayout" name="statsOuter">
+           <property name="spacing"><number>12</number></property>
+           <property name="leftMargin"><number>16</number></property>
+           <property name="topMargin"><number>14</number></property>
+           <property name="rightMargin"><number>16</number></property>
+           <property name="bottomMargin"><number>14</number></property>
+
+           <item>
+            <layout class="QHBoxLayout" name="statsHeader">
+             <item>
+              <widget class="QLabel" name="statsTitle">
+               <property name="text"><string>Statistiques</string></property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="statsHeaderSpacer">
+               <property name="orientation"><enum>Qt::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="periodLabel">
+               <property name="text"><string>Période:</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="revenuePeriod">
+               <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
+               <property name="currentIndex"><number>1</number></property>
+               <item><property name="text"><string>24h</string></property></item>
+               <item><property name="text"><string>7j</string></property></item>
+               <item><property name="text"><string>30j</string></property></item>
+               <item><property name="text"><string>Tout</string></property></item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+
+           <item>
+            <layout class="QGridLayout" name="circlesGrid">
+             <property name="horizontalSpacing"><number>14</number></property>
+             <property name="verticalSpacing"><number>14</number></property>
+             <item row="0" column="0">
+              <widget class="QFrame" name="phStatEtat">
+               <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+               <property name="styleSheet"><string>QFrame#phStatEtat{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+               <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+               <layout class="QVBoxLayout" name="phStatEtatLayout">
+                <property name="spacing"><number>2</number></property>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatEtatTitle">
+                  <property name="text"><string>Etat</string></property>
+                  <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatEtatVal">
+                  <property name="text"><string>Occupés 1
+Libres 1</string></property>
+                  <property name="styleSheet"><string>color:white;font-size:16px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QFrame" name="phStatTauxGlobal">
+               <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+               <property name="styleSheet"><string>QFrame#phStatTauxGlobal{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+               <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+               <layout class="QVBoxLayout" name="phStatTauxLayout">
+                <property name="spacing"><number>2</number></property>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatTauxTitle">
+                  <property name="text"><string>Taux global</string></property>
+                  <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatTauxVal">
+                  <property name="text"><string>50.0%</string></property>
+                  <property name="styleSheet"><string>color:white;font-size:22px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatTauxSub">
+                  <property name="text"><string>%</string></property>
+                  <property name="styleSheet"><string>color:#8899aa;font-size:11px;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QFrame" name="phStatRevenuPeriode">
+               <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+               <property name="styleSheet"><string>QFrame#phStatRevenuPeriode{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+               <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+               <layout class="QVBoxLayout" name="phStatRevPLayout">
+                <property name="spacing"><number>2</number></property>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevPTitle">
+                  <property name="text"><string>Revenu période</string></property>
+                  <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevPVal">
+                  <property name="text"><string>0,00</string></property>
+                  <property name="styleSheet"><string>color:white;font-size:22px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevPSub">
+                  <property name="text"><string>DT</string></property>
+                  <property name="styleSheet"><string>color:#8899aa;font-size:11px;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QFrame" name="phStatRevenuMoyen">
+               <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+               <property name="styleSheet"><string>QFrame#phStatRevenuMoyen{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+               <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+               <layout class="QVBoxLayout" name="phStatRevMLayout">
+                <property name="spacing"><number>2</number></property>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevMTitle">
+                  <property name="text"><string>Revenu moyen</string></property>
+                  <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevMVal">
+                  <property name="text"><string>0,00</string></property>
+                  <property name="styleSheet"><string>color:white;font-size:22px;font-weight:bold;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignCenter">
+                 <widget class="QLabel" name="phStatRevMSub">
+                  <property name="text"><string>/ quai</string></property>
+                  <property name="styleSheet"><string>color:#8899aa;font-size:11px;</string></property>
+                  <property name="alignment"><set>Qt::AlignCenter</set></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="4">
+              <layout class="QHBoxLayout" name="bottomStatsRow" stretch="1,1,1,1">
+               <property name="spacing"><number>14</number></property>
+               <item>
+                <spacer name="bottomStatsSpacer1">
+                 <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QFrame" name="phStatPlusRentable">
+                 <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+                 <property name="styleSheet"><string>QFrame#phStatPlusRentable{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+                 <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+                 <layout class="QVBoxLayout" name="phStatPRLayout">
+                  <property name="spacing"><number>2</number></property>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatPRTitle">
+                    <property name="text"><string>+ rentable</string></property>
+                    <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatPRVal">
+                    <property name="text"><string>MQ-401</string></property>
+                    <property name="styleSheet"><string>color:white;font-size:22px;font-weight:bold;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatPRSub">
+                    <property name="text"><string>0,00 DT</string></property>
+                    <property name="styleSheet"><string>color:#8899aa;font-size:11px;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="phStatMoinsUtilise">
+                 <property name="minimumSize"><size><width>160</width><height>180</height></size></property>
+                 <property name="styleSheet"><string>QFrame#phStatMoinsUtilise{background:#253040;border-radius:80px;border:6px solid #39c0fa;}QLabel{color:white;}</string></property>
+                 <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+                 <layout class="QVBoxLayout" name="phStatMULayout">
+                  <property name="spacing"><number>2</number></property>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatMUTitle">
+                    <property name="text"><string>- utilisé</string></property>
+                    <property name="styleSheet"><string>color:#39c0fa;font-size:13px;font-weight:bold;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatMUVal">
+                    <property name="text"><string>MQ-401</string></property>
+                    <property name="styleSheet"><string>color:white;font-size:22px;font-weight:bold;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignCenter">
+                   <widget class="QLabel" name="phStatMUSub">
+                    <property name="text"><string>0.0%</string></property>
+                    <property name="styleSheet"><string>color:#8899aa;font-size:11px;</string></property>
+                    <property name="alignment"><set>Qt::AlignCenter</set></property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <spacer name="bottomStatsSpacer2">
+                 <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout" name="perQuaiRow">
+          <property name="spacing"><number>12</number></property>
+
+          <item>
+           <widget class="QFrame" name="revCard">
+            <property name="minimumSize"><size><width>0</width><height>240</height></size></property>
+            <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+            <layout class="QVBoxLayout" name="revCardLayout" stretch="0,1">
+             <property name="spacing"><number>10</number></property>
+             <property name="leftMargin"><number>16</number></property>
+             <property name="topMargin"><number>14</number></property>
+             <property name="rightMargin"><number>16</number></property>
+             <property name="bottomMargin"><number>14</number></property>
+             <item>
+              <widget class="QLabel" name="revTitle">
+               <property name="text"><string>Historique des revenus par quai</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="revByQuaiTable">
+               <property name="minimumSize"><size><width>0</width><height>160</height></size></property>
+               <property name="selectionMode"><enum>QAbstractItemView::NoSelection</enum></property>
+               <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+               <property name="showGrid"><bool>false</bool></property>
+               <property name="wordWrap"><bool>false</bool></property>
+               <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+               <property name="rowCount"><number>3</number></property>
+               <property name="columnCount"><number>2</number></property>
+               <attribute name="horizontalHeaderVisible"><bool>true</bool></attribute>
+               <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
+               <attribute name="horizontalHeaderDefaultSectionSize"><number>200</number></attribute>
+               <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+               <attribute name="verticalHeaderDefaultSectionSize"><number>40</number></attribute>
+               <column><property name="text"><string>Matricule quai</string></property></column>
+               <column><property name="text"><string>Revenu (DT)</string></property></column>
+               <row/><row/><row/>
+               <item row="0" column="0"><property name="text"><string>MQ-401</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="0" column="1"><property name="text"><string>0,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="1" column="0"><property name="text"><string>MQ-233</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="1" column="1"><property name="text"><string>0,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="2" column="0"><property name="text"><string>MQ-778</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="2" column="1"><property name="text"><string>0,00</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+
+          <item>
+           <widget class="QFrame" name="occCard">
+            <property name="minimumSize"><size><width>0</width><height>240</height></size></property>
+            <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+            <layout class="QVBoxLayout" name="occCardLayout" stretch="0,1">
+             <property name="spacing"><number>10</number></property>
+             <property name="leftMargin"><number>16</number></property>
+             <property name="topMargin"><number>14</number></property>
+             <property name="rightMargin"><number>16</number></property>
+             <property name="bottomMargin"><number>14</number></property>
+             <item>
+              <widget class="QLabel" name="occTitle">
+               <property name="text"><string>Taux d'occupation par quai</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="occByQuaiTable">
+               <property name="minimumSize"><size><width>0</width><height>160</height></size></property>
+               <property name="selectionMode"><enum>QAbstractItemView::NoSelection</enum></property>
+               <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+               <property name="showGrid"><bool>false</bool></property>
+               <property name="wordWrap"><bool>false</bool></property>
+               <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+               <property name="rowCount"><number>3</number></property>
+               <property name="columnCount"><number>2</number></property>
+               <attribute name="horizontalHeaderVisible"><bool>true</bool></attribute>
+               <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
+               <attribute name="horizontalHeaderDefaultSectionSize"><number>200</number></attribute>
+               <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+               <attribute name="verticalHeaderDefaultSectionSize"><number>40</number></attribute>
+               <column><property name="text"><string>Matricule quai</string></property></column>
+               <column><property name="text"><string>Taux (%)</string></property></column>
+               <row/><row/><row/>
+               <item row="0" column="0"><property name="text"><string>MQ-401</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="0" column="1"><property name="text"><string>0.0</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="1" column="0"><property name="text"><string>MQ-233</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="1" column="1"><property name="text"><string>0.0</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="2" column="0"><property name="text"><string>MQ-778</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+               <item row="2" column="1"><property name="text"><string>0.0</string></property><property name="textAlignment"><set>AlignCenter</set></property></item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout" name="traceRow" stretch="2,1">
+          <property name="spacing"><number>12</number></property>
+
+          <item>
+           <widget class="QFrame" name="histCard">
+            <property name="minimumSize"><size><width>0</width><height>260</height></size></property>
+            <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+            <layout class="QVBoxLayout" name="histCardLayout" stretch="0,0,0,1">
+             <property name="spacing"><number>10</number></property>
+             <property name="leftMargin"><number>16</number></property>
+             <property name="topMargin"><number>14</number></property>
+             <property name="rightMargin"><number>16</number></property>
+             <property name="bottomMargin"><number>14</number></property>
+             <item>
+              <widget class="QLabel" name="histTitle">
+               <property name="text"><string>Historique des occupations (quai sélectionné)</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="histHint">
+               <property name="text"><string>Tapez un matricule quai (ex: MQ-) pour voir l'historique.</string></property>
+               <property name="wordWrap"><bool>true</bool></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="pickRowWidget" native="true">
+               <layout class="QHBoxLayout" name="pickRowLayout">
+                <property name="leftMargin"><number>0</number></property>
+                <property name="topMargin"><number>0</number></property>
+                <property name="rightMargin"><number>0</number></property>
+                <property name="bottomMargin"><number>0</number></property>
+                <property name="spacing"><number>12</number></property>
+                <item>
+                 <widget class="QLabel" name="pickLab">
+                  <property name="text"><string>Matricule quai:</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="traceQuai">
+                  <property name="placeholderText"><string>MQ-</string></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="occHistoryTable">
+               <property name="minimumSize"><size><width>0</width><height>160</height></size></property>
+               <property name="selectionMode"><enum>QAbstractItemView::NoSelection</enum></property>
+               <property name="showGrid"><bool>false</bool></property>
+               <property name="wordWrap"><bool>false</bool></property>
+               <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+               <property name="rowCount"><number>0</number></property>
+               <property name="columnCount"><number>5</number></property>
+               <attribute name="horizontalHeaderVisible"><bool>true</bool></attribute>
+               <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
+               <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+               <attribute name="verticalHeaderDefaultSectionSize"><number>40</number></attribute>
+               <column><property name="text"><string>Arrivée</string></property></column>
+               <column><property name="text"><string>Départ</string></property></column>
+               <column><property name="text"><string>Matricule quai</string></property></column>
+               <column><property name="text"><string>État</string></property></column>
+               <column><property name="text"><string>Prix (DT/h)</string></property></column>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+
+          <item>
+           <widget class="QFrame" name="rotCard">
+            <property name="minimumSize"><size><width>0</width><height>260</height></size></property>
+            <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+            <layout class="QVBoxLayout" name="rotCardLayout" stretch="0,0,0,0,1">
+             <property name="spacing"><number>10</number></property>
+             <property name="leftMargin"><number>16</number></property>
+             <property name="topMargin"><number>14</number></property>
+             <property name="rightMargin"><number>16</number></property>
+             <property name="bottomMargin"><number>14</number></property>
+             <item>
+              <widget class="QLabel" name="rotTitle">
+               <property name="text"><string>Analyse de rotation (quai sélectionné)</string></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="rotSub">
+               <property name="text"><string>Moyennes calculées à partir des occupations (Arrivée → Départ) triées par date.</string></property>
+               <property name="wordWrap"><bool>true</bool></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="rotationOcc">
+               <property name="text"><string>Temps moyen occupé: —</string></property>
+               <property name="font"><font><bold>true</bold></font></property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="rotationLibre">
+               <property name="text"><string>Temps moyen libre: —</string></property>
+               <property name="font"><font><bold>true</bold></font></property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="rotStretch">
+               <property name="orientation"><enum>Qt::Vertical</enum></property>
+               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QFrame" name="revHistCard">
+          <property name="minimumSize"><size><width>0</width><height>240</height></size></property>
+          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+          <layout class="QVBoxLayout" name="revHistCardLayout" stretch="0,0,1">
+           <property name="spacing"><number>10</number></property>
+           <property name="leftMargin"><number>16</number></property>
+           <property name="topMargin"><number>14</number></property>
+           <property name="rightMargin"><number>16</number></property>
+           <property name="bottomMargin"><number>14</number></property>
+           <item>
+            <widget class="QLabel" name="revHistTitle">
+             <property name="text"><string>Historique des revenus (quai sélectionné)</string></property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="revHistHint">
+             <property name="text"><string>Revenus calculés à partir des occupations (Arrivée → Départ) et du prix (DT/h).</string></property>
+             <property name="wordWrap"><bool>true</bool></property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="revHistoryTable">
+             <property name="minimumSize"><size><width>0</width><height>160</height></size></property>
+             <property name="selectionMode"><enum>QAbstractItemView::NoSelection</enum></property>
+             <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+             <property name="showGrid"><bool>false</bool></property>
+             <property name="wordWrap"><bool>false</bool></property>
+             <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+             <property name="rowCount"><number>0</number></property>
+             <property name="columnCount"><number>5</number></property>
+             <attribute name="horizontalHeaderVisible"><bool>true</bool></attribute>
+             <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
+             <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+             <attribute name="verticalHeaderDefaultSectionSize"><number>40</number></attribute>
+             <column><property name="text"><string>Arrivée</string></property></column>
+             <column><property name="text"><string>Départ</string></property></column>
+             <column><property name="text"><string>Heures</string></property></column>
+             <column><property name="text"><string>Prix (DT/h)</string></property></column>
+             <column><property name="text"><string>Revenu (DT)</string></property></column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+
+ <customwidgets>
+  <customwidget>
+   <class>MiniMapWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/minimapwidget.h</header>
+  </customwidget>
+ </customwidgets>
+
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
+
+ <connections/>
+</ui>
