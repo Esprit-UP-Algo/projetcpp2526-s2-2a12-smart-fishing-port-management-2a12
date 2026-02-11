@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TransactionDialog</class>
+ <widget class="QDialog" name="TransactionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>460</width>
+    <height>580</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Transaction</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QDialog#TransactionDialog {
+  background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 #eaf4fb, stop:0.5 #dceef8, stop:1 #cbdfef);
+}
+QLabel {
+  color: #1a2a3a;
+  font-size: 13px;
+  font-weight: 700;
+  background: transparent;
+}
+QLabel#dialogTitle {
+  color: #0f1f2e;
+  font-size: 22px;
+  font-weight: 800;
+}
+QLabel#dialogSubtitle {
+  color: #5a7a94;
+  font-size: 12px;
+  font-weight: 400;
+}
+QLabel#totalValue {
+  color: #1a8de0;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #1a2a3a;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+QLineEdit {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-height: 30px;
+  font-size: 13px;
+  font-weight: 400;
+  selection-background-color: #1e8de0;
+}
+QLineEdit:focus {
+  border-color: #39a8d8;
+}
+QDoubleSpinBox {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-height: 30px;
+  font-size: 13px;
+  font-weight: 400;
+}
+QDoubleSpinBox:focus {
+  border-color: #39a8d8;
+}
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+  background: #2a3f55;
+  border: none;
+  width: 20px;
+}
+QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
+  background: #39a8d8;
+}
+QDateTimeEdit {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-height: 30px;
+  font-size: 13px;
+  font-weight: 400;
+}
+QDateTimeEdit:focus {
+  border-color: #39a8d8;
+}
+QDateTimeEdit::drop-down {
+  border: 0px;
+  width: 24px;
+}
+QComboBox {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-height: 30px;
+  font-size: 13px;
+  font-weight: 400;
+}
+QComboBox:focus {
+  border-color: #39a8d8;
+}
+QComboBox::drop-down {
+  border: 0px;
+  width: 24px;
+}
+QComboBox QAbstractItemView {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  selection-background-color: #1e8de0;
+  border: 1px solid #2a3f55;
+}
+#btnOk {
+  background-color: #2da4d8;
+  color: white;
+  border: 0px;
+  border-radius: 10px;
+  padding: 11px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 120px;
+}
+#btnOk:hover {
+  background-color: #3dbae8;
+}
+#btnCancel {
+  background-color: #2da4d8;
+  color: white;
+  border: 0px;
+  border-radius: 10px;
+  padding: 11px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 120px;
+}
+#btnCancel:hover {
+  background-color: #3dbae8;
+}
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="leftMargin"><number>24</number></property>
+   <property name="topMargin"><number>20</number></property>
+   <property name="rightMargin"><number>24</number></property>
+   <property name="bottomMargin"><number>20</number></property>
+   <property name="spacing"><number>14</number></property>
+   <item>
+    <widget class="QLabel" name="dialogTitle">
+     <property name="text">
+      <string>Nouvelle Transaction</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="dialogSubtitle">
+     <property name="text">
+      <string>Veuillez remplir les informations de la transaction.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="labelAlignment">
+      <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="horizontalSpacing"><number>24</number></property>
+     <property name="verticalSpacing"><number>20</number></property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblNumFacture">
+       <property name="text"><string>Num Facture</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineNumFacture">
+       <property name="placeholderText"><string>FCT-100</string></property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblPecheur">
+       <property name="text"><string>Pêcheur</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="linePecheur">
+       <property name="placeholderText"><string>Nom du pêcheur</string></property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblLot">
+       <property name="text"><string>Lot</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineLot">
+       <property name="placeholderText"><string>LOT-100</string></property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblPrixKg">
+       <property name="text"><string>Prix / kg</string></property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="spinPrixKg">
+       <property name="minimum"><double>0.000000000000000</double></property>
+       <property name="maximum"><double>999999999.000000000000000</double></property>
+       <property name="decimals"><number>2</number></property>
+       <property name="singleStep"><double>0.500000000000000</double></property>
+       <property name="suffix"><string> DT</string></property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lblQuantite">
+       <property name="text"><string>Quantité</string></property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="spinQuantite">
+       <property name="minimum"><double>0.000000000000000</double></property>
+       <property name="maximum"><double>999999999.000000000000000</double></property>
+       <property name="decimals"><number>3</number></property>
+       <property name="singleStep"><double>1.000000000000000</double></property>
+       <property name="suffix"><string> kg</string></property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblTotal">
+       <property name="text"><string>Total</string></property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="totalValue">
+       <property name="text"><string>0,00 DT</string></property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="lblDate">
+       <property name="text"><string>Date transaction</string></property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QDateTimeEdit" name="dateTransaction">
+       <property name="displayFormat"><string>yyyy-MM-dd HH:mm</string></property>
+       <property name="calendarPopup"><bool>true</bool></property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="lblModePaiement">
+       <property name="text"><string>Mode paiement</string></property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QComboBox" name="comboModePaiement">
+       <item><property name="text"><string>Espèces</string></property></item>
+       <item><property name="text"><string>Chèque</string></property></item>
+       <item><property name="text"><string>Virement</string></property></item>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="lblStatutPaiement">
+       <property name="text"><string>Statut paiement</string></property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QComboBox" name="comboStatutPaiement">
+       <item><property name="text"><string>Payé</string></property></item>
+       <item><property name="text"><string>En attente</string></property></item>
+       <item><property name="text"><string>Annulé</string></property></item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="bottomSpacer">
+     <property name="orientation"><enum>Qt::Vertical</enum></property>
+     <property name="sizeHint" stdset="0">
+      <size><width>20</width><height>10</height></size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <property name="spacing"><number>16</number></property>
+     <item>
+      <spacer name="btnSpacerL">
+       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text"><string>Annuler</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnOk">
+       <property name="text"><string>Enregistrer</string></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="btnSpacerR">
+       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

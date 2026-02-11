@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE RCC>
-<RCC version="1.0">
-    <qresource>
-        <file>logo.png</file>
+<RCC>
+    <qresource prefix="/">
+        <file>vision_sight.jpeg</file>
+        <file>logo_circle.png</file>
     </qresource>
 </RCC>

@@ -35,7 +35,19 @@ build/
 bin/
 debug/
 release/
+.qtc_clangd/
 
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# VS Code / Editors
+.vscode/
+.qtcreator/
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.out

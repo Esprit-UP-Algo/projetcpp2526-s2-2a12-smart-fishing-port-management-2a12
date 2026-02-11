@@ -1,15 +1,13 @@
 #include <QApplication>
-#include "src/mainwindow.h"
+
+#include "host_mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    // Définir le style par défaut
-    app.setStyle("Fusion");
-
-    MainWindow window;
-    window.show();
+    HostMainWindow w;
+    w.show();
 
     return app.exec();
 }
