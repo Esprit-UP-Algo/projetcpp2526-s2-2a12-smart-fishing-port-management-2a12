@@ -1,14 +1,29 @@
 cmake_minimum_required(VERSION 3.16)
+<<<<<<< HEAD
 project(integration_transaction_quais LANGUAGES CXX)
+=======
+
+
+# Force re-configure
+project(transaction VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+>>>>>>> origin/GestionEmploye
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+<<<<<<< HEAD
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network)
+
+find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network LinguistTools)
+
+set(TS_FILES transaction_fr_DZ.ts)
 
 qt_add_executable(integration_transaction_quais
     src/main.cpp
@@ -32,6 +47,8 @@ qt_add_executable(integration_transaction_quais
     src/quais/quaisearchfilterproxymodel.cpp
     src/quais/quaisortproxymodel.h
     src/quais/quaisortproxymodel.cpp
+    src/quais/quaisortfilterproxymodel.h
+    src/quais/quaisortfilterproxymodel.cpp
     src/quais/pdfexporter.h
     src/quais/pdfexporter.cpp
 
@@ -54,6 +71,20 @@ qt_add_executable(integration_transaction_quais
     src/navires/resources.qrc
 
     resources/resources.qrc
+
+    # Sources from GestionEmploye (Merged)
+    user.h
+    userdialog.h
+    userdialog.cpp
+    userdialog.ui
+    logindialog.h
+    logindialog.cpp
+    logindialog.ui
+    payslip.h
+    payslip.cpp
+    payslipdialog.ui
+    resources.qrc
+    ${TS_FILES}
 )
 
 target_include_directories(integration_transaction_quais PRIVATE
@@ -61,8 +92,18 @@ target_include_directories(integration_transaction_quais PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/quais
     ${CMAKE_CURRENT_SOURCE_DIR}/src/transaction
     ${CMAKE_CURRENT_SOURCE_DIR}/src/navires
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(integration_transaction_quais PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Network)
 
 target_compile_definitions(integration_transaction_quais PRIVATE INTEGRATION_APP)
+
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+
+install(TARGETS integration_transaction_quais
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
