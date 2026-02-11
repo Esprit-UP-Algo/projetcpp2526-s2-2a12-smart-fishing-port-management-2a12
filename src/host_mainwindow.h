@@ -8,6 +8,7 @@ QT_END_NAMESPACE
 
 namespace quais { class MainWindow; }
 namespace transactions { class MainWindow; }
+namespace navires { class MainWindow; }
 
 class HostMainWindow : public QMainWindow
 {
@@ -20,9 +21,11 @@ public:
 private slots:
     void showQuais();
     void showTransactions();
+    void showNavires();
 
 private:
     Ui::HostMainWindow *ui;
     quais::MainWindow *m_quaisWindow = nullptr;
     transactions::MainWindow *m_transactionsWindow = nullptr;
+    navires::MainWindow *m_naviresWindow = nullptr;
 };
