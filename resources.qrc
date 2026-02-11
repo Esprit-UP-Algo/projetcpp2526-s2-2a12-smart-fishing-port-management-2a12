@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>vision_sight.jpg</file>
+    </qresource>
+</RCC>
