@@ -29,6 +29,7 @@ public:
 
 signals:
     void requestShowTransactions();
+    void requestShowNavires();
 
 private:
     void setActiveSidebarButton(QPushButton *btn);
@@ -55,6 +56,7 @@ private:
 
 #ifdef INTEGRATION_APP
     void onSidebarVentes();
+    void onSidebarNavires();
 #endif
 
     Ui::QuaisMainWindow *ui;

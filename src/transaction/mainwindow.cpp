@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 #ifdef INTEGRATION_APP
     connect(ui->sideBtn2, &QPushButton::clicked, this, &MainWindow::onSidebarQuais);
+    connect(ui->sideBtn1, &QPushButton::clicked, this, &MainWindow::onSidebarNavires);
 #endif
 
     refreshTable();
@@ -89,6 +90,13 @@ void MainWindow::setActiveSidebarButton(QPushButton *activeBtn)
         btn->style()->polish(btn);
     }
 }
+
+#ifdef INTEGRATION_APP
+void MainWindow::onSidebarNavires()
+{
+    emit requestShowNavires();
+}
+#endif
 
 // ─── CRUD ───────────────────────────────────────────────
 

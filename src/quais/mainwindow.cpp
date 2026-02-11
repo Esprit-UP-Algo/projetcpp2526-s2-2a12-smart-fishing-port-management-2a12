@@ -663,6 +663,7 @@ void MainWindow::wireSignals()
 
 #ifdef INTEGRATION_APP
     connect(ui->sideBtn5, &QPushButton::clicked, this, &MainWindow::onSidebarVentes);
+    connect(ui->sideBtn1, &QPushButton::clicked, this, &MainWindow::onSidebarNavires);
 #endif
 
     connect(ui->searchQuai, &QLineEdit::textChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setSearchMatricule);
@@ -934,6 +935,13 @@ void MainWindow::wireSignals()
                                             QLocale().toString(q.prixLocation, 'f', 2)));
     });
 }
+
+#ifdef INTEGRATION_APP
+void MainWindow::onSidebarNavires()
+{
+    emit requestShowNavires();
+}
+#endif
 
 // ---------------------------------------------------------------------------
 // refreshMiniMap

@@ -24,6 +24,7 @@ public:
 
 signals:
     void requestShowQuais();
+    void requestShowNavires();
 
 private slots:
     // Sidebar
@@ -31,6 +32,7 @@ private slots:
 
 #ifdef INTEGRATION_APP
     void onSidebarQuais();
+    void onSidebarNavires();
 #endif
 
 

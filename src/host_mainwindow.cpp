@@ -1,25 +1,38 @@
 #include "host_mainwindow.h"
 #include "ui_host_mainwindow.h"
 
-#include "../../gestiondesguai/src/mainwindow.h"
-#include "../../transaction/mainwindow.h"
+#include "quais/mainwindow.h"
+#include "transaction/mainwindow.h"
+#include "navires/mainwindow.h"
 
 HostMainWindow::HostMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HostMainWindow)
     , m_quaisWindow(new quais::MainWindow(this))
     , m_transactionsWindow(new transactions::MainWindow(this))
+    , m_naviresWindow(new navires::MainWindow(this))
 {
     ui->setupUi(this);
 
     ui->stack->addWidget(m_quaisWindow);
     ui->stack->addWidget(m_transactionsWindow);
+    ui->stack->addWidget(m_naviresWindow);
     ui->stack->setCurrentWidget(m_quaisWindow);
 
     connect(m_quaisWindow, &quais::MainWindow::requestShowTransactions,
             this, &HostMainWindow::showTransactions);
     connect(m_transactionsWindow, &transactions::MainWindow::requestShowQuais,
             this, &HostMainWindow::showQuais);
+
+        connect(m_quaisWindow, &quais::MainWindow::requestShowNavires,
+            this, &HostMainWindow::showNavires);
+        connect(m_transactionsWindow, &transactions::MainWindow::requestShowNavires,
+            this, &HostMainWindow::showNavires);
+
+        connect(m_naviresWindow, &navires::MainWindow::requestShowQuais,
+            this, &HostMainWindow::showQuais);
+        connect(m_naviresWindow, &navires::MainWindow::requestShowTransactions,
+            this, &HostMainWindow::showTransactions);
 }
 
 HostMainWindow::~HostMainWindow()
@@ -37,4 +50,10 @@ void HostMainWindow::showTransactions()
 {
     ui->stack->setCurrentWidget(m_transactionsWindow);
     m_transactionsWindow->setSidebarActiveVentes();
+}
+
+void HostMainWindow::showNavires()
+{
+    ui->stack->setCurrentWidget(m_naviresWindow);
+    m_naviresWindow->setSidebarActiveNavires();
 }
