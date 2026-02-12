@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network Sql Charts)
 
 qt_add_executable(integration_transaction_quais
     src/main.cpp
@@ -76,6 +76,26 @@ qt_add_executable(integration_transaction_quais
     src/navires/dialogmouvement.cpp
     src/navires/resources.qrc
 
+    # Suivi des captures (integrated)
+    src/suivi_des_captures/mainwindow.h
+    src/suivi_des_captures/mainwindow.cpp
+    src/suivi_des_captures/sidebarwidget.h
+    src/suivi_des_captures/sidebarwidget.cpp
+    src/suivi_des_captures/statcircle.h
+    src/suivi_des_captures/statcircle.cpp
+    src/suivi_des_captures/documentexporter.h
+    src/suivi_des_captures/documentexporter.cpp
+    src/suivi_des_captures/lotdialog.h
+    src/suivi_des_captures/lotdialog.cpp
+    src/suivi_des_captures/chambrefroidedialog.h
+    src/suivi_des_captures/chambrefroidedialog.cpp
+    src/suivi_des_captures/models/capturelot.h
+    src/suivi_des_captures/models/capturelotmodel.h
+    src/suivi_des_captures/models/capturelotmodel.cpp
+    src/suivi_des_captures/models/capturelotproxymodel.h
+    src/suivi_des_captures/models/capturelotproxymodel.cpp
+    src/suivi_des_captures/resources/resources.qrc
+
     resources/resources.qrc
 )
 
@@ -84,8 +104,50 @@ target_include_directories(integration_transaction_quais PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/quais
     ${CMAKE_CURRENT_SOURCE_DIR}/src/transaction
     ${CMAKE_CURRENT_SOURCE_DIR}/src/navires
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures/models
 )
 
-target_link_libraries(integration_transaction_quais PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Network)
+target_link_libraries(integration_transaction_quais PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Network Qt6::Sql Qt6::Charts)
 
 target_compile_definitions(integration_transaction_quais PRIVATE INTEGRATION_APP)
+
+# --- Suivi des captures (integrated from suivi_des_captures4.0) ---
+find_package(Qt6 6.7 REQUIRED COMPONENTS Core Gui Widgets Sql PrintSupport Charts)
+
+qt_add_executable(VisionSightPoissons
+    src/suivi_des_captures/main.cpp
+    src/suivi_des_captures/mainwindow.cpp
+    src/suivi_des_captures/mainwindow.h
+    src/suivi_des_captures/sidebarwidget.cpp
+    src/suivi_des_captures/sidebarwidget.h
+    src/suivi_des_captures/statcircle.cpp
+    src/suivi_des_captures/statcircle.h
+    src/suivi_des_captures/documentexporter.cpp
+    src/suivi_des_captures/documentexporter.h
+    src/suivi_des_captures/lotdialog.cpp
+    src/suivi_des_captures/lotdialog.h
+    src/suivi_des_captures/chambrefroidedialog.cpp
+    src/suivi_des_captures/chambrefroidedialog.h
+    src/suivi_des_captures/models/capturelot.h
+    src/suivi_des_captures/models/capturelotmodel.cpp
+    src/suivi_des_captures/models/capturelotmodel.h
+    src/suivi_des_captures/models/capturelotproxymodel.cpp
+    src/suivi_des_captures/models/capturelotproxymodel.h
+    src/suivi_des_captures/gestioncapture.ui
+    src/suivi_des_captures/resources/resources.qrc
+)
+
+target_include_directories(VisionSightPoissons PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures/models
+)
+
+target_link_libraries(VisionSightPoissons PRIVATE
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Sql
+    Qt6::PrintSupport
+    Qt6::Charts
+)

@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 #ifdef INTEGRATION_APP
     connect(ui->sideBtn2, &QPushButton::clicked, this, &MainWindow::onSidebarQuais);
     connect(ui->sideBtn1, &QPushButton::clicked, this, &MainWindow::onSidebarNavires);
+    connect(ui->sideBtn3, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
 #endif
 
     refreshTable();
@@ -95,6 +96,11 @@ void MainWindow::setActiveSidebarButton(QPushButton *activeBtn)
 void MainWindow::onSidebarNavires()
 {
     emit requestShowNavires();
+}
+
+void MainWindow::onSidebarCaptures()
+{
+    emit requestShowCaptures();
 }
 #endif
 

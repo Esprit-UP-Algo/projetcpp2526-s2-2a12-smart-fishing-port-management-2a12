@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
 #ifdef INTEGRATION_APP
     connect(ui->btnGestionQuais, &QPushButton::clicked, this, &MainWindow::onSidebarQuais);
     connect(ui->btnGestionVentes, &QPushButton::clicked, this, &MainWindow::onSidebarVentes);
+    connect(ui->btnGestionCaptures, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
 #endif
 
     loadSampleData();
@@ -775,6 +776,11 @@ void MainWindow::onSidebarQuais()
 void MainWindow::onSidebarVentes()
 {
     emit requestShowTransactions();
+}
+
+void MainWindow::onSidebarCaptures()
+{
+    emit requestShowCaptures();
 }
 #endif
 

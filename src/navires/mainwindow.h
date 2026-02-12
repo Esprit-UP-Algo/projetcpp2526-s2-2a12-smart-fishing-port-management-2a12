@@ -36,6 +36,7 @@ public:
 signals:
     void requestShowQuais();
     void requestShowTransactions();
+    void requestShowCaptures();
 
 private slots:
     void onAjouterClicked();
@@ -56,6 +57,7 @@ private slots:
 #ifdef INTEGRATION_APP
     void onSidebarQuais();
     void onSidebarVentes();
+    void onSidebarCaptures();
 #endif
 
 protected:
