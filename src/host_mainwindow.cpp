@@ -5,6 +5,7 @@
 #include "transaction/mainwindow.h"
 #include "navires/mainwindow.h"
 #include "suivi_des_captures/mainwindow.h"
+#include "stockage_frigorifique/mainwindow.h"
 
 HostMainWindow::HostMainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +14,7 @@ HostMainWindow::HostMainWindow(QWidget *parent)
     , m_transactionsWindow(new transactions::MainWindow(this))
     , m_naviresWindow(new navires::MainWindow(this))
     , m_capturesWindow(new captures::MainWindow(this))
+    , m_stockageWindow(new stockage::MainWindow(this))
 {
     ui->setupUi(this);
 
@@ -20,6 +22,7 @@ HostMainWindow::HostMainWindow(QWidget *parent)
     ui->stack->addWidget(m_transactionsWindow);
     ui->stack->addWidget(m_naviresWindow);
     ui->stack->addWidget(m_capturesWindow);
+    ui->stack->addWidget(m_stockageWindow);
     ui->stack->setCurrentWidget(m_quaisWindow);
 
     connect(m_quaisWindow, &quais::MainWindow::requestShowTransactions,
@@ -50,6 +53,24 @@ HostMainWindow::HostMainWindow(QWidget *parent)
             this, &HostMainWindow::showTransactions);
         connect(m_capturesWindow, &captures::MainWindow::requestShowNavires,
             this, &HostMainWindow::showNavires);
+
+        connect(m_quaisWindow, &quais::MainWindow::requestShowStockage,
+            this, &HostMainWindow::showStockage);
+        connect(m_transactionsWindow, &transactions::MainWindow::requestShowStockage,
+            this, &HostMainWindow::showStockage);
+        connect(m_naviresWindow, &navires::MainWindow::requestShowStockage,
+            this, &HostMainWindow::showStockage);
+        connect(m_capturesWindow, &captures::MainWindow::requestShowStockage,
+            this, &HostMainWindow::showStockage);
+
+        connect(m_stockageWindow, &stockage::MainWindow::requestShowQuais,
+            this, &HostMainWindow::showQuais);
+        connect(m_stockageWindow, &stockage::MainWindow::requestShowTransactions,
+            this, &HostMainWindow::showTransactions);
+        connect(m_stockageWindow, &stockage::MainWindow::requestShowNavires,
+            this, &HostMainWindow::showNavires);
+        connect(m_stockageWindow, &stockage::MainWindow::requestShowCaptures,
+            this, &HostMainWindow::showCaptures);
 }
 
 HostMainWindow::~HostMainWindow()
@@ -79,4 +100,9 @@ void HostMainWindow::showCaptures()
 {
     ui->stack->setCurrentWidget(m_capturesWindow);
     m_capturesWindow->setSidebarActiveCaptures();
+}
+
+void HostMainWindow::showStockage()
+{
+    ui->stack->setCurrentWidget(m_stockageWindow);
 }

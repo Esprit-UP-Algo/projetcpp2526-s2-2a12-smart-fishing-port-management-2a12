@@ -41,6 +41,7 @@ signals:
     void requestShowQuais();
     void requestShowTransactions();
     void requestShowNavires();
+    void requestShowStockage();
 
 private:
     SidebarWidget *m_sidebar = nullptr;

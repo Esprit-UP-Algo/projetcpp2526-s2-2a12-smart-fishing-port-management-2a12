@@ -33,11 +33,37 @@
 #include <QStyledItemDelegate>
 #include <QTableView>
 #include <QTimer>
+#include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
 
 #include "widgets/circularstatwidget.h"
 #include "widgets/minimapwidget.h"
 
 #include "pdfexporter.h"
+
+namespace {
+constexpr int kSidebarPulseMs = 160;
+
+void pulseSidebarButton(QWidget *widget)
+{
+    if (!widget)
+        return;
+
+    auto *effect = qobject_cast<QGraphicsOpacityEffect *>(widget->graphicsEffect());
+    if (!effect) {
+        effect = new QGraphicsOpacityEffect(widget);
+        effect->setOpacity(1.0);
+        widget->setGraphicsEffect(effect);
+    }
+
+    auto *anim = new QPropertyAnimation(effect, "opacity", widget);
+    anim->setDuration(kSidebarPulseMs);
+    anim->setKeyValueAt(0.0, 1.0);
+    anim->setKeyValueAt(0.45, 0.65);
+    anim->setKeyValueAt(1.0, 1.0);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+} // namespace
 #include "quaidialogs.h"
 #include "quaimodel.h"
 #include "quaisearchfilterproxymodel.h"
@@ -665,6 +691,7 @@ void MainWindow::wireSignals()
     connect(ui->sideBtn5, &QPushButton::clicked, this, &MainWindow::onSidebarVentes);
     connect(ui->sideBtn1, &QPushButton::clicked, this, &MainWindow::onSidebarNavires);
     connect(ui->sideBtn3, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
+    connect(ui->sideBtn4, &QPushButton::clicked, this, &MainWindow::onSidebarStockage);
 #endif
 
     connect(ui->searchQuai, &QLineEdit::textChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setSearchMatricule);
@@ -1586,6 +1613,14 @@ void MainWindow::onSidebarVentes()
 void MainWindow::onSidebarCaptures()
 {
     emit requestShowCaptures();
+}
+
+void MainWindow::onSidebarStockage()
+{
+    pulseSidebarButton(ui->sideBtn4);
+    QTimer::singleShot(kSidebarPulseMs, this, [this]() {
+        emit requestShowStockage();
+    });
 }
 #endif
 

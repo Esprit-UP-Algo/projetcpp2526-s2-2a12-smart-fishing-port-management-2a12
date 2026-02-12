@@ -13,24 +13,6 @@ find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Network Sql Charts
 
 qt_add_executable(integration_transaction_quais
     src/main.cpp
-    
-    # Capture Module (SuiviDesCaptures)
-    src/mainwindow.cpp
-    src/mainwindow.h
-    src/statcircle.cpp
-    src/statcircle.h
-    models/capturelot.h
-    models/capturelotmodel.cpp
-    models/capturelotmodel.h
-    models/capturelotproxymodel.cpp
-    models/capturelotproxymodel.h
-    src/documentexporter.cpp
-    src/documentexporter.h
-    src/lotdialog.cpp
-    src/lotdialog.h
-    src/chambrefroidedialog.cpp
-    src/chambrefroidedialog.h
-    src/gestioncapture.ui
 
     # Integration - Host
     src/host_mainwindow.h
@@ -96,6 +78,40 @@ qt_add_executable(integration_transaction_quais
     src/suivi_des_captures/models/capturelotproxymodel.cpp
     src/suivi_des_captures/resources/resources.qrc
 
+    # Stockage frigorifique (embedded page)
+    src/stockage_frigorifique/mainwindow.h
+    src/stockage_frigorifique/mainwindow.cpp
+
+    src/stockage_frigorifique/pdfexporter.h
+    src/stockage_frigorifique/pdfexporter.cpp
+
+    src/stockage_frigorifique/statcircle.h
+    src/stockage_frigorifique/statcircle.cpp
+
+    src/stockage_frigorifique/chambrefroide.h
+    src/stockage_frigorifique/chambrefroidemodel.h
+    src/stockage_frigorifique/chambrefroidemodel.cpp
+    src/stockage_frigorifique/chambrefroidesortfilterproxymodel.h
+    src/stockage_frigorifique/chambrefroidesortfilterproxymodel.cpp
+
+    src/stockage_frigorifique/addchambrefroidedialog.h
+    src/stockage_frigorifique/addchambrefroidedialog.cpp
+    src/stockage_frigorifique/updatechambrefroidedialog.h
+    src/stockage_frigorifique/updatechambrefroidedialog.cpp
+
+    src/stockage_frigorifique/stockagelot.h
+    src/stockage_frigorifique/stockagelotmodel.h
+    src/stockage_frigorifique/stockagelotmodel.cpp
+    src/stockage_frigorifique/stockagelotsortfilterproxymodel.h
+    src/stockage_frigorifique/stockagelotsortfilterproxymodel.cpp
+
+    src/stockage_frigorifique/addstockagelotdialog.h
+    src/stockage_frigorifique/addstockagelotdialog.cpp
+    src/stockage_frigorifique/updatestockagelotdialog.h
+    src/stockage_frigorifique/updatestockagelotdialog.cpp
+
+    src/stockage_frigorifique/resources/resources.qrc
+
     resources/resources.qrc
 )
 
@@ -106,11 +122,56 @@ target_include_directories(integration_transaction_quais PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/navires
     ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures
     ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures/models
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/stockage_frigorifique
 )
 
 target_link_libraries(integration_transaction_quais PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Network Qt6::Sql Qt6::Charts)
 
 target_compile_definitions(integration_transaction_quais PRIVATE INTEGRATION_APP)
+
+# --- Stockage frigorifique (integrated from tache_hedi) ---
+qt_add_executable(appStockageFrigorifique
+    src/stockage_frigorifique/main.cpp
+    src/stockage_frigorifique/mainwindow.h
+    src/stockage_frigorifique/mainwindow.cpp
+
+    src/stockage_frigorifique/pdfexporter.h
+    src/stockage_frigorifique/pdfexporter.cpp
+
+    src/stockage_frigorifique/statcircle.h
+    src/stockage_frigorifique/statcircle.cpp
+
+    src/stockage_frigorifique/chambrefroide.h
+    src/stockage_frigorifique/chambrefroidemodel.h
+    src/stockage_frigorifique/chambrefroidemodel.cpp
+    src/stockage_frigorifique/chambrefroidesortfilterproxymodel.h
+    src/stockage_frigorifique/chambrefroidesortfilterproxymodel.cpp
+
+    src/stockage_frigorifique/addchambrefroidedialog.h
+    src/stockage_frigorifique/addchambrefroidedialog.cpp
+    src/stockage_frigorifique/updatechambrefroidedialog.h
+    src/stockage_frigorifique/updatechambrefroidedialog.cpp
+
+    src/stockage_frigorifique/stockagelot.h
+    src/stockage_frigorifique/stockagelotmodel.h
+    src/stockage_frigorifique/stockagelotmodel.cpp
+    src/stockage_frigorifique/stockagelotsortfilterproxymodel.h
+    src/stockage_frigorifique/stockagelotsortfilterproxymodel.cpp
+
+    src/stockage_frigorifique/addstockagelotdialog.h
+    src/stockage_frigorifique/addstockagelotdialog.cpp
+    src/stockage_frigorifique/updatestockagelotdialog.h
+    src/stockage_frigorifique/updatestockagelotdialog.cpp
+
+    src/stockage_frigorifique/mainwindow.ui
+    src/stockage_frigorifique/resources/resources.qrc
+)
+
+target_include_directories(appStockageFrigorifique PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/stockage_frigorifique
+)
+
+target_link_libraries(appStockageFrigorifique PRIVATE Qt6::Widgets Qt6::PrintSupport)
 
 # --- Suivi des captures (integrated from suivi_des_captures4.0) ---
 find_package(Qt6 6.7 REQUIRED COMPONENTS Core Gui Widgets Sql PrintSupport Charts)

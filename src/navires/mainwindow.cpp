@@ -22,7 +22,32 @@
 #include <QFrame>
 #include <QPropertyAnimation>
 #include <QEasingCurve>
+#include <QGraphicsOpacityEffect>
 #include <algorithm>
+
+namespace {
+constexpr int kSidebarPulseMs = 160;
+
+void pulseSidebarButton(QWidget *widget)
+{
+    if (!widget)
+        return;
+
+    auto *effect = qobject_cast<QGraphicsOpacityEffect *>(widget->graphicsEffect());
+    if (!effect) {
+        effect = new QGraphicsOpacityEffect(widget);
+        effect->setOpacity(1.0);
+        widget->setGraphicsEffect(effect);
+    }
+
+    auto *anim = new QPropertyAnimation(effect, "opacity", widget);
+    anim->setDuration(kSidebarPulseMs);
+    anim->setKeyValueAt(0.0, 1.0);
+    anim->setKeyValueAt(0.45, 0.65);
+    anim->setKeyValueAt(1.0, 1.0);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+} // namespace
 
 static QTableWidgetItem* centeredItem(const QString &text) {
     auto *item = new QTableWidgetItem(text);
@@ -84,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnGestionQuais, &QPushButton::clicked, this, &MainWindow::onSidebarQuais);
     connect(ui->btnGestionVentes, &QPushButton::clicked, this, &MainWindow::onSidebarVentes);
     connect(ui->btnGestionCaptures, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
+    connect(ui->btnStockageFrigorifique, &QPushButton::clicked, this, &MainWindow::onSidebarStockage);
 #endif
 
     loadSampleData();
@@ -781,6 +807,14 @@ void MainWindow::onSidebarVentes()
 void MainWindow::onSidebarCaptures()
 {
     emit requestShowCaptures();
+}
+
+void MainWindow::onSidebarStockage()
+{
+    pulseSidebarButton(ui->btnStockageFrigorifique);
+    QTimer::singleShot(kSidebarPulseMs, this, [this]() {
+        emit requestShowStockage();
+    });
 }
 #endif
 

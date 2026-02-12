@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TRANSACTIONS_MAINWINDOW_H
+#define TRANSACTIONS_MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -26,6 +26,7 @@ signals:
     void requestShowQuais();
     void requestShowNavires();
     void requestShowCaptures();
+    void requestShowStockage();
 
 private slots:
     // Sidebar
@@ -35,6 +36,7 @@ private slots:
     void onSidebarQuais();
     void onSidebarNavires();
     void onSidebarCaptures();
+    void onSidebarStockage();
 #endif
 
 
@@ -68,4 +70,4 @@ private:
 
 } // namespace transactions
 
-#endif // MAINWINDOW_H
+#endif // TRANSACTIONS_MAINWINDOW_H

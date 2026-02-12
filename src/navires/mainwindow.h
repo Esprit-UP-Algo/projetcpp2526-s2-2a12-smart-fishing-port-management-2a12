@@ -37,6 +37,7 @@ signals:
     void requestShowQuais();
     void requestShowTransactions();
     void requestShowCaptures();
+    void requestShowStockage();
 
 private slots:
     void onAjouterClicked();
@@ -58,6 +59,7 @@ private slots:
     void onSidebarQuais();
     void onSidebarVentes();
     void onSidebarCaptures();
+    void onSidebarStockage();
 #endif
 
 protected:

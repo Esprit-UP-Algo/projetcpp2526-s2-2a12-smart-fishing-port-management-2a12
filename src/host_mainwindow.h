@@ -10,6 +10,7 @@ namespace quais { class MainWindow; }
 namespace transactions { class MainWindow; }
 namespace navires { class MainWindow; }
 namespace captures { class MainWindow; }
+namespace stockage { class MainWindow; }
 
 class HostMainWindow : public QMainWindow
 {
@@ -24,6 +25,7 @@ private slots:
     void showTransactions();
     void showNavires();
     void showCaptures();
+    void showStockage();
 
 private:
     Ui::HostMainWindow *ui;
@@ -31,4 +33,5 @@ private:
     transactions::MainWindow *m_transactionsWindow = nullptr;
     navires::MainWindow *m_naviresWindow = nullptr;
     captures::MainWindow *m_capturesWindow = nullptr;
+    stockage::MainWindow *m_stockageWindow = nullptr;
 };

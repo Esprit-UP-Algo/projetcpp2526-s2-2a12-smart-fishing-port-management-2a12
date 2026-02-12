@@ -527,6 +527,12 @@ void MainWindow::wireSignals()
             switch (idx) {
             case 1: emit requestShowNavires(); break;
             case 2: emit requestShowQuais(); break;
+            case 4:
+                // Let the sidebar highlight animate before switching pages
+                QTimer::singleShot(180, this, [this]() {
+                    emit requestShowStockage();
+                });
+                break;
             case 5: emit requestShowTransactions(); break;
             default: break; // keep current for Captures, ignore placeholders
             }
