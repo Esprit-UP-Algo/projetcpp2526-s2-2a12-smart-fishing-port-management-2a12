@@ -32,6 +32,7 @@ signals:
     void requestShowNavires();
     void requestShowCaptures();
     void requestShowStockage();
+    void requestShowEmployees();
 
 private:
     void setActiveSidebarButton(QPushButton *btn);
@@ -61,6 +62,7 @@ private:
     void onSidebarNavires();
     void onSidebarCaptures();
     void onSidebarStockage();
+    void onSidebarEmployees();
 #endif
 
     Ui::QuaisMainWindow *ui;

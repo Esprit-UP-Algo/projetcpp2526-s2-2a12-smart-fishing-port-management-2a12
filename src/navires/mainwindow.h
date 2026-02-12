@@ -38,6 +38,7 @@ signals:
     void requestShowTransactions();
     void requestShowCaptures();
     void requestShowStockage();
+    void requestShowEmployees();
 
 private slots:
     void onAjouterClicked();
@@ -60,6 +61,7 @@ private slots:
     void onSidebarVentes();
     void onSidebarCaptures();
     void onSidebarStockage();
+    void onSidebarEmployees();
 #endif
 
 protected:

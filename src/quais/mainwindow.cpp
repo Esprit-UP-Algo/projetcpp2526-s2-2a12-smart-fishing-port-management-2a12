@@ -692,6 +692,7 @@ void MainWindow::wireSignals()
     connect(ui->sideBtn1, &QPushButton::clicked, this, &MainWindow::onSidebarNavires);
     connect(ui->sideBtn3, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
     connect(ui->sideBtn4, &QPushButton::clicked, this, &MainWindow::onSidebarStockage);
+    connect(ui->sideBtn0, &QPushButton::clicked, this, &MainWindow::onSidebarEmployees);
 #endif
 
     connect(ui->searchQuai, &QLineEdit::textChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setSearchMatricule);
@@ -964,12 +965,6 @@ void MainWindow::wireSignals()
     });
 }
 
-#ifdef INTEGRATION_APP
-void MainWindow::onSidebarNavires()
-{
-    emit requestShowNavires();
-}
-#endif
 
 // ---------------------------------------------------------------------------
 // refreshMiniMap
@@ -1610,6 +1605,11 @@ void MainWindow::onSidebarVentes()
     emit requestShowTransactions();
 }
 
+void MainWindow::onSidebarNavires()
+{
+    emit requestShowNavires();
+}
+
 void MainWindow::onSidebarCaptures()
 {
     emit requestShowCaptures();
@@ -1621,6 +1621,11 @@ void MainWindow::onSidebarStockage()
     QTimer::singleShot(kSidebarPulseMs, this, [this]() {
         emit requestShowStockage();
     });
+}
+
+void MainWindow::onSidebarEmployees()
+{
+    emit requestShowEmployees();
 }
 #endif
 

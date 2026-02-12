@@ -42,6 +42,7 @@ signals:
     void requestShowTransactions();
     void requestShowNavires();
     void requestShowStockage();
+    void requestShowEmployees();
 
 private:
     SidebarWidget *m_sidebar = nullptr;

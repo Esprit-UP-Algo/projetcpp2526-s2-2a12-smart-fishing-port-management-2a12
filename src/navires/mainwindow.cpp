@@ -110,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnGestionVentes, &QPushButton::clicked, this, &MainWindow::onSidebarVentes);
     connect(ui->btnGestionCaptures, &QPushButton::clicked, this, &MainWindow::onSidebarCaptures);
     connect(ui->btnStockageFrigorifique, &QPushButton::clicked, this, &MainWindow::onSidebarStockage);
+    connect(ui->btnGestionEmployees, &QPushButton::clicked, this, &MainWindow::onSidebarEmployees);
 #endif
 
     loadSampleData();
@@ -797,6 +798,11 @@ void MainWindow::onSidebarButtonClicked()
 void MainWindow::onSidebarQuais()
 {
     emit requestShowQuais();
+}
+
+void MainWindow::onSidebarEmployees()
+{
+    emit requestShowEmployees();
 }
 
 void MainWindow::onSidebarVentes()

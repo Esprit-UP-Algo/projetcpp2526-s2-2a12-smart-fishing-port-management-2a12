@@ -525,6 +525,7 @@ void MainWindow::wireSignals()
     if (m_sidebar) {
         connect(m_sidebar, &SidebarWidget::menuClicked, this, [this](int idx) {
             switch (idx) {
+            case 0: emit requestShowEmployees(); break;
             case 1: emit requestShowNavires(); break;
             case 2: emit requestShowQuais(); break;
             case 4:

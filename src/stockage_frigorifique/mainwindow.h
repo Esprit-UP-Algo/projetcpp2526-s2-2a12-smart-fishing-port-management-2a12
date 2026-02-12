@@ -37,6 +37,7 @@ signals:
     void requestShowTransactions();
     void requestShowNavires();
     void requestShowCaptures();
+    void requestShowEmployees();
 
 private:
     void setActiveSidebarButton(QPushButton *activeBtn);

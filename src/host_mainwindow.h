@@ -11,6 +11,7 @@ namespace transactions { class MainWindow; }
 namespace navires { class MainWindow; }
 namespace captures { class MainWindow; }
 namespace stockage { class MainWindow; }
+namespace employes { class EmployeMainWindow; }
 
 class HostMainWindow : public QMainWindow
 {
@@ -26,6 +27,7 @@ private slots:
     void showNavires();
     void showCaptures();
     void showStockage();
+    void showEmployees();
 
 private:
     Ui::HostMainWindow *ui;
@@ -34,4 +36,5 @@ private:
     navires::MainWindow *m_naviresWindow = nullptr;
     captures::MainWindow *m_capturesWindow = nullptr;
     stockage::MainWindow *m_stockageWindow = nullptr;
+    employes::EmployeMainWindow *m_employeWindow = nullptr;
 };

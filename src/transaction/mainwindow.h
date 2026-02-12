@@ -27,16 +27,18 @@ signals:
     void requestShowNavires();
     void requestShowCaptures();
     void requestShowStockage();
+    void requestShowEmployees();
 
 private slots:
     // Sidebar
     void setActiveSidebarButton(QPushButton *btn);
 
 #ifdef INTEGRATION_APP
-    void onSidebarQuais();
     void onSidebarNavires();
     void onSidebarCaptures();
     void onSidebarStockage();
+    void onSidebarEmployees();
+    void onSidebarQuais();
 #endif
 
 

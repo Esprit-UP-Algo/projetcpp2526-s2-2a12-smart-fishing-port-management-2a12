@@ -188,6 +188,9 @@ void MainWindow::buildUi()
 
             switch (i)
             {
+            case 0:
+                emit requestShowEmployees();
+                break;
             case 1:
                 emit requestShowNavires();
                 break;

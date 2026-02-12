@@ -113,6 +113,22 @@ qt_add_executable(integration_transaction_quais
     src/stockage_frigorifique/resources/resources.qrc
 
     resources/resources.qrc
+
+    # Gestion Employes Module
+    src/gestion_employes/employe_mainwindow.h
+    src/gestion_employes/employe_mainwindow.cpp
+    src/gestion_employes/employe_mainwindow.ui
+    src/gestion_employes/employe_logindialog.h
+    src/gestion_employes/employe_logindialog.cpp
+    src/gestion_employes/employe_logindialog.ui
+    src/gestion_employes/employe_userdialog.h
+    src/gestion_employes/employe_userdialog.cpp
+    src/gestion_employes/employe_userdialog.ui
+    src/gestion_employes/employe_payslip.h
+    src/gestion_employes/employe_payslip.cpp
+    src/gestion_employes/employe_payslipdialog.ui
+    src/gestion_employes/employe_user.h
+    src/gestion_employes/employe_transaction_fr_DZ.ts
 )
 
 target_include_directories(integration_transaction_quais PRIVATE
@@ -123,6 +139,7 @@ target_include_directories(integration_transaction_quais PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures
     ${CMAKE_CURRENT_SOURCE_DIR}/src/suivi_des_captures/models
     ${CMAKE_CURRENT_SOURCE_DIR}/src/stockage_frigorifique
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/gestion_employes
 )
 
 target_link_libraries(integration_transaction_quais PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Network Qt6::Sql Qt6::Charts)
@@ -212,3 +229,25 @@ target_link_libraries(VisionSightPoissons PRIVATE
     Qt6::PrintSupport
     Qt6::Charts
 )
+
+# --- Gestion des Employes (Standalone) ---
+qt_add_executable(appGestionEmploye
+    src/gestion_employes/main.cpp
+    src/gestion_employes/employe_mainwindow.h
+    src/gestion_employes/employe_mainwindow.cpp
+    src/gestion_employes/employe_mainwindow.ui
+    src/gestion_employes/employe_logindialog.h
+    src/gestion_employes/employe_logindialog.cpp
+    src/gestion_employes/employe_logindialog.ui
+    src/gestion_employes/employe_userdialog.h
+    src/gestion_employes/employe_userdialog.cpp
+    src/gestion_employes/employe_userdialog.ui
+    src/gestion_employes/employe_payslip.h
+    src/gestion_employes/employe_payslip.cpp
+    src/gestion_employes/employe_payslipdialog.ui
+    src/gestion_employes/employe_resources.qrc
+    src/gestion_employes/employe_user.h
+)
+# Note: This is an extra target for development/testing
+target_link_libraries(appGestionEmploye PRIVATE Qt6::Widgets Qt6::PrintSupport)
+target_include_directories(appGestionEmploye PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/gestion_employes)
