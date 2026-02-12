@@ -49,7 +49,6 @@ private:
 
     // Search/Filter
     QComboBox *m_sortCombo;
-    QLineEdit *m_searchLot;
     QLineEdit *m_searchEspece;
     QLineEdit *m_searchNavire;
     QLineEdit *m_searchZone;

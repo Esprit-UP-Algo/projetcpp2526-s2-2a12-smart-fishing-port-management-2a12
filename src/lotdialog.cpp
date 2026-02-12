@@ -49,12 +49,15 @@ LotDialog::LotDialog(Mode mode, QWidget *parent)
     mainLayout->addWidget(title);
     mainLayout->addSpacing(6);
 
+    idLotLabel = new QLabel(tr("ID Lot"), this);
     idLotEdit = new QLineEdit(this);
-    idLotEdit->setPlaceholderText(tr("Ex: LOT-001"));
+    idLotEdit->setPlaceholderText(QString());
     idLotError = new QLabel(this);
     idLotError->setStyleSheet("color: #ff4d4d; font-size: 13px;");
     idLotError->setVisible(false);
     idLotError->setWordWrap(true);
+    idLotSpacer = new QLabel("", this);
+    idLotSpacer->setMinimumWidth(80);
 
     especeEdit = new QLineEdit(this);
     especeEdit->setPlaceholderText(tr("Ex: Sardine"));
@@ -125,7 +128,14 @@ LotDialog::LotDialog(Mode mode, QWidget *parent)
         form->addRow(spacer, error);
     };
 
-    addRowWithError(tr("ID Lot"), idLotEdit, idLotError);
+    // ID Lot is auto-incremented: hide the input (Add + Modify).
+    form->addRow(idLotLabel, idLotEdit);
+    form->addRow(idLotSpacer, idLotError);
+    idLotLabel->setVisible(false);
+    idLotEdit->setVisible(false);
+    idLotSpacer->setVisible(false);
+    idLotError->setVisible(false);
+
     addRowWithError(tr("Espèce"), especeEdit, especeError);
     addRowWithError(tr("Poids"), poidsEdit, poidsError);
     addRowWithError(tr("Zone Pêche"), zonePecheEdit, zonePecheError);
@@ -159,10 +169,12 @@ LotDialog::LotDialog(Mode mode, QWidget *parent)
         qualiteError->setVisible(false);
         dateEntreeStockError->setVisible(false);
 
-        if (idLotEdit->text().trimmed().isEmpty()) {
-            idLotError->setText(tr("ID Lot obligatoire"));
-            idLotError->setVisible(true);
-            valid = false;
+        if (m_mode != Ajout) {
+            if (idLotEdit->text().trimmed().isEmpty()) {
+                idLotError->setText(tr("ID Lot obligatoire"));
+                idLotError->setVisible(true);
+                valid = false;
+            }
         }
         if (especeEdit->text().trimmed().isEmpty()) {
             especeError->setText(tr("Espèce obligatoire"));

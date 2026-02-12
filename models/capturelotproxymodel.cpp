@@ -9,12 +9,6 @@ CaptureLotProxyModel::CaptureLotProxyModel(QObject *parent)
     setSortRole(Qt::EditRole); // Utiliser les valeurs brutes pour le tri
 }
 
-void CaptureLotProxyModel::setSearchLot(const QString &text)
-{
-    m_searchLot = text;
-    invalidateFilter();
-}
-
 void CaptureLotProxyModel::setSearchEspece(const QString &text)
 {
     m_searchEspece = text;
@@ -38,14 +32,6 @@ bool CaptureLotProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
     const QAbstractItemModel *model = sourceModel();
     if (!model)
         return false;
-
-    // Filtrer par ID Lot (colonne 0)
-    if (!m_searchLot.isEmpty())
-    {
-        const QString idLot = model->data(model->index(sourceRow, 0, sourceParent)).toString();
-        if (!idLot.contains(m_searchLot, Qt::CaseInsensitive))
-            return false;
-    }
 
     // Filtrer par Espèce (colonne 1)
     if (!m_searchEspece.isEmpty())

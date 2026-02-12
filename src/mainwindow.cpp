@@ -315,10 +315,6 @@ void MainWindow::buildUi()
     });
     m_sortCombo->setMinimumWidth(130);
 
-    m_searchLot = new QLineEdit(lotFilterCard);
-    m_searchLot->setObjectName("Input");
-    m_searchLot->setPlaceholderText(tr("Recherche lot"));
-
     m_searchEspece = new QLineEdit(lotFilterCard);
     m_searchEspece->setObjectName("Input");
     m_searchEspece->setPlaceholderText(tr("Recherche espèce"));
@@ -342,7 +338,6 @@ void MainWindow::buildUi()
     m_btnExportExcel->setMaximumWidth(60);
 
     lotFilterLayout->addWidget(m_sortCombo);
-    lotFilterLayout->addWidget(m_searchLot, 1);
     lotFilterLayout->addWidget(m_searchEspece, 1);
     lotFilterLayout->addWidget(m_searchNavire, 1);
     lotFilterLayout->addWidget(m_searchZone, 1);
@@ -616,7 +611,6 @@ void MainWindow::wireSignals()
     connect(m_btnExportExcel, &QPushButton::clicked, this, &MainWindow::onExportExcel);
 
     // Search/Filter
-    connect(m_searchLot, &QLineEdit::textChanged, m_lotProxy, &CaptureLotProxyModel::setSearchLot);
     connect(m_searchEspece, &QLineEdit::textChanged, m_lotProxy, &CaptureLotProxyModel::setSearchEspece);
     connect(m_searchNavire, &QLineEdit::textChanged, m_lotProxy, &CaptureLotProxyModel::setSearchNavire);
     connect(m_searchZone, &QLineEdit::textChanged, m_lotProxy, &CaptureLotProxyModel::setSearchZone);
@@ -849,7 +843,8 @@ void MainWindow::onAddLot()
 
     if (dlg.exec() == QDialog::Accepted) {
         CaptureLot lot;
-        lot.idLot = dlg.idLot().trimmed();
+        // ID Lot is auto-incremented by the model
+        lot.idLot = QString();
         lot.espece = dlg.espece().trimmed();
         lot.poids = dlg.poids();
         lot.zonePeche = dlg.zonePeche().trimmed();
@@ -891,7 +886,8 @@ void MainWindow::onUpdateLot()
 
     if (dlg.exec() == QDialog::Accepted) {
         CaptureLot lot;
-        lot.idLot = dlg.idLot().trimmed();
+        // Keep the existing ID (auto-incremented, immutable)
+        lot.idLot = current.idLot;
         lot.espece = dlg.espece().trimmed();
         lot.poids = dlg.poids();
         lot.zonePeche = dlg.zonePeche().trimmed();

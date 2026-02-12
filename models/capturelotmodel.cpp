@@ -1,4 +1,34 @@
 #include "capturelotmodel.h"
+#include <QRegularExpression>
+
+QString CaptureLotModel::generateNextId() const
+{
+    // Finds the highest numeric suffix in IDs like LOT-001 and returns next.
+    // Falls back to LOT-001 when nothing matches.
+    static const QRegularExpression re(QStringLiteral("^\\s*LOT-(\\d+)\\s*$"),
+                                       QRegularExpression::CaseInsensitiveOption);
+
+    int maxNumber = 0;
+    for (const auto &lot : m_lots)
+    {
+        const auto match = re.match(lot.idLot);
+        if (!match.hasMatch())
+            continue;
+        bool ok = false;
+        const int n = match.captured(1).toInt(&ok);
+        if (ok)
+            maxNumber = qMax(maxNumber, n);
+    }
+
+    int candidate = qMax(1, maxNumber + 1);
+    while (true)
+    {
+        const QString id = QStringLiteral("LOT-%1").arg(candidate, 3, 10, QLatin1Char('0'));
+        if (indexOfId(id) < 0)
+            return id;
+        candidate++;
+    }
+}
 
 CaptureLotModel::CaptureLotModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -102,7 +132,11 @@ Qt::ItemFlags CaptureLotModel::flags(const QModelIndex &index) const
 
 bool CaptureLotModel::addLot(const CaptureLot &lot, QString *error)
 {
-    if (!lot.isValid())
+    CaptureLot toInsert = lot;
+    if (toInsert.idLot.trimmed().isEmpty())
+        toInsert.idLot = generateNextId();
+
+    if (!toInsert.isValid())
     {
         if (error)
             *error = QObject::tr("Données invalides");
@@ -110,7 +144,7 @@ bool CaptureLotModel::addLot(const CaptureLot &lot, QString *error)
     }
 
     // Vérifier l'unicité de l'ID
-    if (indexOfId(lot.idLot) >= 0)
+    if (indexOfId(toInsert.idLot) >= 0)
     {
         if (error)
             *error = QObject::tr("Un lot avec cet ID existe déjà");
@@ -118,7 +152,7 @@ bool CaptureLotModel::addLot(const CaptureLot &lot, QString *error)
     }
 
     beginInsertRows(QModelIndex(), m_lots.size(), m_lots.size());
-    m_lots.append(lot);
+    m_lots.append(toInsert);
     endInsertRows();
 
     return true;
@@ -133,7 +167,11 @@ bool CaptureLotModel::updateLot(int row, const CaptureLot &lot, QString *error)
         return false;
     }
 
-    if (!lot.isValid())
+    CaptureLot toUpdate = lot;
+    if (toUpdate.idLot.trimmed().isEmpty())
+        toUpdate.idLot = m_lots.at(row).idLot;
+
+    if (!toUpdate.isValid())
     {
         if (error)
             *error = QObject::tr("Données invalides");
@@ -141,7 +179,7 @@ bool CaptureLotModel::updateLot(int row, const CaptureLot &lot, QString *error)
     }
 
     // Vérifier que l'ID ne duplique pas un autre lot
-    const int idx = indexOfId(lot.idLot);
+    const int idx = indexOfId(toUpdate.idLot);
     if (idx >= 0 && idx != row)
     {
         if (error)
@@ -149,7 +187,7 @@ bool CaptureLotModel::updateLot(int row, const CaptureLot &lot, QString *error)
         return false;
     }
 
-    m_lots[row] = lot;
+    m_lots[row] = toUpdate;
     emit dataChanged(index(row, 0), index(row, columnCount() - 1));
 
     return true;

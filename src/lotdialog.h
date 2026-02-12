@@ -38,7 +38,9 @@ public:
     void setEtat(const QString &);
 
 private:
+    QLabel *idLotLabel;
     QLineEdit *idLotEdit;
+    QLabel *idLotSpacer;
     QLabel *idLotError;
     QLineEdit *especeEdit;
     QLabel *especeError;

@@ -34,6 +34,8 @@ public:
 
 private:
     QList<CaptureLot> m_lots;
+
+    QString generateNextId() const;
 };
 
 #endif // CAPTURELOTMODEL_H

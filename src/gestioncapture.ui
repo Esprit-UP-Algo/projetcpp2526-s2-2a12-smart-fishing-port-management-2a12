@@ -560,8 +560,14 @@
                     </item>
                     <item>
                      <widget class="QLineEdit" name="leSearchLot">
+                       <property name="visible">
+                        <bool>false</bool>
+                       </property>
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                       <property name="placeholderText">
-                       <string>Recherche lot</string>
+                        <string/>
                       </property>
                      </widget>
                     </item>
