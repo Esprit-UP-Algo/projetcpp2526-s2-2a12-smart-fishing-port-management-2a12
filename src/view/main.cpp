@@ -1,13 +1,28 @@
-#include <QApplication>
-#include <QMessageBox>
+#include "gestion_employes/employe_mainwindow.h"
+#include "gestion_employes/employe_logindialog.h"
 
-#include "modele/db/connection.h"
-#include "view/gestion_employes/employe_logindialog.h"
-#include "view/gestion_employes/employe_mainwindow.h"
+#include <QApplication>
+#include <QLocale>
+#include <QTranslator>
+#include <QMessageBox>
+#include <QDebug>
+
+// Include database connection
+#include "../modele/db/connection.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
+
+    QTranslator translator;
+    const QStringList uiLanguages = QLocale::system().uiLanguages();
+    for (const QString &locale : uiLanguages) {
+        const QString baseName = "transaction_" + QLocale(locale).name();
+        if (translator.load(":/i18n/" + baseName)) {
+            a.installTranslator(&translator);
+            break;
+        }
+    }
 
     // =============================================
     // ÉTAPE 1 : Initialiser la connexion Oracle
@@ -48,39 +63,15 @@ int main(int argc, char *argv[])
     }
 
     // ✅ Afficher un message de succès de connexion
-    QMessageBox::information(nullptr,
-                             "✅ Connexion Réussie",
-                             "La connexion à la base de données Oracle a été établie avec succès.\n\n"
-                             "═══════════════════════════════════════\n"
-                             "INFORMATIONS DE CONNEXION:\n"
-                             "═══════════════════════════════════════\n"
-                             "🔹 Statut: Connecté ✓\n"
-                             "🔹 DSN: Source_Projet2A\n"
-                             "🔹 Utilisateur: mouradd\n"
-                             "🔹 Driver: QODBC\n"
-                             "🔹 Base de données: Oracle\n\n"
-                             "═══════════════════════════════════════\n"
-                             "L'application démarre...\n"
-                             "═══════════════════════════════════════");
+    qDebug() << "✅ Connexion réussie à la base de données Oracle!";
+    qDebug() << "   Procédure de connexion effectuée avec succès\n";
 
-    qDebug() << "✓ Database connection successful!\n";
-
-    // =============================================
-    // ÉTAPE 2 : Authentification utilisateur
-    // =============================================
-    employes::EmployeLoginDialog loginDialog;
-    if (loginDialog.exec() != QDialog::Accepted)
-    {
-        qDebug() << "⚠ Login cancelled by user";
+    employes::EmployeLoginDialog login;
+    if (login.exec() != QDialog::Accepted) {
         return 0;
     }
 
-    // =============================================
-    // ÉTAPE 3 : Lancer la fenêtre principale
-    // =============================================
-    qDebug() << "→ Launching main window...\n";
-    employes::EmployeMainWindow mainWindow;
-    mainWindow.show();
-
-    return app.exec();
+    employes::EmployeMainWindow w;
+    w.show();
+    return a.exec();
 }

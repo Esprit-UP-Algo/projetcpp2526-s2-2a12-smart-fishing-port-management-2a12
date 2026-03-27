@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>vision_sight.jpg</file>
-        <file alias="logo_circle.png">../../resources/logo_circle.png</file>
-    </qresource>
-</RCC>

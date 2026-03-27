@@ -1,53 +1,133 @@
-# Compiled Object files
-*.o
-*.obj
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.user
-*.pro.user
+# ==========================================
+# C++/Qt Project - Comprehensive .gitignore
+# ==========================================
 
-# CMake
+# ============================================
+# BUILD ARTIFACTS & GENERATED FILES
+# ============================================
+build/
+dist/
+bin/
+lib/
+debug/
+release/
+x64/
+.qtc_clangd/
+
+# ============================================
+# Qt Auto-Generated Files
+# ============================================
+ui_*.h
+moc_*.cpp
+qrc_*.cpp
+*.qmlc
+*.jsc
+.qmake.stash
+Makefile
+Makefile*
+*_autogen/
+*_autogen_timestamp*
+
+# ============================================
+# CMake Generated Files
+# ============================================
 CMakeLists.txt.user
 CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
+CMakeFiles/
+CMakeScripts/
+Testing/
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
-_deps
+_deps/
 
-# Qt
-moc_*.cpp
-ui_*.h
-qrc_*.cpp
-.qmake.stash
-*.qmlc
-*.jsc
-Makefile*
-*build-*
-
-# Build directories
-build/
-bin/
-debug/
-release/
-.qtc_clangd/
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# VS Code / Editors
-.vscode/
-.qtcreator/
-
-# Binaries
+# ============================================
+# Compiled Object & Executable Files
+# ============================================
+*.o
+*.obj
+*.a
+*.lib
 *.exe
 *.dll
 *.so
+*.so.*
 *.dylib
 *.out
+
+# ============================================
+# IDEs & Editor Settings
+# ============================================
+.vscode/
+.qtcreator/
+.idea/
+*.user
+*.pro.user
+*.pro.user.*
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================
+# IDE Project Files
+# ============================================
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.xcodeproj/
+*.cbp
+
+# ============================================
+# Logs & Temporary Files
+# ============================================
+*.log
+*.tmp
+*.temp
+*.autosave
+*.bak
+*.swp
+*~
+
+# ============================================
+# Visual Studio / MSBuild
+# ============================================
+.vs/
+.vscode/
+ipch/
+*.pdb
+
+# ============================================
+# macOS
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+*.dSYM/
+
+# ============================================
+# Windows
+# ============================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ============================================
+# Database & Connection Files
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+connection.ini
+config.local.ini
+
+# ============================================
+# Environment & Deployment
+# ============================================
+.env
+.env.local
+*.pem
+*.key
+secrets/
