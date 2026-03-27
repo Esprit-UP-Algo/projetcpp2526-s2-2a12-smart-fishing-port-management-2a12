@@ -51,7 +51,6 @@ private slots:
     void onSidebarVentes();
 #endif
 
-    // ── Employee slots ──
     void onCreerUser();
     void onModifierUser();
     void onSupprimerUser();

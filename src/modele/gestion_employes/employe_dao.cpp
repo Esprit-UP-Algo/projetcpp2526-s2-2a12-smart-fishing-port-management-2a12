@@ -9,9 +9,6 @@
 
 using namespace employes;
 
-// ============================================
-// Constructor / Destructor
-// ============================================
 EmployeDAO::EmployeDAO()
 {
 }
@@ -19,10 +16,6 @@ EmployeDAO::EmployeDAO()
 EmployeDAO::~EmployeDAO()
 {
 }
-
-// ============================================
-// VALIDATION METHODS
-// ============================================
 
 QString EmployeDAO::validateCIN(const QString &cin)
 {
@@ -38,10 +31,8 @@ QString EmployeDAO::validateCIN(const QString &cin)
         return "Le CIN doit contenir exactement 8 chiffres.";
     }
     
-    return ""; // Valid
-}
-
-QString EmployeDAO::validateEmail(const QString &email)
+    return "";
+}(const QString &email)(const QString &email)
 {
     if (email.isEmpty()) {
         return "L'email est obligatoire.";
@@ -51,7 +42,7 @@ QString EmployeDAO::validateEmail(const QString &email)
         return "L'email n'est pas valide (doit contenir '@' et '.').";
     }
     
-    return ""; // Valid
+    return "";
 }
 
 QString EmployeDAO::validateNotEmpty(const QString &field, const QString &fieldName)
@@ -60,7 +51,7 @@ QString EmployeDAO::validateNotEmpty(const QString &field, const QString &fieldN
         return fieldName + " est obligatoire.";
     }
     
-    return ""; // Valid
+    return "";
 }
 
 QString EmployeDAO::validateID(const QString &idStr)
@@ -76,7 +67,7 @@ QString EmployeDAO::validateID(const QString &idStr)
         return "L'ID doit être un nombre positif.";
     }
     
-    return ""; // Valid
+    return "";
 }
 
 QString EmployeDAO::validatePassword(const QString &password)
@@ -89,41 +80,31 @@ QString EmployeDAO::validatePassword(const QString &password)
         return "Le mot de passe doit contenir au minimum 6 caractères.";
     }
     
-    return ""; // Valid
+    return "";
 }
 
 QString EmployeDAO::validateEmploye(const EmployeUser &employe)
 {
-    // Validate CIN
     QString cinError = validateCIN(employe.cin);
     if (!cinError.isEmpty()) return cinError;
     
-    // Validate Email
     QString emailError = validateEmail(employe.email);
     if (!emailError.isEmpty()) return emailError;
     
-    // Validate Name
     QString nomError = validateNotEmpty(employe.nom, "Le nom");
     if (!nomError.isEmpty()) return nomError;
     
-    // Validate First Name
     QString prenomError = validateNotEmpty(employe.prenom, "Le prénom");
     if (!prenomError.isEmpty()) return prenomError;
     
-    // Validate Password
     QString passwordError = validatePassword(employe.password);
     if (!passwordError.isEmpty()) return passwordError;
     
-    // Validate Role
     QString roleError = validateNotEmpty(employe.role, "Le rôle");
     if (!roleError.isEmpty()) return roleError;
-    
-    return ""; // All valid
-}
 
-// ============================================
-// CRUD OPERATIONS
-// ============================================
+    return "";
+}
 
 QString EmployeDAO::ajouter(const EmployeUser &employe)
 {
@@ -137,7 +118,6 @@ QString EmployeDAO::ajouter(const EmployeUser &employe)
         
         QSqlQuery query(db);
         
-        // SQL INSERT - Use proper date binding instead of SYSDATE
         query.prepare("INSERT INTO EMPLOYES (CIN, NOM, PRENOM, EMAIL, LOGIN, MOTDEPASSE, ROLE, STATUT, HEUREDETRAVAIL) "
                       "VALUES (:cin, :nom, :prenom, :email, :login, :password, :role, :statut, :heures)");
         
@@ -158,7 +138,7 @@ QString EmployeDAO::ajouter(const EmployeUser &employe)
         }
         
         qDebug() << "EmployeDAO::ajouter - SUCCESS: Employee" << employe.prenom << employe.nom << "added";
-        return ""; // Success
+        return "";
     }
     catch (const std::exception& e) {
         qDebug() << "EmployeDAO::ajouter - Exception:" << e.what();
@@ -187,7 +167,6 @@ QVector<EmployeUser> EmployeDAO::afficher()
             return employes;
         }
         
-        // Iterate over results
         while (query.next()) {
             EmployeUser employe;
             employe.cin = query.value("CIN").toString();
@@ -224,7 +203,6 @@ QString EmployeDAO::modifier(const EmployeUser &employe)
         
         QSqlQuery query(db);
         
-        // SQL UPDATE
         query.prepare("UPDATE EMPLOYES SET "
                       "NOM = :nom, "
                       "PRENOM = :prenom, "
@@ -258,7 +236,7 @@ QString EmployeDAO::modifier(const EmployeUser &employe)
         }
         
         qDebug() << "EmployeDAO::modifier - SUCCESS: Employee" << employe.prenom << employe.nom << "modified";
-        return ""; // Success
+        return "";
     }
     catch (const std::exception& e) {
         qDebug() << "EmployeDAO::modifier - Exception:" << e.what();
@@ -278,7 +256,6 @@ QString EmployeDAO::supprimer(const QString &cin)
         
         QSqlQuery query(db);
         
-        // SQL DELETE
         query.prepare("DELETE FROM EMPLOYES WHERE CIN = :cin");
         query.addBindValue(cin);
         
@@ -294,7 +271,7 @@ QString EmployeDAO::supprimer(const QString &cin)
         }
         
         qDebug() << "EmployeDAO::supprimer - SUCCESS: Employee" << cin << "deleted";
-        return ""; // Success
+        return "";
     }
     catch (const std::exception& e) {
         qDebug() << "EmployeDAO::supprimer - Exception:" << e.what();
@@ -302,13 +279,8 @@ QString EmployeDAO::supprimer(const QString &cin)
     }
 }
 
-// ============================================
-// UTILITY METHODS
-// ============================================
-
 bool EmployeDAO::isValidEmail(const QString &email)
 {
-    // Simple email validation: just check for '@' and '.'
     return email.contains('@') && email.contains('.');
 }
 

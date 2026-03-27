@@ -24,13 +24,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    // =============================================
-    // ÉTAPE 1 : Initialiser la connexion Oracle
-    // =============================================
-    qDebug() << "\n========================================";
-    qDebug() << "  VISION SIGHT - Gestion Des Employés";
-    qDebug() << "========================================\n";
-
     Connection& dbConnection = Connection::createInstance();
 
     if (!dbConnection.createConnect())
@@ -62,9 +55,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    // ✅ Afficher un message de succès de connexion
-    qDebug() << "✅ Connexion réussie à la base de données Oracle!";
-    qDebug() << "   Procédure de connexion effectuée avec succès\n";
+    qDebug() << "Database connection successful!\n";
 
     employes::EmployeLoginDialog login;
     if (login.exec() != QDialog::Accepted) {

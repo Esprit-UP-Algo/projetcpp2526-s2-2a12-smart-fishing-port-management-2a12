@@ -23,7 +23,6 @@ void EmployeLoginDialog::onLoginClicked()
     QString user = ui->lineUser->text();
     QString pass = ui->linePass->text();
 
-    // Mock authentication
     if (user == "admin" && pass == "admin") {
         accept();
     } else {

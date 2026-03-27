@@ -9,9 +9,6 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    // =============================================
-    // ÉTAPE 1 : Initialiser la connexion Oracle
-    // =============================================
     qDebug() << "\n========================================";
     qDebug() << "  VISION SIGHT - Gestion Des Employés";
     qDebug() << "========================================\n";
@@ -42,12 +39,11 @@ int main(int argc, char *argv[])
                               "✓ Vérifiez les identifiants (mouradd/mourad123)\n"
                               "✓ Vérifiez que le serveur Oracle est accessible\n"
                               "✓ Vérifiez que le driver Oracle ODBC est installé");
-        qDebug() << "✗ Application closed: Database connection failed";
-        qDebug() << "Erreur détaillée:" << errorDetails;
+        qDebug() << "Application closed: Database connection failed";
+        qDebug() << "Error details:" << errorDetails;
         return -1;
     }
 
-    // ✅ Afficher un message de succès de connexion
     QMessageBox::information(nullptr,
                              "✅ Connexion Réussie",
                              "La connexion à la base de données Oracle a été établie avec succès.\n\n"
@@ -63,22 +59,16 @@ int main(int argc, char *argv[])
                              "L'application démarre...\n"
                              "═══════════════════════════════════════");
 
-    qDebug() << "✓ Database connection successful!\n";
+    qDebug() << "Database connection successful!\n";
 
-    // =============================================
-    // ÉTAPE 2 : Authentification utilisateur
-    // =============================================
     employes::EmployeLoginDialog loginDialog;
     if (loginDialog.exec() != QDialog::Accepted)
     {
-        qDebug() << "⚠ Login cancelled by user";
+        qDebug() << "Login cancelled by user";
         return 0;
     }
 
-    // =============================================
-    // ÉTAPE 3 : Lancer la fenêtre principale
-    // =============================================
-    qDebug() << "→ Launching main window...\n";
+    qDebug() << "Launching main window...\n";
     employes::EmployeMainWindow mainWindow;
     mainWindow.show();
 

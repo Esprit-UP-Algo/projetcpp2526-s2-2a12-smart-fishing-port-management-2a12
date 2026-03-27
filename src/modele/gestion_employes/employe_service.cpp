@@ -12,18 +12,12 @@ EmployeeService::EmployeeService(QObject *parent)
     , m_filterRole("Tous les rôles")
     , m_filterStatut("Tous les statuts")
 {
-    // Charger les données initiales au démarrage
     refreshEmployeesFromDatabase();
 }
 
 EmployeeService::~EmployeeService()
 {
-    // Aucune ressource spéciale à libérer
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ═══ ACCESSEURS ═══════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════════════
 
 QVector<EmployeUser> EmployeeService::getFilteredEmployees() const
 {
@@ -39,10 +33,6 @@ int EmployeeService::getEmployeeCount() const
 {
     return m_allEmployees.size();
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ═══ FILTRAGE ET TRI ═══════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════════════
 
 void EmployeeService::setSearchFilter(const QString &nom, const QString &email)
 {
@@ -80,10 +70,6 @@ void EmployeeService::clearAllFilters()
     m_sortAscending = true;
     applyFiltersAndSort();
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ═══ OPÉRATIONS CRUD ═══════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════════════
 
 QString EmployeeService::createEmployee(const EmployeUser &employee)
 {
