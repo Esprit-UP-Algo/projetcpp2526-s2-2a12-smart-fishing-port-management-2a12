@@ -16,6 +16,25 @@ QMainWindow, QDialog {
 QScrollArea#scroll { background: transparent; }
 QWidget#page { background: transparent; }
 
+QMenu {
+  background: #101c2c;
+  border: 1px solid #23374e;
+  border-radius: 10px;
+  padding: 6px;
+}
+QMenu::item {
+  padding: 8px 14px;
+  color: #e6eef6;
+  border-radius: 8px;
+}
+QMenu::item:selected {
+  background: #18304a;
+}
+QMenu::item:checked {
+  color: #39c0fa;
+  background: rgba(57,192,250,22);
+}
+
 QFrame#sidebar {
   background: #101c2c;
   border-top-right-radius: 16px;
@@ -50,7 +69,7 @@ QPushButton#sideBtn3:pressed, QPushButton#sideBtn4:pressed, QPushButton#sideBtn5
 
 QLabel#headerH1 { color: #132437; font-size: 18px; font-weight: 700; }
 
-QLabel#sectionTitle, QLabel#advTitle, QLabel#searchTitle, QLabel#sortTitle,
+QLabel#sectionTitle, QLabel#tableTitle, QLabel#advTitle, QLabel#searchTitle, QLabel#sortTitle,
 QLabel#exportTitle, QLabel#statsTitle, QLabel#revTitle, QLabel#occTitle,
 QLabel#histTitle, QLabel#rotTitle, QLabel#revHistTitle {
   color: #39c0fa; font-size: 18px; font-weight: 700;
@@ -69,8 +88,13 @@ QToolButton#menuButton {
 }
 QToolButton#menuButton:hover { background: #18304a; }
 
-QFrame#actionsCard, QFrame#advancedCard, QFrame#tableCard, QFrame#statsCard {
+QFrame#actionsCard, QFrame#tableCard, QFrame#statsCard {
   background: #132437; border: 1px solid #23374e; border-radius: 16px;
+}
+
+QFrame#advancedCard {
+  background: transparent;
+  border: 0px;
 }
 QFrame#searchCard, QFrame#sortCard, QFrame#exportCard,
 QFrame#revCard, QFrame#occCard, QFrame#histCard,
@@ -155,6 +179,7 @@ QTableView::item { padding: 10px 12px; border-radius: 6px; }
 QLabel#HeaderH1 { color: #132437; font-size: 18px; font-weight: 700; }
 QDialog QLabel#Muted { color: #5c6e80; font-size: 13px; }
 QDialog QLabel#FormLabel { color: #132437; font-weight: 700; font-size: 13px; }
+QDialog QLabel#ErrorText { color: #e74c3c; font-size: 12px; }
 
 QDialog QLineEdit#Input,
 QDialog QDoubleSpinBox#Input,
@@ -287,7 +312,7 @@ QPushButton#DangerButton:hover {
          <property name="toolTip"><string>Gestion Des employées</string></property>
          <property name="checkable"><bool>true</bool></property>
          <property name="autoExclusive"><bool>true</bool></property>
-         <property name="checked"><bool>true</bool></property>
+         <property name="checked"><bool>false</bool></property>
          <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
         </widget>
        </item>
@@ -308,6 +333,7 @@ QPushButton#DangerButton:hover {
          <property name="toolTip"><string>Gestion Des Quais</string></property>
          <property name="checkable"><bool>true</bool></property>
          <property name="autoExclusive"><bool>true</bool></property>
+         <property name="checked"><bool>true</bool></property>
          <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
         </widget>
        </item>
@@ -399,123 +425,106 @@ QPushButton#DangerButton:hover {
          <widget class="QFrame" name="actionsCard">
           <property name="minimumSize"><size><width>0</width><height>170</height></size></property>
           <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-          <layout class="QHBoxLayout" name="actionsCardLayout" stretch="1,0">
-           <property name="spacing"><number>18</number></property>
-           <property name="leftMargin"><number>18</number></property>
-           <property name="topMargin"><number>18</number></property>
-           <property name="rightMargin"><number>18</number></property>
-           <property name="bottomMargin"><number>18</number></property>
-           <item>
-            <layout class="QVBoxLayout" name="actionsLeftCol" stretch="0,0,1">
-             <property name="spacing"><number>10</number></property>
+           <layout class="QVBoxLayout" name="actionsCardOuter" stretch="0,1">
+            <property name="spacing"><number>18</number></property>
+            <property name="leftMargin"><number>18</number></property>
+            <property name="topMargin"><number>18</number></property>
+            <property name="rightMargin"><number>18</number></property>
+            <property name="bottomMargin"><number>18</number></property>
+
+            <item>
+            <layout class="QHBoxLayout" name="actionsTopRow" stretch="1">
+             <property name="spacing"><number>18</number></property>
+             <property name="leftMargin"><number>0</number></property>
+             <property name="topMargin"><number>0</number></property>
+             <property name="rightMargin"><number>0</number></property>
+             <property name="bottomMargin"><number>0</number></property>
              <item>
-              <widget class="QLabel" name="sectionTitle">
-               <property name="text"><string>Gestion des quais</string></property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="btnRow">
-               <property name="spacing"><number>10</number></property>
-               <item>
-                <widget class="QPushButton" name="btnCreate">
-                 <property name="text"><string>Créer</string></property>
-                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnUpdate">
-                 <property name="text"><string>Modifier</string></property>
-                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnDelete">
-                 <property name="text"><string>Supprimer</string></property>
-                 <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="btnRowSpacer">
-                 <property name="orientation"><enum>Qt::Horizontal</enum></property>
-                 <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
-                </spacer>
-               </item>
+              <layout class="QVBoxLayout" name="actionsLeftCol" stretch="0,0,1">
+              <property name="spacing"><number>10</number></property>
+              <item>
+                 <widget class="QFrame" name="mapBox">
+                  <property name="minimumSize"><size><width>0</width><height>360</height></size></property>
+                  <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+                  <layout class="QVBoxLayout" name="mapBoxLayout">
+                   <property name="leftMargin"><number>12</number></property>
+                   <property name="topMargin"><number>12</number></property>
+                   <property name="rightMargin"><number>12</number></property>
+                   <property name="bottomMargin"><number>12</number></property>
+                   <item>
+                    <widget class="MiniMapWidget" name="miniMap">
+                     <property name="minimumSize"><size><width>0</width><height>260</height></size></property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="mapCaption">
+                     <property name="text"><string>Occupation des quais</string></property>
+                     <property name="alignment"><set>Qt::AlignCenter</set></property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="mapHint">
+                     <property name="text"><string>Cliquez sur la mini map pour définir la référence.</string></property>
+                     <property name="alignment"><set>Qt::AlignCenter</set></property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="sectionTitle">
+                  <property name="text"><string>Infos du quai</string></property>
+                 </widget>
+                </item>
+              <item>
+               <spacer name="actionsLeftStretch">
+                <property name="orientation"><enum>Qt::Vertical</enum></property>
+                <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+               </spacer>
+              </item>
               </layout>
              </item>
-             <item>
-              <spacer name="actionsLeftStretch">
-               <property name="orientation"><enum>Qt::Vertical</enum></property>
-               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
-              </spacer>
-             </item>
             </layout>
-           </item>
-           <item>
-            <widget class="QFrame" name="mapBox">
-             <property name="minimumSize"><size><width>280</width><height>0</height></size></property>
-             <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-             <layout class="QVBoxLayout" name="mapBoxLayout">
-              <property name="leftMargin"><number>12</number></property>
-              <property name="topMargin"><number>12</number></property>
-              <property name="rightMargin"><number>12</number></property>
-              <property name="bottomMargin"><number>12</number></property>
+            </item>
+
+            <item>
+              <widget class="QFrame" name="advancedCard">
+               <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+               <layout class="QHBoxLayout" name="proposalRow" stretch="1">
+                <property name="spacing"><number>18</number></property>
+                <property name="leftMargin"><number>0</number></property>
+                <property name="topMargin"><number>28</number></property>
+                <property name="rightMargin"><number>0</number></property>
+                <property name="bottomMargin"><number>0</number></property>
+
+             <item>
+              <layout class="QVBoxLayout" name="advLeft" stretch="0,0,0,0,0,1">
+              <property name="spacing"><number>10</number></property>
               <item>
-               <widget class="MiniMapWidget" name="mapPreview">
-                <property name="minimumSize"><size><width>0</width><height>120</height></size></property>
+               <widget class="QLabel" name="advTitle">
+                <property name="text"><string>Proposition de quai</string></property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="mapCaption">
-                <property name="text"><string>Occupation des quais</string></property>
-                <property name="alignment"><set>Qt::AlignCenter</set></property>
+               <widget class="QLabel" name="advSub">
+                <property name="text"><string>Propositions automatiques: moins cher, plus proche (mini map), et adapté au navire.</string></property>
+                <property name="wordWrap"><bool>true</bool></property>
                </widget>
               </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-
-        <item>
-         <widget class="QFrame" name="advancedCard">
-          <property name="minimumSize"><size><width>0</width><height>230</height></size></property>
-          <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-          <layout class="QHBoxLayout" name="advancedCardLayout" stretch="2,1">
-           <property name="spacing"><number>18</number></property>
-           <property name="leftMargin"><number>18</number></property>
-           <property name="topMargin"><number>18</number></property>
-           <property name="rightMargin"><number>18</number></property>
-           <property name="bottomMargin"><number>18</number></property>
-
-           <item>
-            <layout class="QVBoxLayout" name="advLeft" stretch="0,0,0,0,0,1">
-             <property name="spacing"><number>10</number></property>
-             <item>
-              <widget class="QLabel" name="advTitle">
-               <property name="text"><string>Proposition de quai</string></property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="advSub">
-               <property name="text"><string>Propositions automatiques: moins cher, plus proche (mini map), et adapté au navire.</string></property>
-               <property name="wordWrap"><bool>true</bool></property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QGridLayout" name="advGrid">
-               <property name="horizontalSpacing"><number>12</number></property>
-               <property name="verticalSpacing"><number>10</number></property>
-               <property name="leftMargin"><number>0</number></property>
-               <property name="topMargin"><number>0</number></property>
-               <property name="rightMargin"><number>0</number></property>
-               <property name="bottomMargin"><number>0</number></property>
-               <item row="0" column="0">
+              <item>
+               <layout class="QGridLayout" name="advGrid">
+                <property name="horizontalSpacing"><number>12</number></property>
+                <property name="verticalSpacing"><number>10</number></property>
+                <property name="leftMargin"><number>0</number></property>
+                <property name="topMargin"><number>0</number></property>
+                <property name="rightMargin"><number>0</number></property>
+                <property name="bottomMargin"><number>0</number></property>
+                <item row="0" column="0">
                 <widget class="QLabel" name="labRef">
                  <property name="text"><string>Référence (X,Y)</string></property>
                 </widget>
-               </item>
-               <item row="0" column="1">
+                </item>
+                <item row="0" column="1">
                 <widget class="QWidget" name="refRow" native="true">
                  <layout class="QHBoxLayout" name="refRowLayout">
                   <property name="leftMargin"><number>0</number></property>
@@ -524,34 +533,34 @@ QPushButton#DangerButton:hover {
                   <property name="bottomMargin"><number>0</number></property>
                   <property name="spacing"><number>10</number></property>
                   <item>
-                   <widget class="QDoubleSpinBox" name="refX">
-                    <property name="minimum"><double>-1000000000.000000000000000</double></property>
-                    <property name="maximum"><double>1000000000.000000000000000</double></property>
-                    <property name="decimals"><number>2</number></property>
-                    <property name="value"><double>0.000000000000000</double></property>
-                    <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
-                    <property name="prefix"><string notr="true">X </string></property>
-                   </widget>
+                  <widget class="QDoubleSpinBox" name="refX">
+                   <property name="minimum"><double>-1000000000.000000000000000</double></property>
+                   <property name="maximum"><double>1000000000.000000000000000</double></property>
+                   <property name="decimals"><number>2</number></property>
+                   <property name="value"><double>0.000000000000000</double></property>
+                   <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                   <property name="prefix"><string notr="true">X </string></property>
+                  </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="refY">
-                    <property name="minimum"><double>-1000000000.000000000000000</double></property>
-                    <property name="maximum"><double>1000000000.000000000000000</double></property>
-                    <property name="decimals"><number>2</number></property>
-                    <property name="value"><double>0.000000000000000</double></property>
-                    <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
-                    <property name="prefix"><string notr="true">Y </string></property>
-                   </widget>
+                  <widget class="QDoubleSpinBox" name="refY">
+                   <property name="minimum"><double>-1000000000.000000000000000</double></property>
+                   <property name="maximum"><double>1000000000.000000000000000</double></property>
+                   <property name="decimals"><number>2</number></property>
+                      <property name="value"><double>0.000000000000000</double></property>
+                   <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+                   <property name="prefix"><string notr="true">Y </string></property>
+                  </widget>
                   </item>
                  </layout>
                 </widget>
-               </item>
-               <item row="1" column="0">
+                </item>
+                <item row="1" column="0">
                 <widget class="QLabel" name="labShip">
                  <property name="text"><string>Longueur navire</string></property>
                 </widget>
-               </item>
-               <item row="1" column="1">
+                </item>
+                <item row="1" column="1">
                 <widget class="QDoubleSpinBox" name="shipLength">
                  <property name="minimum"><double>0.000000000000000</double></property>
                  <property name="maximum"><double>1000000.000000000000000</double></property>
@@ -561,13 +570,13 @@ QPushButton#DangerButton:hover {
                  <property name="suffix"><string> m</string></property>
                  <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
                 </widget>
-               </item>
-               <item row="2" column="0">
+                </item>
+                <item row="2" column="0">
                 <widget class="QLabel" name="labShipType">
                  <property name="text"><string>Type navire</string></property>
                 </widget>
-               </item>
-               <item row="2" column="1">
+                </item>
+                <item row="2" column="1">
                 <widget class="QComboBox" name="shipType">
                  <item><property name="text"><string>Tous</string></property></item>
                  <item><property name="text"><string>Général</string></property></item>
@@ -576,68 +585,57 @@ QPushButton#DangerButton:hover {
                  <item><property name="text"><string>Pêche</string></property></item>
                  <item><property name="text"><string>Ferry</string></property></item>
                 </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="advBtnRow">
-               <property name="spacing"><number>10</number></property>
-               <item>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="advBtnRow">
+                <property name="spacing"><number>10</number></property>
+                <item>
                 <widget class="QPushButton" name="btnProposeCheapest">
                  <property name="text"><string>Proposer le moins cher</string></property>
                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
                 </widget>
-               </item>
-               <item>
+                </item>
+                <item>
                 <widget class="QPushButton" name="btnProposeNearest">
                  <property name="text"><string>Proposer le plus proche</string></property>
                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
                 </widget>
-               </item>
-               <item>
+                </item>
+                <item>
                 <widget class="QPushButton" name="btnProposeFit">
                  <property name="text"><string>Proposer adapté</string></property>
                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
                 </widget>
-               </item>
-               <item>
+                </item>
+                <item>
                 <spacer name="advBtnSpacer">
                  <property name="orientation"><enum>Qt::Horizontal</enum></property>
                  <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
                 </spacer>
-               </item>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="proposeResult">
+                <property name="text"><string/></property>
+                <property name="wordWrap"><bool>true</bool></property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="advLeftStretch">
+                <property name="orientation"><enum>Qt::Vertical</enum></property>
+                <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+               </spacer>
+              </item>
               </layout>
              </item>
-             <item>
-              <widget class="QLabel" name="proposeResult">
-               <property name="text"><string/></property>
-               <property name="wordWrap"><bool>true</bool></property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="advLeftStretch">
-               <property name="orientation"><enum>Qt::Vertical</enum></property>
-               <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
 
-           <item>
-            <layout class="QVBoxLayout" name="advRight" stretch="1,0">
-             <property name="spacing"><number>8</number></property>
-             <item>
-              <widget class="MiniMapWidget" name="miniMap"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="mapHint">
-               <property name="text"><string>Cliquez sur la mini map pour définir la référence.</string></property>
-               <property name="alignment"><set>Qt::AlignCenter</set></property>
-              </widget>
-             </item>
             </layout>
-           </item>
-          </layout>
+           </widget>
+          </item>
+           </layout>
          </widget>
         </item>
 
@@ -882,11 +880,16 @@ QPushButton#DangerButton:hover {
          <widget class="QFrame" name="tableCard">
           <property name="minimumSize"><size><width>0</width><height>360</height></size></property>
           <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-          <layout class="QVBoxLayout" name="tableCardLayout" stretch="0,1">
+          <layout class="QVBoxLayout" name="tableCardLayout" stretch="0,0,1">
            <property name="leftMargin"><number>12</number></property>
            <property name="topMargin"><number>12</number></property>
            <property name="rightMargin"><number>12</number></property>
            <property name="bottomMargin"><number>12</number></property>
+           <item>
+            <widget class="QLabel" name="tableTitle">
+             <property name="text"><string>Gestion des quais</string></property>
+            </widget>
+           </item>
            <item>
             <layout class="QHBoxLayout" name="tableTopRow">
              <property name="spacing"><number>12</number></property>
@@ -902,6 +905,33 @@ QPushButton#DangerButton:hover {
                <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
               </spacer>
              </item>
+            <item>
+             <layout class="QHBoxLayout" name="btnRow">
+              <property name="spacing"><number>10</number></property>
+              <property name="leftMargin"><number>0</number></property>
+              <property name="topMargin"><number>0</number></property>
+              <property name="rightMargin"><number>0</number></property>
+              <property name="bottomMargin"><number>0</number></property>
+              <item>
+               <widget class="QPushButton" name="btnCreate">
+                <property name="text"><string>Créer</string></property>
+                <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnUpdate">
+                <property name="text"><string>Modifier</string></property>
+                <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnDelete">
+                <property name="text"><string>Supprimer</string></property>
+                <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             </layout>
            </item>
            <item>
@@ -1221,11 +1251,11 @@ Libres 1</string></property>
                </item>
               </layout>
              </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
+             </layout>
+                </item>
+               </layout>
+              </widget>
+                </item>
 
         <item>
          <layout class="QHBoxLayout" name="perQuaiRow">

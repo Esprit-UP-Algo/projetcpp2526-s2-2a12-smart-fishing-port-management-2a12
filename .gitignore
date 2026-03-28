@@ -1,18 +1,23 @@
-<<<<<<< HEAD
 build/
+build-raef/
+cmake-build-*/
 CMakeCache.txt
 CMakeFiles/
-*.user
-*.autosave
-=======
+
 *.exe
 *.o
 *.out
-build/
 *.dll
 *.so
 *.dylib
-.DS_Store
-.vscode/
+
 *.user
->>>>>>> 87394296aaf917e3421a011b0b1f84350e172e30
+*.user.*
+*.pro.user*
+*.autosave
+
+# Local/legacy QtCreator project copy (do not commit)
+Atelier_Connexion (2) (1)/
+
+.vscode/
+.DS_Store

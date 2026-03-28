@@ -171,7 +171,7 @@ bool QuaiSearchFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInd
     if (m_rangeEnabled && m_rangeStart.isValid() && m_rangeEnd.isValid())
     {
         if (m_rangeEnd <= m_rangeStart)
-            return false;
+            return true; // ignore invalid range; UI should block it
         if (isMaintenance(etat))
             return false;
         if (!isFree(etat))

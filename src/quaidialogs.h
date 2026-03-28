@@ -1,6 +1,10 @@
 #pragma once
 
+#include <QDateTime>
 #include <QDialog>
+#include <QString>
+
+class QShowEvent;
 
 class QComboBox;
 class QDateTimeEdit;
@@ -27,22 +31,43 @@ public:
     void setQuai(const Quai &q);
     Quai quai() const;
 
+protected:
+    void accept() override;
+    void showEvent(QShowEvent *event) override;
+
 private:
     void buildUi();
     void applyMode();
+
+    bool validateInputs(QString *error) const;
+    void updateInlineErrors();
+    void refreshOkEnabled();
+    void refreshDateTimeEnabled();
+    void refreshDateTimeConstraints();
 
     Mode m_mode;
 
     QString m_currentIdQuai;
 
+    QDateTime m_originalArrivee;
+    QDateTime m_originalDepart;
+
     QLineEdit *m_matricule = nullptr;
+    QLabel *m_matriculeError = nullptr;
     QDoubleSpinBox *m_taille = nullptr;
+    QLabel *m_tailleError = nullptr;
     QDoubleSpinBox *m_posX = nullptr;
+    QLabel *m_posXError = nullptr;
     QDoubleSpinBox *m_posY = nullptr;
+    QLabel *m_posYError = nullptr;
     QDateTimeEdit *m_arrivee = nullptr;
+    QLabel *m_arriveeError = nullptr;
     QDateTimeEdit *m_depart = nullptr;
+    QLabel *m_departError = nullptr;
     QComboBox *m_etat = nullptr;
+    QLabel *m_etatError = nullptr;
     QDoubleSpinBox *m_prix = nullptr;
+    QLabel *m_prixError = nullptr;
 
     QPushButton *m_btnOk = nullptr;
     QPushButton *m_btnCancel = nullptr;

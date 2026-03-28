@@ -9,6 +9,7 @@
 #include <QDateTimeEdit>
 #include <QDoubleSpinBox>
 #include <QCheckBox>
+#include <QCalendarWidget>
 #include <QFileDialog>
 #include <QFrame>
 #include <QGraphicsDropShadowEffect>
@@ -19,6 +20,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QLocale>
+#include <QMenu>
 #include <QMessageBox>
 #include <QItemSelection>
 #include <QItemSelectionModel>
@@ -27,12 +29,19 @@
 #include <QPixmap>
 #include <QImage>
 #include <QPushButton>
+#include <QActionGroup>
+#include <QScrollArea>
 #include <QStyle>
 #include <QSignalBlocker>
 #include <QStandardItemModel>
 #include <QStyledItemDelegate>
 #include <QTableView>
 #include <QTimer>
+#include <QEvent>
+#include <QCursor>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
+#include <QValidator>
 
 #include "widgets/circularstatwidget.h"
 #include "widgets/minimapwidget.h"
@@ -46,6 +55,187 @@
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+class HoverPopupMenuController final : public QObject
+{
+public:
+    HoverPopupMenuController(QPushButton *button, QMenu *menu, QObject *parent = nullptr)
+        : QObject(parent)
+        , m_button(button)
+        , m_menu(menu)
+    {
+        if (m_menu)
+        {
+            connect(m_menu, &QMenu::aboutToHide, this, [this]() {
+                if (m_button)
+                    m_button->setChecked(false);
+            });
+        }
+
+        // Track the cursor globally to strictly enforce:
+        // menu visible <=> cursor is on the button.
+        if (auto *app = QCoreApplication::instance())
+            app->installEventFilter(this);
+    }
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override
+    {
+        if (!m_button || !m_menu)
+            return QObject::eventFilter(watched, event);
+
+        const auto showMenu = [this]() {
+            if (m_menu->isVisible())
+                return;
+            m_button->setChecked(true);
+            const QPoint pos = m_button->mapToGlobal(QPoint(0, m_button->height()));
+            m_menu->popup(pos);
+        };
+
+        const auto hideMenu = [this]() {
+            if (m_menu->isVisible())
+                m_menu->hide();
+        };
+
+        // Global cursor tracking: keep open while cursor is on button OR menu.
+        if (event->type() == QEvent::MouseMove)
+        {
+            if (isCursorInPopupZone())
+            {
+                // Only open when hovering the button.
+                const QPoint gp = QCursor::pos();
+                const QRect btnRect(m_button->mapToGlobal(QPoint(0, 0)), m_button->size());
+                if (btnRect.contains(gp))
+                    showMenu();
+            }
+            else
+            {
+                // Requirement: close as soon as the cursor is outside both.
+                hideMenu();
+            }
+            return QObject::eventFilter(watched, event);
+        }
+
+        if (watched == m_button)
+        {
+            if (event->type() == QEvent::Enter)
+            {
+                showMenu();
+                return false;
+            }
+            if (event->type() == QEvent::Leave)
+            {
+                // Close if the cursor didn't enter the menu.
+                if (!isCursorInPopupZone())
+                    hideMenu();
+                return false;
+            }
+        }
+
+        if (watched == m_menu)
+        {
+            if (event->type() == QEvent::Enter)
+            {
+                return false;
+            }
+            if (event->type() == QEvent::Leave)
+            {
+                // Close if the cursor didn't return to the button.
+                if (!isCursorInPopupZone())
+                    hideMenu();
+                return false;
+            }
+        }
+
+        return QObject::eventFilter(watched, event);
+    }
+
+private:
+    bool isCursorInPopupZone() const
+    {
+        if (!m_button || !m_menu)
+            return false;
+
+        const QPoint gp = QCursor::pos();
+        const QRect btnRect(m_button->mapToGlobal(QPoint(0, 0)), m_button->size());
+        if (btnRect.contains(gp))
+            return true;
+
+        // QMenu::geometry() is global.
+        if (m_menu->isVisible() && m_menu->geometry().contains(gp))
+            return true;
+
+        return false;
+    }
+
+private:
+    QPushButton *m_button = nullptr;
+    QMenu *m_menu = nullptr;
+};
+
+class YyyyMmDdValidator final : public QValidator
+{
+public:
+    explicit YyyyMmDdValidator(QObject *parent = nullptr)
+        : QValidator(parent)
+    {
+    }
+
+    State validate(QString &input, int &pos) const override
+    {
+        Q_UNUSED(pos);
+        const QString s = input.trimmed();
+        if (s.isEmpty())
+            return Acceptable;
+
+        // Allow progressive typing: 2026, 2026-, 2026-0, 2026-01, 2026-01-
+        static const QRegularExpression shape(QStringLiteral(R"(^\d{0,4}(-\d{0,2}(-\d{0,2})?)?$)"));
+        if (!shape.match(s).hasMatch())
+            return Invalid;
+
+        if (s.size() < 10)
+            return Intermediate;
+        if (s.size() > 10)
+            return Invalid;
+
+        // Full date: validate calendar ranges.
+        const QDate d = QDate::fromString(s, QStringLiteral("yyyy-MM-dd"));
+        return d.isValid() ? Acceptable : Invalid;
+    }
+};
+
+class MatriculeMqSearchValidator final : public QValidator
+{
+public:
+    explicit MatriculeMqSearchValidator(QObject *parent = nullptr)
+        : QValidator(parent)
+    {
+    }
+
+    State validate(QString &input, int &pos) const override
+    {
+        Q_UNUSED(pos);
+        const QString s = input.trimmed();
+        if (s.isEmpty())
+            return Acceptable;
+        if (s.contains(' '))
+            return Invalid;
+
+        const QString u = s.toUpper();
+
+        // Accept full: MQ-<digits>
+        static const QRegularExpression full(QStringLiteral(R"(^MQ-\d+$)"));
+        if (full.match(u).hasMatch())
+            return Acceptable;
+
+        // Allow progressive typing: M, MQ, MQ-, MQ-12
+        static const QRegularExpression partial(QStringLiteral(R"(^(M|MQ|MQ-|MQ-\d*)$)"));
+        if (partial.match(u).hasMatch())
+            return Intermediate;
+
+        return Invalid;
+    }
+};
 
 static QIcon makeHamburgerIcon(const QColor &color, int sizePx)
 {
@@ -238,7 +428,7 @@ void MainWindow::applyStyleNames()
 
 void MainWindow::setupCardEffects()
 {
-    for (auto *f : {ui->actionsCard, ui->advancedCard, ui->tableCard, ui->statsCard,
+    for (auto *f : {ui->actionsCard, ui->tableCard, ui->statsCard,
                     ui->searchCard, ui->sortCard, ui->exportCard,
                     ui->revCard, ui->occCard, ui->histCard,
                     ui->rotCard, ui->revHistCard})
@@ -410,6 +600,66 @@ void MainWindow::setupTable()
     ui->rangeStart->setDateTime(QDateTime::currentDateTime());
     ui->rangeEnd->setDateTime(QDateTime::currentDateTime().addSecs(2 * 3600));
 
+    const auto configureCalendarPopup = [](QDateTimeEdit *edit) {
+        if (!edit)
+            return;
+        edit->setCalendarPopup(true);
+        auto *cal = new QCalendarWidget(edit);
+        cal->setGridVisible(true);
+        cal->setHorizontalHeaderFormat(QCalendarWidget::ShortDayNames);
+        cal->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+        cal->setNavigationBarVisible(true);
+        cal->setLocale(QLocale::system());
+
+        // Ensure the popup is large enough to show all weeks of the month.
+        const QSize minSize(340, 260);
+        cal->setMinimumSize(minSize);
+        cal->resize(minSize);
+        edit->setCalendarWidget(cal);
+    };
+
+    configureCalendarPopup(ui->availAt);
+    configureCalendarPopup(ui->rangeStart);
+    configureCalendarPopup(ui->rangeEnd);
+
+    // Input control for search fields (keep it permissive enough for partial typing).
+    // Matricule: MQ-<digits> (progressive typing), no spaces.
+    if (ui->searchQuai)
+    {
+        ui->searchQuai->setMaxLength(32);
+        ui->searchQuai->setValidator(new MatriculeMqSearchValidator(ui->searchQuai));
+    }
+    if (ui->traceQuai)
+    {
+        ui->traceQuai->setMaxLength(32);
+        const QRegularExpression re(QStringLiteral(R"(^[A-Za-z0-9._-]*$)"));
+        ui->traceQuai->setValidator(new QRegularExpressionValidator(re, ui->traceQuai));
+    }
+    // Date: allow progressively typing "YYYY-MM-DD".
+    if (ui->searchDate)
+    {
+        ui->searchDate->setMaxLength(10);
+        ui->searchDate->setValidator(new YyyyMmDdValidator(ui->searchDate));
+        ui->searchDate->setPlaceholderText(QStringLiteral("YYYY-MM-DD"));
+    }
+
+    // Numeric controls: enforce sensible ranges in UI.
+    if (ui->minPrice)
+    {
+        ui->minPrice->setRange(0.0, 1e9);
+        ui->minPrice->setDecimals(2);
+    }
+    if (ui->maxPrice)
+    {
+        ui->maxPrice->setRange(0.0, 1e9);
+        ui->maxPrice->setDecimals(2);
+    }
+    if (ui->shipLength)
+    {
+        ui->shipLength->setRange(0.0, 1e6);
+        ui->shipLength->setDecimals(1);
+    }
+
     if (auto *g = qobject_cast<QGridLayout *>(ui->searchGrid))
     {
         g->setColumnStretch(0, 1);
@@ -538,16 +788,9 @@ void MainWindow::setupTable()
 
 void MainWindow::setupMiniMaps()
 {
-    ui->mapPreview->setReferenceEnabled(false);
-    ui->mapPreview->setPortIllustrationEnabled(true);
-    ui->mapPreview->setPoints({
-        {QStringLiteral("MQ-101"), -6.0, -2.5, QColor("#39c0fa")},
-        {QStringLiteral("MQ-102"), -2.0, -1.5, QColor("#e6eef6")},
-        {QStringLiteral("MQ-103"), 2.0, -0.8, QColor(255, 255, 255, 80)},
-        {QStringLiteral("MQ-104"), 5.5, -1.8, QColor("#39c0fa")},
-        {QStringLiteral("MQ-105"), -4.8, 3.8, QColor("#e6eef6")},
-        {QStringLiteral("MQ-106"), 3.6, 4.2, QColor("#39c0fa")},
-    });
+    // Single integrated map: enable the port illustration and keep reference selection enabled.
+    ui->miniMap->setReferenceEnabled(true);
+    ui->miniMap->setPortIllustrationEnabled(true);
 
     // Stat titles/subtexts are now set in setupStatWidgets()
 }
@@ -627,6 +870,117 @@ void MainWindow::applyTheme()
 
 void MainWindow::wireSignals()
 {
+    // Sidebar: "Gestion Des Quais" dropdown
+    if (ui->sideBtn2)
+    {
+        auto *menu = new QMenu(ui->sideBtn2);
+
+        auto *group = new QActionGroup(menu);
+        group->setExclusive(true);
+
+        QAction *actAffichage = menu->addAction(tr("Affichage"));
+        actAffichage->setCheckable(true);
+        QAction *actStat = menu->addAction(tr("Statistique"));
+        actStat->setCheckable(true);
+        QAction *actAvancees = menu->addAction(tr("Avancées"));
+        actAvancees->setCheckable(true);
+
+        group->addAction(actAffichage);
+        group->addAction(actStat);
+        group->addAction(actAvancees);
+
+        enum class QuaiViewMode
+        {
+            Affichage = 0,
+            Statistique,
+            Avancees
+        };
+
+        const auto scrollTo = [this](QWidget *w) {
+            if (!ui->scroll || !w)
+                return;
+            ui->scroll->ensureWidgetVisible(w, 0, 24);
+        };
+
+        const auto setVisibleSafe = [](QWidget *w, bool v) {
+            if (w)
+                w->setVisible(v);
+        };
+
+        const auto applyMode = [this, scrollTo, setVisibleSafe](QuaiViewMode mode) {
+            // Default: hide everything, then enable the needed cards.
+            const QList<QWidget *> allCards = {
+                ui->actionsCard,
+                ui->advancedCard,
+                ui->searchCard,
+                ui->sortCard,
+                ui->exportCard,
+                ui->tableCard,
+                ui->statsCard,
+                ui->revCard,
+                ui->occCard,
+                ui->histCard,
+                ui->rotCard,
+                ui->revHistCard,
+            };
+
+            for (QWidget *w : allCards)
+                setVisibleSafe(w, false);
+
+            switch (mode)
+            {
+            case QuaiViewMode::Statistique:
+                // Only the sections shown in the screenshots
+                setVisibleSafe(ui->statsCard, true);
+                setVisibleSafe(ui->revCard, true);
+                setVisibleSafe(ui->occCard, true);
+                scrollTo(ui->statsCard);
+                break;
+            case QuaiViewMode::Avancees:
+                // Replace the page with the sections shown in the screenshots:
+                // - Gestion des quais (header + mini map)
+                // - Proposition de quai
+                // - Historique des occupations
+                // - Analyse de rotation
+                // - Historique des revenus
+                setVisibleSafe(ui->actionsCard, true);
+                setVisibleSafe(ui->advancedCard, true);
+                setVisibleSafe(ui->histCard, true);
+                setVisibleSafe(ui->rotCard, true);
+                setVisibleSafe(ui->revHistCard, true);
+                scrollTo(ui->actionsCard);
+                break;
+            case QuaiViewMode::Affichage:
+            default:
+                setVisibleSafe(ui->searchCard, true);
+                setVisibleSafe(ui->sortCard, true);
+                setVisibleSafe(ui->exportCard, true);
+                setVisibleSafe(ui->tableCard, true);
+                scrollTo(ui->searchCard ? ui->searchCard : ui->tableCard);
+                break;
+            }
+        };
+
+        connect(actAffichage, &QAction::triggered, this, [applyMode]() {
+            applyMode(QuaiViewMode::Affichage);
+        });
+        connect(actStat, &QAction::triggered, this, [applyMode]() {
+            applyMode(QuaiViewMode::Statistique);
+        });
+        connect(actAvancees, &QAction::triggered, this, [applyMode]() {
+            applyMode(QuaiViewMode::Avancees);
+        });
+
+        // Default dropdown option + default mode on startup.
+        actAffichage->setChecked(true);
+        applyMode(QuaiViewMode::Affichage);
+
+        // Show dropdown on hover (not on click).
+        auto *hoverCtl = new HoverPopupMenuController(ui->sideBtn2, menu, this);
+        ui->sideBtn2->installEventFilter(hoverCtl);
+        menu->installEventFilter(hoverCtl);
+    }
+
     connect(ui->btnCreate, &QPushButton::clicked, this, &MainWindow::onCreate);
     connect(ui->btnUpdate, &QPushButton::clicked, this, &MainWindow::onUpdate);
     connect(ui->btnDelete, &QPushButton::clicked, this, &MainWindow::onDelete);
@@ -641,12 +995,99 @@ void MainWindow::wireSignals()
     connect(ui->minPrice, qOverload<double>(&QDoubleSpinBox::valueChanged), m_searchProxy, &QuaiSearchFilterProxyModel::setMinPrice);
     connect(ui->maxPrice, qOverload<double>(&QDoubleSpinBox::valueChanged), m_searchProxy, &QuaiSearchFilterProxyModel::setMaxPrice);
 
+    // Keep min/max coherent: if max is non-zero, it must be >= min.
+    const auto clampPriceRange = [this]() {
+        if (!ui->chkPrice || !ui->minPrice || !ui->maxPrice)
+            return;
+        if (!ui->chkPrice->isChecked())
+            return;
+        const double minV = ui->minPrice->value();
+        const double maxV = ui->maxPrice->value();
+        if (maxV > 0.0 && maxV + 1e-9 < minV)
+        {
+            QSignalBlocker b(ui->maxPrice);
+            ui->maxPrice->setValue(minV);
+        }
+    };
+    connect(ui->minPrice, qOverload<double>(&QDoubleSpinBox::valueChanged), this, [clampPriceRange](double) { clampPriceRange(); });
+    connect(ui->maxPrice, qOverload<double>(&QDoubleSpinBox::valueChanged), this, [clampPriceRange](double) { clampPriceRange(); });
+
     connect(ui->chkAvailAt, &QCheckBox::toggled, m_searchProxy, &QuaiSearchFilterProxyModel::setAvailableAtEnabled);
     connect(ui->availAt, &QDateTimeEdit::dateTimeChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setAvailableAt);
 
-    connect(ui->chkRange, &QCheckBox::toggled, m_searchProxy, &QuaiSearchFilterProxyModel::setRangeAvailabilityEnabled);
-    connect(ui->rangeStart, &QDateTimeEdit::dateTimeChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setRangeStart);
-    connect(ui->rangeEnd, &QDateTimeEdit::dateTimeChanged, m_searchProxy, &QuaiSearchFilterProxyModel::setRangeEnd);
+    // Range availability (auto-correction): start must be strictly before end.
+    // If invalid, silently adjust end = start + 1 second.
+    m_lastValidRangeStart = ui->rangeStart->dateTime();
+    m_lastValidRangeEnd = ui->rangeEnd->dateTime();
+    if (m_lastValidRangeStart.isValid() && m_lastValidRangeEnd.isValid() && m_lastValidRangeEnd <= m_lastValidRangeStart)
+        m_lastValidRangeEnd = m_lastValidRangeStart.addSecs(1);
+
+    const auto pushRangeToProxy = [this]() {
+        if (!m_searchProxy)
+            return;
+        m_searchProxy->setRangeStart(ui->rangeStart->dateTime());
+        m_searchProxy->setRangeEnd(ui->rangeEnd->dateTime());
+    };
+
+    const auto showInvalidRangeMessage = [this]() {
+        QMessageBox::warning(this,
+                             tr("Plage invalide"),
+                             tr("La date/heure d'arrivée doit être avant la date/heure de départ."));
+    };
+
+    const auto validateAndCommitRange = [this, pushRangeToProxy, showInvalidRangeMessage]() {
+        static bool updating = false;
+        if (updating)
+            return;
+        if (!ui->chkRange || !ui->rangeStart || !ui->rangeEnd)
+            return;
+
+        const QDateTime s = ui->rangeStart->dateTime();
+        const QDateTime e = ui->rangeEnd->dateTime();
+
+        // When disabled, just remember the last valid values (no message, no proxy update needed).
+        if (!ui->chkRange->isChecked())
+        {
+            if (s.isValid() && e.isValid() && e > s)
+            {
+                m_lastValidRangeStart = s;
+                m_lastValidRangeEnd = e;
+            }
+            return;
+        }
+        if (s.isValid() && e.isValid() && e <= s)
+        {
+            updating = true;
+            showInvalidRangeMessage();
+            {
+                QSignalBlocker be(ui->rangeEnd);
+                ui->rangeEnd->setDateTime(s.addSecs(1));
+            }
+            updating = false;
+        }
+
+        const QDateTime s2 = ui->rangeStart->dateTime();
+        const QDateTime e2 = ui->rangeEnd->dateTime();
+        if (s2.isValid() && e2.isValid() && e2 > s2)
+        {
+            m_lastValidRangeStart = s2;
+            m_lastValidRangeEnd = e2;
+        }
+        pushRangeToProxy();
+    };
+
+    connect(ui->chkRange, &QCheckBox::toggled, this, [this, validateAndCommitRange](bool enabled) {
+        if (m_searchProxy)
+            m_searchProxy->setRangeAvailabilityEnabled(enabled);
+
+        if (enabled)
+        {
+            validateAndCommitRange();
+        }
+    });
+
+    connect(ui->rangeStart, &QDateTimeEdit::dateTimeChanged, this, [validateAndCommitRange](const QDateTime &) { validateAndCommitRange(); });
+    connect(ui->rangeEnd, &QDateTimeEdit::dateTimeChanged, this, [validateAndCommitRange](const QDateTime &) { validateAndCommitRange(); });
 
     connect(ui->sortMode, &QComboBox::currentIndexChanged, this, [this](int idx) {
         using SM = QuaiSortProxyModel::SortMode;
@@ -689,6 +1130,11 @@ void MainWindow::wireSignals()
 
     const auto syncAvailAtEnabled = [this](bool enabled) {
         ui->availAt->setEnabled(enabled);
+        if (enabled)
+        {
+            QSignalBlocker b(ui->availAt);
+            ui->availAt->setDateTime(QDateTime::currentDateTime());
+        }
     };
     connect(ui->chkAvailAt, &QCheckBox::toggled, this, syncAvailAtEnabled);
     syncAvailAtEnabled(ui->chkAvailAt->isChecked());
@@ -696,6 +1142,18 @@ void MainWindow::wireSignals()
     const auto syncRangeEnabled = [this](bool enabled) {
         ui->rangeStart->setEnabled(enabled);
         ui->rangeEnd->setEnabled(enabled);
+        if (enabled)
+        {
+            const QDateTime now = QDateTime::currentDateTime();
+            {
+                QSignalBlocker bs(ui->rangeStart);
+                QSignalBlocker be(ui->rangeEnd);
+                ui->rangeStart->setDateTime(now);
+                ui->rangeEnd->setDateTime(now.addSecs(2 * 3600));
+            }
+            m_lastValidRangeStart = ui->rangeStart->dateTime();
+            m_lastValidRangeEnd = ui->rangeEnd->dateTime();
+        }
     };
     connect(ui->chkRange, &QCheckBox::toggled, this, syncRangeEnabled);
     syncRangeEnabled(ui->chkRange->isChecked());
@@ -1446,7 +1904,12 @@ void MainWindow::onDelete()
     if (dlg.exec() != QDialog::Accepted)
         return;
 
-    m_model->removeQuai(row);
+    QString error;
+    if (!m_model->removeQuai(row, &error))
+    {
+        QMessageBox::warning(this, tr("Supprimer"), error.isEmpty() ? tr("Erreur lors de la suppression.") : error);
+        return;
+    }
 }
 
 // ---------------------------------------------------------------------------

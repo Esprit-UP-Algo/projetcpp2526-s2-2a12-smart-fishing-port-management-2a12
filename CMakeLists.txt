@@ -8,10 +8,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Sql)
 
 qt_add_executable(appArriveesAccostage
     src/main.cpp
+    src/connection.h
+    src/connection.cpp
     src/mainwindow.h
     src/mainwindow.cpp
     src/mainwindow.ui
@@ -34,4 +36,4 @@ qt_add_executable(appArriveesAccostage
 )
 
 target_include_directories(appArriveesAccostage PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(appArriveesAccostage PRIVATE Qt6::Widgets Qt6::PrintSupport)
+target_link_libraries(appArriveesAccostage PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Sql)

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <QMainWindow>
+#include <QDateTime>
 
 class CircularStatWidget;
 class QTableView;
@@ -71,4 +72,7 @@ private:
     QTableView *m_occByQuaiTable = nullptr;
     QTableView *m_occHistoryTable = nullptr;
     QTableView *m_revHistoryTable = nullptr;
+
+    QDateTime m_lastValidRangeStart;
+    QDateTime m_lastValidRangeEnd;
 };
