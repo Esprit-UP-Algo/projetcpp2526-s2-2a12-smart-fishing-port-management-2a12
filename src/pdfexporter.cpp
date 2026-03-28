@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QDateTime>
 #include <QFile>
+#include <QFileInfo>
 #include <QLocale>
 #include <QMap>
 #include <QNetworkAccessManager>
@@ -39,6 +40,53 @@ static QByteArray downloadBytes(const QUrl &url, int timeoutMs = 5000)
         out = reply->readAll();
     reply->deleteLater();
     return out;
+}
+
+static QByteArray uploadBytesPut(const QUrl &url, const QByteArray &bytes, const QByteArray &contentType, int timeoutMs = 20000)
+{
+    QNetworkAccessManager nam;
+    QNetworkRequest req(url);
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    if (!contentType.isEmpty())
+        req.setHeader(QNetworkRequest::ContentTypeHeader, QString::fromLatin1(contentType));
+
+    QNetworkReply *reply = nam.put(req, bytes);
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
+    QObject::connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    timer.start(timeoutMs);
+    loop.exec();
+
+    QByteArray out;
+    if (timer.isActive() && reply->error() == QNetworkReply::NoError)
+        out = reply->readAll();
+    reply->deleteLater();
+    return out;
+}
+
+static QString uploadPdfToTransferSh(const QString &pdfFilePath)
+{
+    QFile f(pdfFilePath);
+    if (!f.open(QIODevice::ReadOnly))
+        return {};
+
+    const QByteArray bytes = f.readAll();
+    if (bytes.isEmpty())
+        return {};
+
+    const QString fileName = QFileInfo(pdfFilePath).fileName().isEmpty() ? QStringLiteral("facture_quai.pdf") : QFileInfo(pdfFilePath).fileName();
+    const QByteArray encoded = QUrl::toPercentEncoding(fileName);
+    const QUrl url(QStringLiteral("https://transfer.sh/") + QString::fromLatin1(encoded));
+
+    const QByteArray resp = uploadBytesPut(url, bytes, "application/pdf", 25000);
+    const QString link = QString::fromUtf8(resp).trimmed();
+    if (link.startsWith(QStringLiteral("https://")))
+        return link;
+    if (link.startsWith(QStringLiteral("http://")))
+        return link;
+    return {};
 }
 
 static QString pngBytesToDataUri(const QByteArray &png)
@@ -230,15 +278,15 @@ bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
 
     const QLocale loc;
 
-    QString html = htmlDocHeader(title);
-    html += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Facture - Location de quai</b></div>";
-    html += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:10pt;'>";
+    QString htmlCore = htmlDocHeader(title);
+    htmlCore += "<div style='margin-bottom:10px; font-size:10.5pt; color:#0c1a29;'><b>Facture - Location de quai</b></div>";
+    htmlCore += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:10pt;'>";
 
-    auto addRow = [&html](const QString &k, const QString &v) {
-        html += "<tr>";
-        html += "<td style='width:34%; background:#f4f7fb; border:1px solid #dbe5f0;'><b>" + htmlEscape(k) + "</b></td>";
-        html += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(v) + "</td>";
-        html += "</tr>";
+    auto addRow = [&htmlCore](const QString &k, const QString &v) {
+        htmlCore += "<tr>";
+        htmlCore += "<td style='width:34%; background:#f4f7fb; border:1px solid #dbe5f0;'><b>" + htmlEscape(k) + "</b></td>";
+        htmlCore += "<td style='border:1px solid #dbe5f0;'>" + htmlEscape(v) + "</td>";
+        htmlCore += "</tr>";
     };
 
     addRow("Matricule", matricule);
@@ -251,43 +299,64 @@ bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
     addRow("État quai", etat);
     addRow("Retard (min)", QString::number(retardMin));
 
-    html += "</table>";
+    htmlCore += "</table>";
 
-    // Generate a shareable URL on the local network and embed a QR code.
-    // The phone must be connected to the same Wi‑Fi/LAN to open it.
-    const QString shareUrl = PdfShareServer::instance().registerPdf(filePath);
-    if (!shareUrl.isEmpty())
+    // First pass: export PDF without QR.
+    const QString htmlNoQr = htmlCore + htmlDocFooter();
+    if (!exportHtmlToPdf(filePath, htmlNoQr, error))
+        return false;
+
+    // Preferred: public link (not dependent on LAN/Wi‑Fi).
+    const QString publicUrl = uploadPdfToTransferSh(filePath);
+    QString qrTargetUrl = publicUrl;
+    QString qrHint;
+
+    if (!publicUrl.isEmpty())
+        qrHint = QStringLiteral("Scannez le QR code pour ouvrir/télécharger la facture (Internet).\nLien : %1").arg(publicUrl);
+    else
     {
-        // Use a QR-code image API and embed the resulting PNG as a data URI
-        // so the PDF stays self-contained.
-        QUrl api(QStringLiteral("https://api.qrserver.com/v1/create-qr-code/"));
-        QUrlQuery q;
-        q.addQueryItem(QStringLiteral("size"), QStringLiteral("180x180"));
-        q.addQueryItem(QStringLiteral("format"), QStringLiteral("png"));
-        q.addQueryItem(QStringLiteral("data"), shareUrl);
-        api.setQuery(q);
-
-        const QByteArray png = downloadBytes(api);
-        const QString dataUri = pngBytesToDataUri(png);
-
-        html += "<div style='margin-top:14px; font-size:10pt; color:#0c1a29;'><b>Ouvrir sur téléphone</b></div>";
-        html += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.8pt;'>";
-        html += "<tr>";
-        html += "<td style='width:190px; border:1px solid #dbe5f0; background:#ffffff; text-align:center;'>";
-        if (!dataUri.isEmpty())
-            html += "<img src='" + dataUri + "' style='width:170px; height:170px;'/>";
+        // Fallback: LAN link (requires same network). Keep as a backup in case upload fails.
+        const QString lanUrl = PdfShareServer::instance().registerPdf(filePath);
+        qrTargetUrl = lanUrl;
+        if (!lanUrl.isEmpty())
+            qrHint = QStringLiteral("Scannez le QR code pour ouvrir/télécharger la facture (même réseau).\nLien : %1").arg(lanUrl);
         else
-            html += "<div style='color:#777;'>QR indisponible</div>";
-        html += "</td>";
-        html += "<td style='border:1px solid #dbe5f0; background:#f4f7fb;'>";
-        html += "Scannez le QR code (même réseau) pour ouvrir/télécharger la facture.<br/>";
-        html += "Lien : <a href='" + htmlEscape(shareUrl) + "'>" + htmlEscape(shareUrl) + "</a>";
-        html += "</td>";
-        html += "</tr></table>";
+            qrHint = QStringLiteral("Lien QR indisponible");
     }
 
+    if (qrTargetUrl.isEmpty())
+        return true; // PDF already exported.
+
+    // Generate QR PNG and regenerate PDF embedding it.
+    QUrl api(QStringLiteral("https://api.qrserver.com/v1/create-qr-code/"));
+    QUrlQuery q;
+    q.addQueryItem(QStringLiteral("size"), QStringLiteral("180x180"));
+    q.addQueryItem(QStringLiteral("format"), QStringLiteral("png"));
+    q.addQueryItem(QStringLiteral("data"), qrTargetUrl);
+    api.setQuery(q);
+
+    const QByteArray png = downloadBytes(api);
+    const QString dataUri = pngBytesToDataUri(png);
+
+    QString html = htmlCore;
+    html += "<div style='margin-top:14px; font-size:10pt; color:#0c1a29;'><b>Ouvrir sur téléphone</b></div>";
+    html += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.8pt;'>";
+    html += "<tr>";
+    html += "<td style='width:190px; border:1px solid #dbe5f0; background:#ffffff; text-align:center;'>";
+    if (!dataUri.isEmpty())
+        html += "<img src='" + dataUri + "' style='width:170px; height:170px;'/>";
+    else
+        html += "<div style='color:#777;'>QR indisponible</div>";
+    html += "</td>";
+    html += "<td style='border:1px solid #dbe5f0; background:#f4f7fb; white-space:pre-line;'>";
+    html += htmlEscape(qrHint);
+    html += "</td>";
+    html += "</tr></table>";
     html += htmlDocFooter();
-    return exportHtmlToPdf(filePath, html, error);
+
+    // Overwrite the same file with QR-enabled PDF.
+    exportHtmlToPdf(filePath, html, nullptr);
+    return true;
 }
 
 bool PdfExporter::exportDailyOccupationReportToPdf(const QString &filePath,
