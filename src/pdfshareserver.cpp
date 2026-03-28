@@ -7,6 +7,33 @@
 #include <QTcpSocket>
 #include <QUuid>
 
+static bool isPrivateIPv4(const QHostAddress &addr)
+{
+    if (addr.protocol() != QAbstractSocket::IPv4Protocol)
+        return false;
+    const quint32 v = addr.toIPv4Address();
+
+    // 10.0.0.0/8
+    if ((v & 0xFF000000u) == 0x0A000000u)
+        return true;
+    // 172.16.0.0/12
+    if ((v & 0xFFF00000u) == 0xAC100000u)
+        return true;
+    // 192.168.0.0/16
+    if ((v & 0xFFFF0000u) == 0xC0A80000u)
+        return true;
+    return false;
+}
+
+static bool isLinkLocalIPv4(const QHostAddress &addr)
+{
+    if (addr.protocol() != QAbstractSocket::IPv4Protocol)
+        return false;
+    const quint32 v = addr.toIPv4Address();
+    // 169.254.0.0/16
+    return (v & 0xFFFF0000u) == 0xA9FE0000u;
+}
+
 static QByteArray httpResponse(int status,
                                const QByteArray &contentType,
                                const QByteArray &body,
@@ -47,11 +74,12 @@ PdfShareServer::PdfShareServer(QObject *parent)
             sock->setParent(this);
 
             connect(sock, &QTcpSocket::readyRead, this, [this, sock]() {
-                const QByteArray data = sock->readAll();
-                const int firstLineEnd = data.indexOf("\r\n");
-                const QByteArray firstLine = firstLineEnd >= 0 ? data.left(firstLineEnd) : data;
+                if (!sock->canReadLine())
+                    return;
 
-                // Very small parser: only handle "GET /invoice/<token>.pdf HTTP/..."
+                const QByteArray firstLine = sock->readLine().trimmed();
+
+                // Very small parser: handle "GET <path> HTTP/..."
                 const QList<QByteArray> parts = firstLine.split(' ');
                 if (parts.size() < 2 || parts[0] != "GET")
                 {
@@ -61,9 +89,12 @@ PdfShareServer::PdfShareServer(QObject *parent)
                     return;
                 }
 
-                const QByteArray path = parts[1];
-                const QByteArray expected = QByteArray("/invoice/") + m_token.toUtf8() + ".pdf";
+                QByteArray path = parts[1];
+                const int q = path.indexOf('?');
+                if (q >= 0)
+                    path = path.left(q);
 
+                const QByteArray expected = QByteArray("/invoice/") + m_token.toUtf8() + ".pdf";
                 if (m_token.isEmpty() || path != expected)
                 {
                     const QByteArray body = "Not found";
@@ -105,24 +136,58 @@ void PdfShareServer::ensureListening()
     if (m_server->isListening())
         return;
 
-    // Bind to all interfaces on an ephemeral port.
+    // Try a stable port first (helps with firewall rules / predictable URLs), then fall back.
+    static constexpr quint16 kPreferredPort = 8080;
+    if (m_server->listen(QHostAddress::AnyIPv4, kPreferredPort))
+    {
+        m_port = m_server->serverPort();
+        return;
+    }
     if (m_server->listen(QHostAddress::AnyIPv4, 0))
         m_port = m_server->serverPort();
 }
 
 QString PdfShareServer::pickLanAddress() const
 {
-    const QList<QHostAddress> addrs = QNetworkInterface::allAddresses();
-    for (const QHostAddress &a : addrs)
+    // Prefer a private IPv4 on an active, non-loopback interface.
+    QString bestPrivate;
+    QString bestAny;
+
+    const QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
+    for (const QNetworkInterface &iface : ifaces)
     {
-        if (a.protocol() != QAbstractSocket::IPv4Protocol)
+        const auto flags = iface.flags();
+        if (!(flags & QNetworkInterface::IsUp) || !(flags & QNetworkInterface::IsRunning))
             continue;
-        if (a.isLoopback())
+        if (flags & QNetworkInterface::IsLoopBack)
             continue;
-        const QString s = a.toString();
-        if (!s.isEmpty())
-            return s;
+
+        const QList<QNetworkAddressEntry> entries = iface.addressEntries();
+        for (const QNetworkAddressEntry &e : entries)
+        {
+            const QHostAddress ip = e.ip();
+            if (ip.protocol() != QAbstractSocket::IPv4Protocol)
+                continue;
+            if (ip.isNull() || ip.isLoopback())
+                continue;
+            if (isLinkLocalIPv4(ip))
+                continue;
+
+            const QString s = ip.toString();
+            if (s.isEmpty())
+                continue;
+
+            if (bestAny.isEmpty())
+                bestAny = s;
+            if (isPrivateIPv4(ip) && bestPrivate.isEmpty())
+                bestPrivate = s;
+        }
     }
+
+    if (!bestPrivate.isEmpty())
+        return bestPrivate;
+    if (!bestAny.isEmpty())
+        return bestAny;
     return QStringLiteral("127.0.0.1");
 }
 
