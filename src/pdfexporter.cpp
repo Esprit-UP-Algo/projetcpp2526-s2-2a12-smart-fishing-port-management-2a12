@@ -6,10 +6,47 @@
 #include <QFile>
 #include <QLocale>
 #include <QMap>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QPdfWriter>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QBuffer>
+#include <QEventLoop>
+#include <QTimer>
 #include <QTextDocument>
 
 #include "quaimodel.h"
+#include "pdfshareserver.h"
+
+static QByteArray downloadBytes(const QUrl &url, int timeoutMs = 5000)
+{
+    QNetworkAccessManager nam;
+    QNetworkRequest req(url);
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+
+    QNetworkReply *reply = nam.get(req);
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
+    QObject::connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    timer.start(timeoutMs);
+    loop.exec();
+
+    QByteArray out;
+    if (timer.isActive() && reply->error() == QNetworkReply::NoError)
+        out = reply->readAll();
+    reply->deleteLater();
+    return out;
+}
+
+static QString pngBytesToDataUri(const QByteArray &png)
+{
+    if (png.isEmpty())
+        return {};
+    return QStringLiteral("data:image/png;base64,%1").arg(QString::fromLatin1(png.toBase64()));
+}
 
 static QString htmlEscape(const QString &s)
 {
@@ -179,7 +216,6 @@ bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
         return false;
     }
 
-    const QString idQuai = modelString(model, row, QuaiModel::IdQuai);
     const QString matricule = modelString(model, row, QuaiModel::Matricule);
     const double taille = modelDouble(model, row, QuaiModel::Taille);
     const QDateTime arrivee = modelDateTime(model, row, QuaiModel::Arrivee);
@@ -205,7 +241,6 @@ bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
         html += "</tr>";
     };
 
-    addRow("ID Quai", idQuai);
     addRow("Matricule", matricule);
     addRow("Taille (m)", loc.toString(taille, 'f', 1));
     addRow("Arrivée", arrivee.isValid() ? arrivee.toString("yyyy-MM-dd HH:mm") : QString());
@@ -217,6 +252,40 @@ bool PdfExporter::exportInvoiceToPdf(const QString &filePath,
     addRow("Retard (min)", QString::number(retardMin));
 
     html += "</table>";
+
+    // Generate a shareable URL on the local network and embed a QR code.
+    // The phone must be connected to the same Wi‑Fi/LAN to open it.
+    const QString shareUrl = PdfShareServer::instance().registerPdf(filePath);
+    if (!shareUrl.isEmpty())
+    {
+        // Use a QR-code image API and embed the resulting PNG as a data URI
+        // so the PDF stays self-contained.
+        QUrl api(QStringLiteral("https://api.qrserver.com/v1/create-qr-code/"));
+        QUrlQuery q;
+        q.addQueryItem(QStringLiteral("size"), QStringLiteral("180x180"));
+        q.addQueryItem(QStringLiteral("format"), QStringLiteral("png"));
+        q.addQueryItem(QStringLiteral("data"), shareUrl);
+        api.setQuery(q);
+
+        const QByteArray png = downloadBytes(api);
+        const QString dataUri = pngBytesToDataUri(png);
+
+        html += "<div style='margin-top:14px; font-size:10pt; color:#0c1a29;'><b>Ouvrir sur téléphone</b></div>";
+        html += "<table cellspacing='0' cellpadding='6' style='width:100%; border-collapse:collapse; font-family:Segoe UI,Arial; font-size:9.8pt;'>";
+        html += "<tr>";
+        html += "<td style='width:190px; border:1px solid #dbe5f0; background:#ffffff; text-align:center;'>";
+        if (!dataUri.isEmpty())
+            html += "<img src='" + dataUri + "' style='width:170px; height:170px;'/>";
+        else
+            html += "<div style='color:#777;'>QR indisponible</div>";
+        html += "</td>";
+        html += "<td style='border:1px solid #dbe5f0; background:#f4f7fb;'>";
+        html += "Scannez le QR code (même réseau) pour ouvrir/télécharger la facture.<br/>";
+        html += "Lien : <a href='" + htmlEscape(shareUrl) + "'>" + htmlEscape(shareUrl) + "</a>";
+        html += "</td>";
+        html += "</tr></table>";
+    }
+
     html += htmlDocFooter();
     return exportHtmlToPdf(filePath, html, error);
 }

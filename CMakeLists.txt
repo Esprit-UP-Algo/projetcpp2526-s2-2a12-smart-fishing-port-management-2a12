@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Sql)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets PrintSupport Sql Network)
 
 qt_add_executable(appArriveesAccostage
     src/main.cpp
@@ -32,8 +32,10 @@ qt_add_executable(appArriveesAccostage
     src/quaisortproxymodel.cpp
     src/pdfexporter.h
     src/pdfexporter.cpp
+    src/pdfshareserver.h
+    src/pdfshareserver.cpp
     resources/resources.qrc
 )
 
 target_include_directories(appArriveesAccostage PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(appArriveesAccostage PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Sql)
+target_link_libraries(appArriveesAccostage PRIVATE Qt6::Widgets Qt6::PrintSupport Qt6::Sql Qt6::Network)
