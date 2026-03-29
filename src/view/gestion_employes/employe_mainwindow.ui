@@ -763,7 +763,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                       <property name="minimumSize"><size><width>160</width><height>36</height></size></property>
                       <item><property name="text"><string>CIN</string></property></item>
                       <item><property name="text"><string>Rôle</string></property></item>
-                      <item><property name="text"><string>Date de création</string></property></item>
                      </widget>
                     </item>
                     <item><widget class="QLabel"><property name="text"><string>Ordre</string></property></widget></item>
@@ -811,7 +810,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                     <column><property name="text"><string>Email</string></property></column>
                     <column><property name="text"><string>Login</string></property></column>
                     <column><property name="text"><string>Rôle</string></property></column>
-                    <column><property name="text"><string>Date création</string></property></column>
                     <column><property name="text"><string>Heures</string></property></column>
                     <column><property name="text"><string>Statut</string></property></column>
                    </widget>

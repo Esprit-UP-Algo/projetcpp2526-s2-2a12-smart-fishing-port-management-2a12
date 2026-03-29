@@ -15,6 +15,8 @@ public:
 
     static QString validateCIN(const QString &cin);
 
+    static QString validateCINUnique(const QString &cin, const QString &excludeCIN = "");
+
     static QString validateEmail(const QString &email);
 
     static QString validateNotEmpty(const QString &field, const QString &fieldName);
@@ -32,10 +34,14 @@ public:
     static QString modifier(const EmployeUser &employe);
 
     static QString supprimer(const QString &cin);
+    static EmployeUser findByLogin(const QString &login);
+
+
 
 private:
     static bool isValidEmail(const QString &email);
     static bool isAllDigits(const QString &str);
+    static bool cinExists(const QString &cin, const QString &excludeCIN = "");
 };
 
 } // namespace employes

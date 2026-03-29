@@ -2,7 +2,6 @@
 #define EMPLOYE_USER_H
 
 #include <QString>
-#include <QDateTime>
 
 namespace employes {
 
@@ -16,7 +15,6 @@ struct EmployeUser {
     QString role;
     QString statut;
     double heures;
-    QDateTime dateCreation;
 };
 
 } // namespace employes

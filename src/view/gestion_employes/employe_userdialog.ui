@@ -188,17 +188,7 @@ QDateEdit::drop-down {
        </item>
       </layout>
      </item>
-     <item>
-      <layout class="QVBoxLayout">
-       <item><widget class="QLabel"><property name="text"><string>Date de création</string></property></widget></item>
-       <item>
-        <widget class="QDateEdit" name="dateCreation">
-         <property name="calendarPopup"><bool>true</bool></property>
-         <property name="displayFormat"><string>dd/MM/yyyy</string></property>
-        </widget>
-       </item>
-      </layout>
-     </item>
+
     </layout>
    </item>
    <!-- Spacer -->

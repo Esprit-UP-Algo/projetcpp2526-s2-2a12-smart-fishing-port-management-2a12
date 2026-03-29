@@ -50,12 +50,8 @@ int main(int argc, char *argv[])
                               "✓ Vérifiez les identifiants (mouradd/mourad123)\n"
                               "✓ Vérifiez que le serveur Oracle est accessible\n"
                               "✓ Vérifiez que le driver Oracle ODBC est installé");
-        qDebug() << "✗ Application closed: Database connection failed";
-        qDebug() << "Erreur détaillée:" << errorDetails;
         return -1;
     }
-
-    qDebug() << "Database connection successful!\n";
 
     employes::EmployeLoginDialog login;
     if (login.exec() != QDialog::Accepted) {

@@ -1,9 +1,6 @@
 #include "employe_userdialog.h"
 #include "ui_employe_userdialog.h"
 
-#include <QDateTime>
-#include <QTime>
-
 namespace employes {
 
 EmployeUserDialog::EmployeUserDialog(QWidget *parent, const QString &title)
@@ -12,7 +9,6 @@ EmployeUserDialog::EmployeUserDialog(QWidget *parent, const QString &title)
 {
     ui->setupUi(this);
     setWindowTitle(title);
-    ui->dateCreation->setDate(QDate::currentDate());
 
     connect(ui->btnOk, &QPushButton::clicked, this, &QDialog::accept);
     connect(ui->btnCancel, &QPushButton::clicked, this, &QDialog::reject);
@@ -34,7 +30,6 @@ void EmployeUserDialog::setUser(const EmployeUser &u)
     ui->comboRole->setCurrentText(u.role);
     ui->comboStatut->setCurrentText(u.statut);
     ui->spinHeures->setValue(u.heures);
-    ui->dateCreation->setDate(u.dateCreation.date());
 }
 
 EmployeUser EmployeUserDialog::user() const
@@ -49,7 +44,6 @@ EmployeUser EmployeUserDialog::user() const
     u.role = ui->comboRole->currentText();
     u.statut = ui->comboStatut->currentText();
     u.heures = ui->spinHeures->value();
-    u.dateCreation = QDateTime(ui->dateCreation->date(), QTime(0,0));
     return u;
 }
 
@@ -62,7 +56,6 @@ void EmployeUserDialog::setReadOnly(bool ro)
     ui->lineLogin->setReadOnly(ro);
     ui->linePassword->setReadOnly(ro);
     ui->spinHeures->setReadOnly(ro);
-    ui->dateCreation->setReadOnly(ro);
     ui->comboRole->setEnabled(!ro);
     ui->comboStatut->setEnabled(!ro);
     if (ro) { ui->btnOk->setText(tr("Fermer")); ui->btnCancel->hide(); }

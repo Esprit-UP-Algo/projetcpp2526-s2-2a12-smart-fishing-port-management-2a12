@@ -32,7 +32,9 @@ QString EmployeDAO::validateCIN(const QString &cin)
     }
     
     return "";
-}(const QString &email)(const QString &email)
+}
+
+QString EmployeDAO::validateEmail(const QString &email)
 {
     if (email.isEmpty()) {
         return "L'email est obligatoire.";
@@ -88,6 +90,9 @@ QString EmployeDAO::validateEmploye(const EmployeUser &employe)
     QString cinError = validateCIN(employe.cin);
     if (!cinError.isEmpty()) return cinError;
     
+    QString cinUniqueError = validateCINUnique(employe.cin);
+    if (!cinUniqueError.isEmpty()) return cinUniqueError;
+    
     QString emailError = validateEmail(employe.email);
     if (!emailError.isEmpty()) return emailError;
     
@@ -133,16 +138,13 @@ QString EmployeDAO::ajouter(const EmployeUser &employe)
         
         if (!query.exec()) {
             QString errorMsg = query.lastError().text();
-            qDebug() << "EmployeDAO::ajouter - SQL Error:" << errorMsg;
             return "Erreur lors de l'ajout de l'employé: " + errorMsg;
         }
         
-        qDebug() << "EmployeDAO::ajouter - SUCCESS: Employee" << employe.prenom << employe.nom << "added";
         return "";
     }
     catch (const std::exception& e) {
-        qDebug() << "EmployeDAO::ajouter - Exception:" << e.what();
-        return "Erreur d'exception: " + QString(e.what());
+        return "Erreur: " + QString(e.what());
     }
 }
 
@@ -155,7 +157,6 @@ QVector<EmployeUser> EmployeDAO::afficher()
         QSqlDatabase db = dbConnection.getDatabase();
         
         if (!db.isOpen()) {
-            qDebug() << "EmployeDAO::afficher - Database not open";
             return employes;
         }
         
@@ -163,7 +164,6 @@ QVector<EmployeUser> EmployeDAO::afficher()
         query.prepare("SELECT ID_EMPLOYE, CIN, NOM, PRENOM, EMAIL, LOGIN, MOTDEPASSE, ROLE, STATUT, HEUREDETRAVAIL FROM EMPLOYES");
         
         if (!query.exec()) {
-            qDebug() << "EmployeDAO::afficher - SQL Error:" << query.lastError().text();
             return employes;
         }
         
@@ -182,11 +182,9 @@ QVector<EmployeUser> EmployeDAO::afficher()
             employes.append(employe);
         }
         
-        qDebug() << "EmployeDAO::afficher - Retrieved" << employes.count() << "employees";
         return employes;
     }
     catch (const std::exception& e) {
-        qDebug() << "EmployeDAO::afficher - Exception:" << e.what();
         return employes;
     }
 }
@@ -226,21 +224,17 @@ QString EmployeDAO::modifier(const EmployeUser &employe)
         
         if (!query.exec()) {
             QString errorMsg = query.lastError().text();
-            qDebug() << "EmployeDAO::modifier - SQL Error:" << errorMsg;
             return "Erreur lors de la modification de l'employé: " + errorMsg;
         }
         
         if (query.numRowsAffected() == 0) {
-            qDebug() << "EmployeDAO::modifier - Employee not found:" << employe.cin;
             return "Aucun employé trouvé avec le CIN: " + employe.cin;
         }
         
-        qDebug() << "EmployeDAO::modifier - SUCCESS: Employee" << employe.prenom << employe.nom << "modified";
         return "";
     }
     catch (const std::exception& e) {
-        qDebug() << "EmployeDAO::modifier - Exception:" << e.what();
-        return "Erreur d'exception: " + QString(e.what());
+        return "Erreur: " + QString(e.what());
     }
 }
 
@@ -261,21 +255,17 @@ QString EmployeDAO::supprimer(const QString &cin)
         
         if (!query.exec()) {
             QString errorMsg = query.lastError().text();
-            qDebug() << "EmployeDAO::supprimer - SQL Error:" << errorMsg;
             return "Erreur lors de la suppression de l'employé: " + errorMsg;
         }
         
         if (query.numRowsAffected() == 0) {
-            qDebug() << "EmployeDAO::supprimer - Employee not found:" << cin;
             return "Aucun employé trouvé avec le CIN: " + cin;
         }
         
-        qDebug() << "EmployeDAO::supprimer - SUCCESS: Employee" << cin << "deleted";
         return "";
     }
     catch (const std::exception& e) {
-        qDebug() << "EmployeDAO::supprimer - Exception:" << e.what();
-        return "Erreur d'exception: " + QString(e.what());
+        return "Erreur: " + QString(e.what());
     }
 }
 
@@ -295,4 +285,94 @@ bool EmployeDAO::isAllDigits(const QString &str)
     }
     
     return true;
+}
+
+EmployeUser EmployeDAO::findByLogin(const QString &login)
+{
+    EmployeUser employe;
+    
+    try {
+        Connection& dbConnection = Connection::createInstance();
+        QSqlDatabase db = dbConnection.getDatabase();
+        
+        if (!db.isOpen()) {
+            return employe;
+        }
+        
+        QSqlQuery query(db);
+        query.prepare("SELECT CIN, NOM, PRENOM, EMAIL, LOGIN, MOTDEPASSE, ROLE, STATUT, HEUREDETRAVAIL "
+                      "FROM EMPLOYES WHERE LOGIN = :login");
+        query.addBindValue(login);
+        
+        if (!query.exec()) {
+            return employe;
+        }
+        
+        if (query.next()) {
+            employe.cin = query.value("CIN").toString();
+            employe.nom = query.value("NOM").toString();
+            employe.prenom = query.value("PRENOM").toString();
+            employe.email = query.value("EMAIL").toString();
+            employe.login = query.value("LOGIN").toString();
+            employe.password = query.value("MOTDEPASSE").toString();
+            employe.role = query.value("ROLE").toString();
+            employe.statut = query.value("STATUT").toString();
+            employe.heures = query.value("HEUREDETRAVAIL").toDouble();
+        }
+        
+        return employe;
+    }
+    catch (const std::exception& e) {
+        return employe;
+    }
+}
+
+QString EmployeDAO::validateCINUnique(const QString &cin, const QString &excludeCIN)
+{
+    if (cin.isEmpty()) {
+        return "";
+    }
+    
+    if (cinExists(cin, excludeCIN)) {
+        return "CIN déjà existant.";
+    }
+    
+    return "";
+}
+
+bool EmployeDAO::cinExists(const QString &cin, const QString &excludeCIN)
+{
+    try {
+        Connection& dbConnection = Connection::createInstance();
+        QSqlDatabase db = dbConnection.getDatabase();
+        
+        if (!db.isOpen()) {
+            return false;
+        }
+        
+        QSqlQuery query(db);
+        
+        if (!excludeCIN.isEmpty() && excludeCIN == cin) {
+            query.prepare("SELECT COUNT(*) as count FROM EMPLOYES WHERE CIN = :cin AND CIN != :excludeCIN");
+            query.addBindValue(cin);
+            query.addBindValue(excludeCIN);
+        } else {
+            query.prepare("SELECT COUNT(*) as count FROM EMPLOYES WHERE CIN = :cin");
+            query.addBindValue(cin);
+        }
+        
+        if (!query.exec()) {
+            return false;
+        }
+        
+        if (query.next()) {
+            int count = query.value("count").toInt();
+            return count > 0;
+        }
+        
+        return false;
+    }
+    catch (const std::exception& e) {
+        return false;
+    }
 }

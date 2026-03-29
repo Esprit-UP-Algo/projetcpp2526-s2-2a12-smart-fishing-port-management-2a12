@@ -15,7 +15,6 @@
 #include <QStyle>
 #include <QDesktopServices>
 #include <QUrl>
-#include <QDateTime>
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -36,7 +35,6 @@ EmployeMainWindow::EmployeMainWindow(QWidget *parent)
     // Set Employee Management as active by default
     ui->btnEmployees->setChecked(true);
 
-    // ── Employee page connections ──
     ui->tableEmployees->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableSessions->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableStatRole->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -93,7 +91,6 @@ void EmployeMainWindow::setSidebarActiveEmployees()
     setActiveSidebarButton(ui->btnEmployees);
 }
 
-// ─── Sidebar active button ──────────────────────────
 
 void EmployeMainWindow::pulseSidebarButton(QWidget *widget)
 {
@@ -162,17 +159,8 @@ static QPixmap cropAndMakeCircularLogo(const QPixmap &src, int diameterPx, int i
 void EmployeMainWindow::setupLogo()
 {
     QPixmap pm(":/ressources/vision_sight.jpeg");
-    if (pm.isNull()) {
-        qDebug() << "⚠️ Logo image not found at :/ressources/vision_sight.jpeg";
-        qDebug() << "Trying alternative path...";
-        pm = QPixmap(":/vision_sight.jpeg");
-    }
-    
     if (!pm.isNull()) {
         ui->logoLabel->setPixmap(cropAndMakeCircularLogo(pm, 96, 8));
-        qDebug() << "✓ Logo loaded successfully";
-    } else {
-        qDebug() << "✗ Logo failed to load - check resources.qrc configuration";
     }
 }
 
@@ -183,10 +171,6 @@ void EmployeMainWindow::onSidebarCaptures() { emit requestShowCaptures(); }
 void EmployeMainWindow::onSidebarStockage() { emit requestShowStockage(); }
 void EmployeMainWindow::onSidebarVentes() { emit requestShowTransactions(); }
 #endif
-
-// ═══════════════════════════════════════════════════════
-// ═══════  EMPLOYEE MANAGEMENT  ═══════════════════════
-// ═══════════════════════════════════════════════════════
 
 void EmployeMainWindow::populateUserRow(int row, const EmployeUser &u)
 {
@@ -201,9 +185,8 @@ void EmployeMainWindow::populateUserRow(int row, const EmployeUser &u)
     ui->tableEmployees->setItem(row, 3, makeItem(u.email));
     ui->tableEmployees->setItem(row, 4, makeItem(u.login));
     ui->tableEmployees->setItem(row, 5, makeItem(u.role));
-    ui->tableEmployees->setItem(row, 6, makeItem(u.dateCreation.toString("dd/MM/yyyy")));
-    ui->tableEmployees->setItem(row, 7, makeItem(QString::number(u.heures, 'f', 1)));
-    ui->tableEmployees->setItem(row, 8, makeItem(u.statut));
+    ui->tableEmployees->setItem(row, 6, makeItem(QString::number(u.heures, 'f', 1)));
+    ui->tableEmployees->setItem(row, 7, makeItem(u.statut));
 }
 
 bool EmployeMainWindow::matchesUserSearch(const EmployeUser &u) const
@@ -232,7 +215,7 @@ QVector<EmployeUser> EmployeMainWindow::filteredAndSortedUsers() const
         if (matchesUserSearch(u))
             result.append(u);
 
-    int sortCol  = ui->comboTriUser->currentIndex();   // 0=CIN, 1=Rôle, 2=Date
+    int sortCol  = ui->comboTriUser->currentIndex();
     bool ascending = ui->comboOrdreUser->currentIndex() == 0;
 
     std::sort(result.begin(), result.end(),
@@ -241,7 +224,6 @@ QVector<EmployeUser> EmployeMainWindow::filteredAndSortedUsers() const
         switch(sortCol) {
         case 0: cmp = a.cin.compare(b.cin, Qt::CaseInsensitive); break;
         case 1: cmp = a.role.compare(b.role, Qt::CaseInsensitive); break;
-        case 2: cmp = (a.dateCreation < b.dateCreation) ? -1 : (a.dateCreation > b.dateCreation ? 1 : 0); break;
         }
         return ascending ? cmp < 0 : cmp > 0;
     });
@@ -272,49 +254,37 @@ void EmployeMainWindow::updatePayrollCombo()
         ui->comboPayrollUser->addItem(u.nom + " " + u.prenom + " (" + u.cin + ")");
 }
 
-// ─── Employee CRUD ──────────────────────
-
 void EmployeMainWindow::onCreerUser()
 {
-    // Ouvrir le dialogue de création
     EmployeUserDialog dlg(this, tr("Nouvel Employé"));
     
     if (dlg.exec() != QDialog::Accepted) {
-        return;  // L'utilisateur a annulé
+        return;
     }
     
-    // Récupérer les données saisies
     EmployeUser employe = dlg.user();
-    employe.dateCreation = QDateTime::currentDateTime();
-    employe.statut = "Actif";  // Statut par défaut
+    employe.statut = "Actif";
     
-    // ✓ ÉTAPE 1: Valider tous les champs
     QString validationError = EmployeDAO::validateEmploye(employe);
     if (!validationError.isEmpty()) {
         QMessageBox::warning(this, 
-            tr("❌ Erreur de Validation"), 
+            tr("Erreur Validation"), 
             validationError);
-        return;  // Ne pas continuer si validation échoue
+        return;
     }
     
-    // ✓ ÉTAPE 2: Ajouter à la base de données
     QString dbError = EmployeDAO::ajouter(employe);
     if (!dbError.isEmpty()) {
         QMessageBox::critical(this, 
-            tr("❌ Erreur Base de Données"), 
+            tr("Erreur Base de Données"), 
             dbError);
         return;
     }
     
-    // ✓ ÉTAPE 3: Succès - afficher le message et rafraîchir
-    QMessageBox::information(this, 
-        tr("✓ Succès"), 
-        tr("L'employé '%1 %2' a été ajouté avec succès.\n"
-           "CIN: %3\n"
-           "Email: %4")
-        .arg(employe.prenom, employe.nom, employe.cin, employe.email));
+    QMessageBox::information(this,
+        tr("Succès"),
+        tr("L'employé a été ajouté."));
     
-    // Rafraîchir l'affichage
     refreshUserTable();
 }
 
@@ -324,7 +294,7 @@ void EmployeMainWindow::onModifierUser()
     int row = ui->tableEmployees->currentRow();
     if (row < 0) {
         QMessageBox::information(this, 
-            tr("ℹ Info"), 
+            tr("Info"), 
             tr("Veuillez sélectionner un employé à modifier."));
         return;
     }
@@ -355,7 +325,7 @@ void EmployeMainWindow::onModifierUser()
     
     if (!found) {
         QMessageBox::warning(this, 
-            tr("❌ Erreur"), 
+            tr("Erreur"), 
             tr("L'employé avec CIN '%1' n'a pas été trouvé en base de données.").arg(cin));
         return;
     }
@@ -371,25 +341,25 @@ void EmployeMainWindow::onModifierUser()
     // Récupérer les données modifiées
     EmployeUser employeModifie = dlg.user();
     
-    // ✓ ÉTAPE 1: Valider tous les champs
+    // Valider tous les champs
     QString validationError = EmployeDAO::validateEmploye(employeModifie);
     if (!validationError.isEmpty()) {
         QMessageBox::warning(this, 
-            tr("❌ Erreur de Validation"), 
+            tr("Erreur Validation"), 
             validationError);
         return;
     }
     
-    // ✓ ÉTAPE 2: Modifier en base de données
+    // Modifier en base de données
     QString dbError = EmployeDAO::modifier(employeModifie);
     if (!dbError.isEmpty()) {
         QMessageBox::critical(this, 
-            tr("❌ Erreur Base de Données"), 
+            tr("Erreur Base de Données"), 
             dbError);
         return;
     }
     
-    // ✓ ÉTAPE 3: Succès - afficher le message et rafraîchir
+    // Succès - afficher le message et rafraîchir
     QMessageBox::information(this, 
         tr("✓ Succès"), 
         tr("L'employé '%1 %2' a été modifié avec succès.")
@@ -401,16 +371,14 @@ void EmployeMainWindow::onModifierUser()
 
 void EmployeMainWindow::onSupprimerUser()
 {
-    // Vérifier qu'une ligne est sélectionnée
     int row = ui->tableEmployees->currentRow();
     if (row < 0) {
         QMessageBox::information(this, 
-            tr("ℹ Info"), 
-            tr("Veuillez sélectionner un employé à supprimer."));
+            tr("Info"), 
+            tr("Veuillez selectionner un employe a supprimer."));
         return;
     }
     
-    // Récupérer le CIN de la ligne sélectionnée
     QTableWidgetItem *cinItem = ui->tableEmployees->item(row, 0);
     if (!cinItem) {
         QMessageBox::warning(this, 
@@ -423,39 +391,32 @@ void EmployeMainWindow::onSupprimerUser()
     QString nom = (ui->tableEmployees->item(row, 1) ? 
                    ui->tableEmployees->item(row, 1)->text() : "");
     QString prenom = (ui->tableEmployees->item(row, 2) ? 
-                      ui->tableEmployees->item(row, 2)->text() : "");
+                   ui->tableEmployees->item(row, 2)->text() : "");
     
-    // ✓ ÉTAPE 1: Demander confirmation
     int response = QMessageBox::question(this, 
-        tr("⚠ Confirmer la suppression"), 
-        tr("Êtes-vous sûr de vouloir supprimer l'employé:\n"
-           "%1 %2\n"
-           "(CIN: %3)\n\n"
-           "Cette action est irréversible.")
+        tr("Confirmer suppression"), 
+        tr("Supprimer cet employé?\n"
+           "%1 %2 (CIN: %3)?")
         .arg(prenom, nom, cin),
         QMessageBox::Yes | QMessageBox::No,
-        QMessageBox::No);  // Défaut: Non
+        QMessageBox::No);
     
     if (response != QMessageBox::Yes) {
-        return;  // L'utilisateur a cliqué sur "Non"
+        return;
     }
     
-    // ✓ ÉTAPE 2: Supprimer de la base de données
     QString dbError = EmployeDAO::supprimer(cin);
     if (!dbError.isEmpty()) {
         QMessageBox::critical(this, 
-            tr("❌ Erreur Base de Données"), 
+            tr("Erreur Base de Données"), 
             dbError);
         return;
     }
     
-    // ✓ ÉTAPE 3: Succès - afficher le message et rafraîchir
     QMessageBox::information(this, 
-        tr("✓ Suppression Réussie"), 
-        tr("L'employé '%1 %2' a été supprimé avec succès.")
-        .arg(prenom, nom));
+        tr("Suppression OK"), 
+        tr("L'employé a été supprimé."));
     
-    // Rafraîchir l'affichage
     refreshUserTable();
 }
 
@@ -465,7 +426,7 @@ void EmployeMainWindow::onActiverDesactiverUser()
     int row = ui->tableEmployees->currentRow();
     if (row < 0) {
         QMessageBox::information(this, 
-            tr("ℹ Info"), 
+            tr("Info"), 
             tr("Veuillez sélectionner un employé."));
         return;
     }
@@ -501,20 +462,19 @@ void EmployeMainWindow::onActiverDesactiverUser()
     QString dbError = EmployeDAO::modifier(employe);
     if (!dbError.isEmpty()) {
         QMessageBox::critical(this, 
-            tr("❌ Erreur"), 
+            tr("Erreur"), 
             dbError);
         return;
     }
     
     QMessageBox::information(this, 
-        tr("✓ Succès"), 
+        tr("Succès"), 
         tr("L'employé est maintenant %1.")
         .arg(employe.statut));
     
     refreshUserTable();
 }
 
-// ─── Employee Search / Sort ──────────────────
 
 void EmployeMainWindow::onRechercherUser()
 {

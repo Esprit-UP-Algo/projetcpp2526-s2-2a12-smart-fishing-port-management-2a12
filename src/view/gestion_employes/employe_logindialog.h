@@ -2,6 +2,8 @@
 #define EMPLOYE_LOGINDIALOG_H
 
 #include <QDialog>
+#include "../../modele/gestion_employes/employe_dao.h"
+#include "../../modele/gestion_employes/auth_helper.h"
 
 namespace Ui {
 class EmployeLoginDialog;

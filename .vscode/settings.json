@@ -1,8 +1,0 @@
-{
-  "chat.tools.terminal.autoApprove": {
-    "/^# Copy UI files\nCopy-Item -Path \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\gestion_employes\\\\\\*\\.ui\" -Destination \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\view\\\\gestion_employes\\\\\" -Force\nWrite-Host \"UI files copied\"\n\n# Copy QRC file\nCopy-Item -Path \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\gestion_employes\\\\employe_resources\\.qrc\" -Destination \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\view\\\\gestion_employes\\\\\" -Force\nWrite-Host \"QRC file copied\"\n\n# Copy TS file \\(translations\\)\nCopy-Item -Path \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\gestion_employes\\\\\\*\\.ts\" -Destination \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\view\\\\gestion_employes\\\\\" -Force -ErrorAction SilentlyContinue\nWrite-Host \"TS files copied\"\n\n# Copy main\\.cpp to view\nCopy-Item -Path \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\gestion_employes\\\\main\\.cpp\" -Destination \"c:\\\\Users\\\\MEGA-PC\\\\Desktop\\\\integration complete\\\\ferdawes\\\\src\\\\view\\\\main\\.cpp\" -Force\nWrite-Host \"main\\.cpp copied to view\"\n\nWrite-Host \"All view files copied successfully!\"\n$/": {
-      "approve": true,
-      "matchCommandLine": true
-    }
-  }
-}

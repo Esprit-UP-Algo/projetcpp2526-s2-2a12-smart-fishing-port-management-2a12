@@ -30,6 +30,8 @@ qt_add_executable(AppGestionEmploye
     src/modele/gestion_employes/employe_dao.cpp
     src/modele/gestion_employes/employe_service.h
     src/modele/gestion_employes/employe_service.cpp
+    src/modele/gestion_employes/auth_helper.h
+    src/modele/gestion_employes/auth_helper.cpp
 
     # ========== VIEW LAYER ==========
     
