@@ -1,0 +1,22 @@
+# Build outputs / generated files (CMake, Ninja, Qt autogen)
+build-*/
+**/build/
+**/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.ninja
+.ninja_deps
+.ninja_log
+compile_commands.json
+
+# Backup created while un-nesting the project repo
+.git_backup_integration_qn/
+
+# Qt / IDE user files
+*.user
+*.user.*
+*.autosave
+
+# OS cruft
+.DS_Store
+Thumbs.db
