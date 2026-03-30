@@ -1,0 +1,31 @@
+LISTE DES PRIX DE POISSONS - ESTIMATION DE VENTE
+================================================
+
+Mise à jour: 28 Mars 2026
+Devise: TND (Dinar Tunisien)
+
+-------------------------------------------
+NOM DU POISSON         | PRIX ESTIMÉ (TND/kg)
+-------------------------------------------
+Sardine                | 8 - 10
+Anchois                | 7 - 9
+Maquereau              | 9 - 11
+Dorade                 | 12 - 16
+Rouget                 | 14 - 18
+Sole                   | 16 - 20
+Poulpe                 | 11 - 14
+Crevette               | 24 - 30
+Lieu                   | 10 - 13
+Encornet               | 12 - 16
+Merlan                 | 8 - 11
+Cabillaud              | 10 - 14
+Trout                  | 13 - 17
+Turbot                 | 18 - 24
+-------------------------------------------
+
+NOTES:
+------
+- Les prix varient en fonction de la qualité et de la taille
+- Les prix sont basés sur les transactions historiques
+- Pour les prix exacts, consultez la base de données
+- Mise à jour régulière des tarifs recommandée

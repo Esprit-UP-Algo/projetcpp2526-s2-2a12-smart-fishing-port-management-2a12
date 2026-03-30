@@ -1,0 +1,31 @@
+LISTE DES PRIX DE POISSONS - ESTIMATION DE VENTE
+================================================
+
+Mise à jour: 28 Mars 2026
+Devise: DZD (Dinar Algérien)
+
+-------------------------------------------
+NOM DU POISSON         | PRIX ESTIMÉ (DZD/kg)
+-------------------------------------------
+Sardine                | 400 - 500
+Anchois                | 350 - 450
+Maquereau              | 450 - 550
+Dorade                 | 600 - 800
+Rouget                 | 700 - 900
+Sole                   | 800 - 1000
+Poulpe                 | 550 - 700
+Crevette               | 1200 - 1500
+Lieu                   | 500 - 650
+Encornet               | 600 - 800
+Merlan                 | 400 - 550
+Cabillaud              | 500 - 700
+Trout                  | 650 - 850
+Turbot                 | 900 - 1200
+-------------------------------------------
+
+NOTES:
+------
+- Les prix varient en fonction de la qualité et de la taille
+- Les prix sont basés sur les transactions historiques
+- Pour les prix exacts, consultez la base de données
+- Mise à jour régulière des tarifs recommandée

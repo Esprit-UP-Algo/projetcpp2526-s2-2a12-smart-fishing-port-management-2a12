@@ -71,6 +71,29 @@ QScrollArea#mainScrollArea QWidget#qt_scrollarea_viewport {
   border-left: 3px solid #39c0fa;
   font-weight: 700;
 }
+#sidebar QPushButton[subitem="true"] {
+  background: transparent;
+  color: #c8d3df;
+  border: none;
+  border-left: 3px solid transparent;
+  border-radius: 0px;
+  text-align: left;
+  padding: 10px 18px;
+  padding-left: 34px;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0px 12px;
+}
+#sidebar QPushButton[subitem="true"]:hover {
+  background-color: rgba(57,192,250,0.08);
+  color: #e6eef6;
+}
+#sidebar QPushButton[subitem="true"][active="true"] {
+  background: transparent;
+  color: #39c0fa;
+  border-left: 3px solid transparent;
+  font-weight: 700;
+}
 #headerFrame {
   background: transparent;
 }
@@ -445,6 +468,75 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
          </property>
         </widget>
        </item>
+         <item>
+          <widget class="QFrame" name="ventesMenu">
+           <property name="visible">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <layout class="QVBoxLayout" name="ventesMenuLayout">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QPushButton" name="btnVentesAffichage">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Affichage</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnVentesStatistique">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Statistique</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnVentesAvancees">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Avancées</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
        <item>
         <spacer name="sidebarBottomSpacer">
          <property name="orientation">
@@ -603,99 +695,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                <property name="bottomMargin">
                 <number>14</number>
                </property>
-               <item>
-                <widget class="QFrame" name="transactionsFrame">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="transactionsFrameLayout">
-                  <property name="leftMargin">
-                   <number>20</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>14</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>20</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>16</number>
-                  </property>
-                  <property name="spacing">
-                   <number>12</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="lblTransactions">
-                    <property name="text">
-                     <string>Gestion Transactions</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="buttonsLayout">
-                    <property name="spacing">
-                     <number>12</number>
-                    </property>
-                    <item>
-                     <widget class="QPushButton" name="btnCreer">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>36</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="text">
-                       <string>Créer</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btnModifier">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>36</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="text">
-                       <string>Modifier</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btnSupprimer">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>36</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
-                      <property name="text">
-                       <string>Supprimer</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="buttonsSpacer">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
                <item>
                 <widget class="QFrame" name="rechercheFrame">
                  <property name="frameShape">
@@ -954,10 +953,72 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                   <item>
                    <widget class="QLabel" name="lblAffichage">
                     <property name="text">
-                     <string>Affichage</string>
+                    <string>Gestion Transactions</string>
                     </property>
                    </widget>
                   </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="buttonsLayout">
+                   <property name="spacing">
+                    <number>12</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="btnCreer">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>36</height>
+                      </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="text">
+                      <string>Créer</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="btnModifier">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>36</height>
+                      </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="text">
+                      <string>Modifier</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="btnSupprimer">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>36</height>
+                      </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="text">
+                      <string>Supprimer</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="buttonsSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </item>
                   <item>
                    <widget class="QTableWidget" name="tableTransactions">
                     <property name="minimumSize">
@@ -1318,110 +1379,386 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTableWidget" name="tableAnomalies">
+                   <widget class="QFrame" name="chatFrame">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
-                      <height>120</height>
+                      <height>300</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>200</height>
-                     </size>
+                    <property name="frameShape">
+                     <enum>QFrame::StyledPanel</enum>
                     </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
-                    </property>
-                    <property name="selectionBehavior">
-                     <enum>QAbstractItemView::SelectRows</enum>
-                    </property>
-                    <attribute name="horizontalHeaderStretchLastSection">
-                     <bool>true</bool>
-                    </attribute>
-                    <attribute name="verticalHeaderVisible">
-                     <bool>false</bool>
-                    </attribute>
-                    <column>
-                     <property name="text">
-                      <string>Num Facture</string>
+                    <layout class="QVBoxLayout" name="chatFrameLayout">
+                     <property name="leftMargin">
+                      <number>0</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Prix/kg</string>
+                     <property name="topMargin">
+                      <number>0</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Quantité</string>
+                     <property name="rightMargin">
+                      <number>0</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Lot</string>
+                     <property name="bottomMargin">
+                      <number>0</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Date transaction</string>
+                     <property name="spacing">
+                      <number>8</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Motif</string>
-                     </property>
-                    </column>
+                     <item>
+                      <widget class="QTextBrowser" name="chatDisplay">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>200</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QTextBrowser {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+}
+                        </string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="inputLayout">
+                       <property name="spacing">
+                        <number>8</number>
+                       </property>
+                       <item>
+                        <widget class="QLineEdit" name="chatInput">
+                         <property name="placeholderText">
+                          <string>Décrivez la transaction anormale...</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QLineEdit {
+  background-color: #1a2a3a;
+  color: #e6eef6;
+  border: 1px solid #2a3f55;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-height: 30px;
+  font-size: 13px;
+}
+QLineEdit:focus {
+  border-color: #39a8d8;
+}
+                          </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="btnSendChat">
+                         <property name="text">
+                          <string>Envoyer</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QPushButton {
+  background-color: #2da4d8;
+  color: white;
+  border: 0px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 80px;
+}
+QPushButton:hover {
+  background-color: #3dbae8;
+}
+                          </string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lblPrevision">
+                   <widget class="QLabel" name="lblFishPricing">
                     <property name="text">
-                     <string>Prévision du chiffre d'affaires (basée sur l'historique)</string>
+                     <string>Estimation de Prix de Poissons</string>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">
+QLabel {
+  color: #1e90ff;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+                     </string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QFrame" name="separator2">
+                   <widget class="QFrame" name="separatorFish">
                     <property name="frameShape">
                      <enum>QFrame::HLine</enum>
                     </property>
                     <property name="frameShadow">
                      <enum>QFrame::Sunken</enum>
                     </property>
+                    <property name="styleSheet">
+                     <string notr="true">
+QFrame {
+  border: 1px solid #1e90ff;
+  background: transparent;
+}
+                     </string>
+                    </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTableWidget" name="tablePrevisions">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>220</height>
-                     </size>
+                   <widget class="QLabel" name="lblSelectFish">
+                    <property name="text">
+                     <string>Liste des Poissons Disponibles:</string>
                     </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
+                    <property name="styleSheet">
+                     <string notr="true">
+QLabel {
+  color: #0066cc;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 0px 4px 0px;
+}
+                     </string>
                     </property>
-                    <property name="selectionBehavior">
-                     <enum>QAbstractItemView::SelectRows</enum>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout">
+                    <item>
+                     <widget class="QComboBox" name="fishComboBox">
+                      <property name="minimumHeight">
+                       <number>45</number>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">
+QComboBox {
+  background-color: #ffffff;
+  color: #0033cc;
+  border: 2px solid #1e90ff;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+QComboBox:hover {
+  border-color: #4169e1;
+  background-color: #f0f8ff;
+}
+QComboBox:focus {
+  border-color: #1e90ff;
+  outline: none;
+}
+QComboBox::drop-down {
+  border-left: 2px solid #1e90ff;
+  background-color: #e6f2ff;
+  width: 40px;
+}
+QComboBox::down-arrow {
+  image: none;
+}
+QComboBox QAbstractItemView {
+  background-color: #ffffff;
+  color: #0033cc;
+  border: 2px solid #1e90ff;
+  border-radius: 4px;
+  selection-background-color: #1e90ff;
+  selection-color: #ffffff;
+  outline: none;
+}
+QComboBox QAbstractItemView::item {
+  padding: 8px;
+  border: none;
+  margin: 2px 0px;
+}
+QComboBox QAbstractItemView::item:hover {
+  background-color: #e6f2ff;
+  color: #0033cc;
+}
+QComboBox QAbstractItemView::item:selected {
+  background-color: #1e90ff;
+  color: #ffffff;
+  font-weight: 600;
+}
+                       </string>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>-- Sélectionner un poisson --</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Sardine</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Anchois</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Maquereau</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Dorade</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Rouget</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Sole</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Poulpe</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Crevette</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Lieu</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Encornet</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Merlan</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Cabillaud</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Trout</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Turbot</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="btnAfficherPrix">
+                      <property name="minimumHeight">
+                       <number>45</number>
+                      </property>
+                      <property name="maximumWidth">
+                       <number>120</number>
+                      </property>
+                      <property name="text">
+                       <string>Afficher Prix</string>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">
+QPushButton {
+  background-color: #1e90ff;
+  color: #ffffff;
+  border: 2px solid #0033cc;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+QPushButton:hover {
+  background-color: #4169e1;
+  border-color: #1e90ff;
+}
+QPushButton:pressed {
+  background-color: #0033cc;
+  border-color: #ffffff;
+}
+                       </string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QFrame" name="priceDisplayFrame">
+                    <property name="frameShape">
+                     <enum>QFrame::StyledPanel</enum>
                     </property>
-                    <attribute name="horizontalHeaderStretchLastSection">
-                     <bool>true</bool>
-                    </attribute>
-                    <attribute name="verticalHeaderVisible">
-                     <bool>false</bool>
-                    </attribute>
-                    <column>
-                     <property name="text">
-                      <string>Date</string>
+                    <property name="styleSheet">
+                     <string notr="true">
+QFrame {
+  background-color: #e6f2ff;
+  border: 2px solid #1e90ff;
+  border-radius: 8px;
+  padding: 16px;
+}
+                     </string>
+                    </property>
+                    <layout class="QVBoxLayout" name="priceLayoutFrame">
+                     <property name="leftMargin">
+                      <number>0</number>
                      </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Chiffre d'affaires</string>
+                     <property name="topMargin">
+                      <number>0</number>
                      </property>
-                    </column>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="priceResultLabel">
+                       <property name="text">
+                        <string>Sélectionnez un poisson pour voir le prix estimé</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QLabel {
+  color: #0033cc;
+  font-size: 13px;
+  font-weight: 500;
+}
+                        </string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimumHeight">
+                        <number>100</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                  </layout>

@@ -23,6 +23,7 @@ public:
 
 private slots:
     void recalcTotal();
+    void onOkClicked();
 
 private:
     Ui::TransactionDialog *ui;

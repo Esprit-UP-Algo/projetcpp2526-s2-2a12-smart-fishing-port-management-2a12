@@ -1,12 +1,16 @@
 C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/chebbi/Desktop/transaction/mainwindow.h \
   C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/moc_predefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/QObject \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/QPropertyAnimation \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q23utility.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractanimation.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qalgorithms.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qarraydata.h \
@@ -37,6 +41,7 @@ C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/tr
   C:/Qt/6.7.3/mingw_64/include/QtCore/qdatastream.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qdebug.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qeasingcurve.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qendian.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qexceptionhandling.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qflags.h \
@@ -74,6 +79,7 @@ C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/tr
   C:/Qt/6.7.3/mingw_64/include/QtCore/qpair.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qpoint.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qprocessordetection.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qpropertyanimation.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qrefcount.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qscopedpointer.h \
@@ -119,6 +125,7 @@ C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/tr
   C:/Qt/6.7.3/mingw_64/include/QtCore/qtypes.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qutf8stringview.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qvariant.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qvariantanimation.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qvarlengtharray.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qversiontagging.h \
@@ -359,4 +366,5 @@ C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/tr
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/time.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
+  C:/Users/chebbi/Desktop/transaction/fishpricingdialog.h \
   C:/Users/chebbi/Desktop/transaction/transaction.h

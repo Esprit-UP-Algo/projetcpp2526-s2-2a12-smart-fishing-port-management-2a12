@@ -24,6 +24,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -45,6 +46,11 @@ public:
     QPushButton *btnCaptures;
     QPushButton *btnStockage;
     QPushButton *btnVentes;
+    QFrame *ventesMenu;
+    QVBoxLayout *ventesMenuLayout;
+    QPushButton *btnVentesAffichage;
+    QPushButton *btnVentesStatistique;
+    QPushButton *btnVentesAvancees;
     QSpacerItem *sidebarBottomSpacer;
     QWidget *mainContent;
     QVBoxLayout *mainContentLayout;
@@ -59,14 +65,6 @@ public:
     QScrollArea *mainScrollArea;
     QWidget *scrollContents;
     QVBoxLayout *contentLayout;
-    QFrame *transactionsFrame;
-    QVBoxLayout *transactionsFrameLayout;
-    QLabel *lblTransactions;
-    QHBoxLayout *buttonsLayout;
-    QPushButton *btnCreer;
-    QPushButton *btnModifier;
-    QPushButton *btnSupprimer;
-    QSpacerItem *buttonsSpacer;
     QFrame *rechercheFrame;
     QVBoxLayout *rechercheFrameLayout;
     QLabel *lblRecherche;
@@ -89,6 +87,11 @@ public:
     QFrame *affichageFrame;
     QVBoxLayout *affichageFrameLayout;
     QLabel *lblAffichage;
+    QHBoxLayout *buttonsLayout;
+    QPushButton *btnCreer;
+    QPushButton *btnModifier;
+    QPushButton *btnSupprimer;
+    QSpacerItem *buttonsSpacer;
     QTableWidget *tableTransactions;
     QFrame *statsFrame;
     QVBoxLayout *statsFrameLayout;
@@ -142,10 +145,21 @@ public:
     QLabel *lblOptionsAvancees;
     QLabel *lblDetection;
     QFrame *separator1;
-    QTableWidget *tableAnomalies;
-    QLabel *lblPrevision;
-    QFrame *separator2;
-    QTableWidget *tablePrevisions;
+    QFrame *chatFrame;
+    QVBoxLayout *chatFrameLayout;
+    QTextBrowser *chatDisplay;
+    QHBoxLayout *inputLayout;
+    QLineEdit *chatInput;
+    QPushButton *btnSendChat;
+    QLabel *lblFishPricing;
+    QFrame *separatorFish;
+    QLabel *lblSelectFish;
+    QHBoxLayout *hboxLayout;
+    QComboBox *fishComboBox;
+    QPushButton *btnAfficherPrix;
+    QFrame *priceDisplayFrame;
+    QVBoxLayout *priceLayoutFrame;
+    QLabel *priceResultLabel;
     QSpacerItem *contentBottomSpacer;
 
     void setupUi(QMainWindow *MainWindow)
@@ -207,13 +221,37 @@ public:
 "  border-left: 3px solid #39c0fa;\n"
 "  font-weight: 700;\n"
 "}\n"
+"#sidebar QPushButton[subitem=\"true\"] {\n"
+"  background: transparent;\n"
+"  color: #c8d3df;\n"
+"  border: none;\n"
+"  border-left: 3px solid transparent;\n"
+"  border-radius: 0px;\n"
+"  text-align: left;\n"
+"  padding: 10px 18px;\n"
+"  padding-left: 34px;\n"
+"  font-size: 13px;\n"
+"  font-weight: 600;\n"
+"  margin: 0px 12px;\n"
+"}\n"
+"#sidebar QPushButton[subitem=\"true\"]:hover {\n"
+"  background-color: rgba(57,192,250,0.08);\n"
+"  color: #e6eef6;\n"
+"}\n"
+"#sidebar QPushButton[subitem=\"true\"][active=\"true\"] {\n"
+"  background: transparent;\n"
+"  color: #39c0fa;\n"
+"  border-left: 3px solid transparent;\n"
+"  font-weight: 700;\n"
+"}\n"
 "#headerFrame {\n"
 "  background: transparent;\n"
 "}\n"
 "#lblTitle {\n"
 "  color: #132437;\n"
 "  font-size: 28px;\n"
-"  font-weight: bold;\n"
+"  font-weig"
+                        "ht: bold;\n"
 "}\n"
 "#btnMenu {\n"
 "  background-color: #101c2c;\n"
@@ -236,8 +274,7 @@ public:
 "#lblStatistiquesVentes, #lblOptionsAvancees {\n"
 "  color: #39c0fa;\n"
 "  font-size: 18px;\n"
-""
-                        "  font-weight: 700;\n"
+"  font-weight: 700;\n"
 "}\n"
 "#lblDetection, #lblPrevision {\n"
 "  color: #9bb0c3;\n"
@@ -253,7 +290,8 @@ public:
 "  font-weight: 800;\n"
 "}\n"
 "#btnCreer:hover { background-color: #56cdfc; }\n"
-"#btnModifier {\n"
+"#btnMod"
+                        "ifier {\n"
 "  background-color: #23374e;\n"
 "  color: #e6eef6;\n"
 "  border: 1px solid #2b4561;\n"
@@ -279,8 +317,7 @@ public:
 "  border: 0px;\n"
 "  border-radius: 10px;\n"
 "  padding: 9px 14px;\n"
-""
-                        "  font-size: 13px;\n"
+"  font-size: 13px;\n"
 "  font-weight: 700;\n"
 "}\n"
 "#btnExportPDF:hover { background-color: #2a99ec; }\n"
@@ -294,7 +331,8 @@ public:
 "  font-size: 11px;\n"
 "  selection-background-color: #1e8de0;\n"
 "}\n"
-"QDateTimeEdit {\n"
+"QDateTime"
+                        "Edit {\n"
 "  background-color: #101c2c;\n"
 "  color: #e6eef6;\n"
 "  border: 1px solid #23374e;\n"
@@ -318,8 +356,7 @@ public:
 "QComboBox QAbstractItemView {\n"
 "  background-color: #132437;\n"
 "  color: #e6eef6;\n"
-"  selection-back"
-                        "ground-color: #1e8de0;\n"
+"  selection-background-color: #1e8de0;\n"
 "  border: 1px solid #23374e;\n"
 "}\n"
 "QTableWidget {\n"
@@ -333,7 +370,8 @@ public:
 "  selection-color: #0c1a29;\n"
 "}\n"
 "QHeaderView::section {\n"
-"  background-color: #101c2c;\n"
+"  "
+                        "background-color: #101c2c;\n"
 "  color: #9bb0c3;\n"
 "  border: 0px;\n"
 "  padding: 8px 10px;\n"
@@ -355,8 +393,7 @@ public:
 "#chartQTE, #chartREV {\n"
 "  background-color: #101c2c;\n"
 "  border: 10px solid #39c0fa;\n"
-""
-                        "  border-radius: 75px;\n"
+"  border-radius: 75px;\n"
 "  min-width: 150px; min-height: 150px;\n"
 "  max-width: 150px; max-height: 150px;\n"
 "}\n"
@@ -366,7 +403,8 @@ public:
 "  font-size: 11px;\n"
 "  font-weight: 600;\n"
 "  background: transparent;\n"
-"  border: none;\n"
+"  border: none;"
+                        "\n"
 "}\n"
 "#lblChartValue_jour, #lblChartValue_mois, #lblChartValue_annee, #lblChartValue_moyen,\n"
 "#lblChartQTE, #lblChartREV {\n"
@@ -390,8 +428,7 @@ public:
 "#comboPeriode {\n"
 "  background-color: #101c2c;\n"
 "  color: #e6eef6;\n"
-"  border: 1px solid #233"
-                        "74e;\n"
+"  border: 1px solid #23374e;\n"
 "  border-radius: 8px;\n"
 "  padding: 4px 10px;\n"
 "  min-height: 22px;\n"
@@ -409,7 +446,8 @@ public:
 "QScrollBar:vertical {\n"
 "  background: #101c2c;\n"
 "  width: 8px;\n"
-"  border-radius: 4px;\n"
+"  b"
+                        "order-radius: 4px;\n"
 "}\n"
 "QScrollBar::handle:vertical {\n"
 "  background: #23374e;\n"
@@ -493,6 +531,37 @@ public:
 
         sidebarLayout->addWidget(btnVentes);
 
+        ventesMenu = new QFrame(sidebar);
+        ventesMenu->setObjectName("ventesMenu");
+        ventesMenu->setVisible(false);
+        ventesMenu->setMinimumSize(QSize(0, 0));
+        ventesMenu->setMaximumSize(QSize(16777215, 0));
+        ventesMenu->setFrameShape(QFrame::NoFrame);
+        ventesMenuLayout = new QVBoxLayout(ventesMenu);
+        ventesMenuLayout->setSpacing(2);
+        ventesMenuLayout->setObjectName("ventesMenuLayout");
+        ventesMenuLayout->setContentsMargins(0, 0, 0, 0);
+        btnVentesAffichage = new QPushButton(ventesMenu);
+        btnVentesAffichage->setObjectName("btnVentesAffichage");
+        btnVentesAffichage->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        ventesMenuLayout->addWidget(btnVentesAffichage);
+
+        btnVentesStatistique = new QPushButton(ventesMenu);
+        btnVentesStatistique->setObjectName("btnVentesStatistique");
+        btnVentesStatistique->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        ventesMenuLayout->addWidget(btnVentesStatistique);
+
+        btnVentesAvancees = new QPushButton(ventesMenu);
+        btnVentesAvancees->setObjectName("btnVentesAvancees");
+        btnVentesAvancees->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        ventesMenuLayout->addWidget(btnVentesAvancees);
+
+
+        sidebarLayout->addWidget(ventesMenu);
+
         sidebarBottomSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
         sidebarLayout->addItem(sidebarBottomSpacer);
@@ -553,52 +622,6 @@ public:
         contentLayout->setSpacing(14);
         contentLayout->setObjectName("contentLayout");
         contentLayout->setContentsMargins(16, 14, 16, 14);
-        transactionsFrame = new QFrame(scrollContents);
-        transactionsFrame->setObjectName("transactionsFrame");
-        transactionsFrame->setFrameShape(QFrame::StyledPanel);
-        transactionsFrameLayout = new QVBoxLayout(transactionsFrame);
-        transactionsFrameLayout->setSpacing(12);
-        transactionsFrameLayout->setObjectName("transactionsFrameLayout");
-        transactionsFrameLayout->setContentsMargins(20, 14, 20, 16);
-        lblTransactions = new QLabel(transactionsFrame);
-        lblTransactions->setObjectName("lblTransactions");
-
-        transactionsFrameLayout->addWidget(lblTransactions);
-
-        buttonsLayout = new QHBoxLayout();
-        buttonsLayout->setSpacing(12);
-        buttonsLayout->setObjectName("buttonsLayout");
-        btnCreer = new QPushButton(transactionsFrame);
-        btnCreer->setObjectName("btnCreer");
-        btnCreer->setMinimumSize(QSize(100, 36));
-        btnCreer->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-
-        buttonsLayout->addWidget(btnCreer);
-
-        btnModifier = new QPushButton(transactionsFrame);
-        btnModifier->setObjectName("btnModifier");
-        btnModifier->setMinimumSize(QSize(100, 36));
-        btnModifier->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-
-        buttonsLayout->addWidget(btnModifier);
-
-        btnSupprimer = new QPushButton(transactionsFrame);
-        btnSupprimer->setObjectName("btnSupprimer");
-        btnSupprimer->setMinimumSize(QSize(100, 36));
-        btnSupprimer->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-
-        buttonsLayout->addWidget(btnSupprimer);
-
-        buttonsSpacer = new QSpacerItem(0, 0, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
-
-        buttonsLayout->addItem(buttonsSpacer);
-
-
-        transactionsFrameLayout->addLayout(buttonsLayout);
-
-
-        contentLayout->addWidget(transactionsFrame);
-
         rechercheFrame = new QFrame(scrollContents);
         rechercheFrame->setObjectName("rechercheFrame");
         rechercheFrame->setFrameShape(QFrame::StyledPanel);
@@ -723,6 +746,37 @@ public:
         lblAffichage->setObjectName("lblAffichage");
 
         affichageFrameLayout->addWidget(lblAffichage);
+
+        buttonsLayout = new QHBoxLayout();
+        buttonsLayout->setSpacing(12);
+        buttonsLayout->setObjectName("buttonsLayout");
+        btnCreer = new QPushButton(affichageFrame);
+        btnCreer->setObjectName("btnCreer");
+        btnCreer->setMinimumSize(QSize(100, 36));
+        btnCreer->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        buttonsLayout->addWidget(btnCreer);
+
+        btnModifier = new QPushButton(affichageFrame);
+        btnModifier->setObjectName("btnModifier");
+        btnModifier->setMinimumSize(QSize(100, 36));
+        btnModifier->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        buttonsLayout->addWidget(btnModifier);
+
+        btnSupprimer = new QPushButton(affichageFrame);
+        btnSupprimer->setObjectName("btnSupprimer");
+        btnSupprimer->setMinimumSize(QSize(100, 36));
+        btnSupprimer->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+
+        buttonsLayout->addWidget(btnSupprimer);
+
+        buttonsSpacer = new QSpacerItem(0, 0, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        buttonsLayout->addItem(buttonsSpacer);
+
+
+        affichageFrameLayout->addLayout(buttonsLayout);
 
         tableTransactions = new QTableWidget(affichageFrame);
         if (tableTransactions->columnCount() < 9)
@@ -1032,58 +1086,250 @@ public:
 
         optionsFrameLayout->addWidget(separator1);
 
-        tableAnomalies = new QTableWidget(optionsFrame);
-        if (tableAnomalies->columnCount() < 6)
-            tableAnomalies->setColumnCount(6);
-        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(0, __qtablewidgetitem9);
-        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(1, __qtablewidgetitem10);
-        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(2, __qtablewidgetitem11);
-        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(3, __qtablewidgetitem12);
-        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(4, __qtablewidgetitem13);
-        QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
-        tableAnomalies->setHorizontalHeaderItem(5, __qtablewidgetitem14);
-        tableAnomalies->setObjectName("tableAnomalies");
-        tableAnomalies->setMinimumSize(QSize(0, 120));
-        tableAnomalies->setMaximumSize(QSize(16777215, 200));
-        tableAnomalies->setAlternatingRowColors(true);
-        tableAnomalies->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableAnomalies->horizontalHeader()->setStretchLastSection(true);
-        tableAnomalies->verticalHeader()->setVisible(false);
+        chatFrame = new QFrame(optionsFrame);
+        chatFrame->setObjectName("chatFrame");
+        chatFrame->setMinimumSize(QSize(0, 300));
+        chatFrame->setFrameShape(QFrame::StyledPanel);
+        chatFrameLayout = new QVBoxLayout(chatFrame);
+        chatFrameLayout->setSpacing(8);
+        chatFrameLayout->setObjectName("chatFrameLayout");
+        chatFrameLayout->setContentsMargins(0, 0, 0, 0);
+        chatDisplay = new QTextBrowser(chatFrame);
+        chatDisplay->setObjectName("chatDisplay");
+        chatDisplay->setMinimumSize(QSize(0, 200));
+        chatDisplay->setStyleSheet(QString::fromUtf8("\n"
+"QTextBrowser {\n"
+"  background-color: #1a2a3a;\n"
+"  color: #e6eef6;\n"
+"  border: 1px solid #2a3f55;\n"
+"  border-radius: 8px;\n"
+"  padding: 12px;\n"
+"  font-size: 13px;\n"
+"}\n"
+"                        "));
 
-        optionsFrameLayout->addWidget(tableAnomalies);
+        chatFrameLayout->addWidget(chatDisplay);
 
-        lblPrevision = new QLabel(optionsFrame);
-        lblPrevision->setObjectName("lblPrevision");
+        inputLayout = new QHBoxLayout();
+        inputLayout->setSpacing(8);
+        inputLayout->setObjectName("inputLayout");
+        chatInput = new QLineEdit(chatFrame);
+        chatInput->setObjectName("chatInput");
+        chatInput->setStyleSheet(QString::fromUtf8("\n"
+"QLineEdit {\n"
+"  background-color: #1a2a3a;\n"
+"  color: #e6eef6;\n"
+"  border: 1px solid #2a3f55;\n"
+"  border-radius: 8px;\n"
+"  padding: 8px 12px;\n"
+"  min-height: 30px;\n"
+"  font-size: 13px;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"  border-color: #39a8d8;\n"
+"}\n"
+"                          "));
 
-        optionsFrameLayout->addWidget(lblPrevision);
+        inputLayout->addWidget(chatInput);
 
-        separator2 = new QFrame(optionsFrame);
-        separator2->setObjectName("separator2");
-        separator2->setFrameShape(QFrame::HLine);
-        separator2->setFrameShadow(QFrame::Sunken);
+        btnSendChat = new QPushButton(chatFrame);
+        btnSendChat->setObjectName("btnSendChat");
+        btnSendChat->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #2da4d8;\n"
+"  color: white;\n"
+"  border: 0px;\n"
+"  border-radius: 8px;\n"
+"  padding: 8px 16px;\n"
+"  font-size: 13px;\n"
+"  font-weight: 700;\n"
+"  min-width: 80px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #3dbae8;\n"
+"}\n"
+"                          "));
 
-        optionsFrameLayout->addWidget(separator2);
+        inputLayout->addWidget(btnSendChat);
 
-        tablePrevisions = new QTableWidget(optionsFrame);
-        if (tablePrevisions->columnCount() < 2)
-            tablePrevisions->setColumnCount(2);
-        QTableWidgetItem *__qtablewidgetitem15 = new QTableWidgetItem();
-        tablePrevisions->setHorizontalHeaderItem(0, __qtablewidgetitem15);
-        QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
-        tablePrevisions->setHorizontalHeaderItem(1, __qtablewidgetitem16);
-        tablePrevisions->setObjectName("tablePrevisions");
-        tablePrevisions->setMinimumSize(QSize(0, 220));
-        tablePrevisions->setAlternatingRowColors(true);
-        tablePrevisions->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tablePrevisions->horizontalHeader()->setStretchLastSection(true);
-        tablePrevisions->verticalHeader()->setVisible(false);
 
-        optionsFrameLayout->addWidget(tablePrevisions);
+        chatFrameLayout->addLayout(inputLayout);
+
+
+        optionsFrameLayout->addWidget(chatFrame);
+
+        lblFishPricing = new QLabel(optionsFrame);
+        lblFishPricing->setObjectName("lblFishPricing");
+        lblFishPricing->setStyleSheet(QString::fromUtf8("\n"
+"QLabel {\n"
+"  color: #1e90ff;\n"
+"  font-size: 16px;\n"
+"  font-weight: 800;\n"
+"  letter-spacing: 0.5px;\n"
+"}\n"
+"                     "));
+
+        optionsFrameLayout->addWidget(lblFishPricing);
+
+        separatorFish = new QFrame(optionsFrame);
+        separatorFish->setObjectName("separatorFish");
+        separatorFish->setFrameShape(QFrame::HLine);
+        separatorFish->setFrameShadow(QFrame::Sunken);
+        separatorFish->setStyleSheet(QString::fromUtf8("\n"
+"QFrame {\n"
+"  border: 1px solid #1e90ff;\n"
+"  background: transparent;\n"
+"}\n"
+"                     "));
+
+        optionsFrameLayout->addWidget(separatorFish);
+
+        lblSelectFish = new QLabel(optionsFrame);
+        lblSelectFish->setObjectName("lblSelectFish");
+        lblSelectFish->setStyleSheet(QString::fromUtf8("\n"
+"QLabel {\n"
+"  color: #0066cc;\n"
+"  font-weight: 700;\n"
+"  font-size: 13px;\n"
+"  padding: 8px 0px 4px 0px;\n"
+"}\n"
+"                     "));
+
+        optionsFrameLayout->addWidget(lblSelectFish);
+
+        hboxLayout = new QHBoxLayout();
+        hboxLayout->setObjectName("hboxLayout");
+        fishComboBox = new QComboBox(optionsFrame);
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->addItem(QString());
+        fishComboBox->setObjectName("fishComboBox");
+        fishComboBox->setMinimumHeight(45);
+        fishComboBox->setStyleSheet(QString::fromUtf8("\n"
+"QComboBox {\n"
+"  background-color: #ffffff;\n"
+"  color: #0033cc;\n"
+"  border: 2px solid #1e90ff;\n"
+"  border-radius: 6px;\n"
+"  padding: 8px 12px;\n"
+"  font-size: 13px;\n"
+"  font-weight: 500;\n"
+"}\n"
+"QComboBox:hover {\n"
+"  border-color: #4169e1;\n"
+"  background-color: #f0f8ff;\n"
+"}\n"
+"QComboBox:focus {\n"
+"  border-color: #1e90ff;\n"
+"  outline: none;\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"  border-left: 2px solid #1e90ff;\n"
+"  background-color: #e6f2ff;\n"
+"  width: 40px;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"  image: none;\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"  background-color: #ffffff;\n"
+"  color: #0033cc;\n"
+"  border: 2px solid #1e90ff;\n"
+"  border-radius: 4px;\n"
+"  selection-background-color: #1e90ff;\n"
+"  selection-color: #ffffff;\n"
+"  outline: none;\n"
+"}\n"
+"QComboBox QAbstractItemView::item {\n"
+"  padding: 8px;\n"
+"  border: none;\n"
+"  margin: 2px 0px;\n"
+"}\n"
+"QComboBox QAbstractItemView::item:hover {\n"
+"  background-color: #e6f2ff;\n"
+"  color: #0033cc;\n"
+"}\n"
+"QC"
+                        "omboBox QAbstractItemView::item:selected {\n"
+"  background-color: #1e90ff;\n"
+"  color: #ffffff;\n"
+"  font-weight: 600;\n"
+"}\n"
+"                       "));
+
+        hboxLayout->addWidget(fishComboBox);
+
+        btnAfficherPrix = new QPushButton(optionsFrame);
+        btnAfficherPrix->setObjectName("btnAfficherPrix");
+        btnAfficherPrix->setMinimumHeight(45);
+        btnAfficherPrix->setMaximumWidth(120);
+        btnAfficherPrix->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #1e90ff;\n"
+"  color: #ffffff;\n"
+"  border: 2px solid #0033cc;\n"
+"  border-radius: 6px;\n"
+"  padding: 8px 16px;\n"
+"  font-size: 13px;\n"
+"  font-weight: 600;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #4169e1;\n"
+"  border-color: #1e90ff;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"  background-color: #0033cc;\n"
+"  border-color: #ffffff;\n"
+"}\n"
+"                       "));
+
+        hboxLayout->addWidget(btnAfficherPrix);
+
+
+        optionsFrameLayout->addLayout(hboxLayout);
+
+        priceDisplayFrame = new QFrame(optionsFrame);
+        priceDisplayFrame->setObjectName("priceDisplayFrame");
+        priceDisplayFrame->setFrameShape(QFrame::StyledPanel);
+        priceDisplayFrame->setStyleSheet(QString::fromUtf8("\n"
+"QFrame {\n"
+"  background-color: #e6f2ff;\n"
+"  border: 2px solid #1e90ff;\n"
+"  border-radius: 8px;\n"
+"  padding: 16px;\n"
+"}\n"
+"                     "));
+        priceLayoutFrame = new QVBoxLayout(priceDisplayFrame);
+        priceLayoutFrame->setObjectName("priceLayoutFrame");
+        priceLayoutFrame->setContentsMargins(0, 0, 0, 0);
+        priceResultLabel = new QLabel(priceDisplayFrame);
+        priceResultLabel->setObjectName("priceResultLabel");
+        priceResultLabel->setStyleSheet(QString::fromUtf8("\n"
+"QLabel {\n"
+"  color: #0033cc;\n"
+"  font-size: 13px;\n"
+"  font-weight: 500;\n"
+"}\n"
+"                        "));
+        priceResultLabel->setAlignment(Qt::AlignCenter);
+        priceResultLabel->setMinimumHeight(100);
+
+        priceLayoutFrame->addWidget(priceResultLabel);
+
+
+        optionsFrameLayout->addWidget(priceDisplayFrame);
 
 
         contentLayout->addWidget(optionsFrame);
@@ -1124,12 +1370,11 @@ public:
         btnCaptures->setText(QCoreApplication::translate("MainWindow", "Gestion Des Captures", nullptr));
         btnStockage->setText(QCoreApplication::translate("MainWindow", "Stockage Frigorifique", nullptr));
         btnVentes->setText(QCoreApplication::translate("MainWindow", "Gestion Des Ventes", nullptr));
+        btnVentesAffichage->setText(QCoreApplication::translate("MainWindow", "Affichage", nullptr));
+        btnVentesStatistique->setText(QCoreApplication::translate("MainWindow", "Statistique", nullptr));
+        btnVentesAvancees->setText(QCoreApplication::translate("MainWindow", "Avanc\303\251es", nullptr));
         lblTitle->setText(QCoreApplication::translate("MainWindow", "VISION SIGHT", nullptr));
         btnMenu->setText(QCoreApplication::translate("MainWindow", "\342\230\260", nullptr));
-        lblTransactions->setText(QCoreApplication::translate("MainWindow", "Gestion Transactions", nullptr));
-        btnCreer->setText(QCoreApplication::translate("MainWindow", "Cr\303\251er", nullptr));
-        btnModifier->setText(QCoreApplication::translate("MainWindow", "Modifier", nullptr));
-        btnSupprimer->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
         lblRecherche->setText(QCoreApplication::translate("MainWindow", "Recherche", nullptr));
         lineRecherchePecheur->setPlaceholderText(QCoreApplication::translate("MainWindow", "Recherche p\303\252cheur", nullptr));
         lineRechercheFacture->setPlaceholderText(QCoreApplication::translate("MainWindow", "Recherche Num Facture", nullptr));
@@ -1148,7 +1393,10 @@ public:
         comboOrdre->setItemText(0, QCoreApplication::translate("MainWindow", "D\303\251croissant", nullptr));
         comboOrdre->setItemText(1, QCoreApplication::translate("MainWindow", "Croissant", nullptr));
 
-        lblAffichage->setText(QCoreApplication::translate("MainWindow", "Affichage", nullptr));
+        lblAffichage->setText(QCoreApplication::translate("MainWindow", "Gestion Transactions", nullptr));
+        btnCreer->setText(QCoreApplication::translate("MainWindow", "Cr\303\251er", nullptr));
+        btnModifier->setText(QCoreApplication::translate("MainWindow", "Modifier", nullptr));
+        btnSupprimer->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tableTransactions->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Num Facture", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tableTransactions->horizontalHeaderItem(1);
@@ -1194,23 +1442,28 @@ public:
         lblChartUnitREV->setText(QCoreApplication::translate("MainWindow", "DT", nullptr));
         lblOptionsAvancees->setText(QCoreApplication::translate("MainWindow", "Options avanc\303\251es", nullptr));
         lblDetection->setText(QCoreApplication::translate("MainWindow", "D\303\251tection des transactions anormales", nullptr));
-        QTableWidgetItem *___qtablewidgetitem9 = tableAnomalies->horizontalHeaderItem(0);
-        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Num Facture", nullptr));
-        QTableWidgetItem *___qtablewidgetitem10 = tableAnomalies->horizontalHeaderItem(1);
-        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Prix/kg", nullptr));
-        QTableWidgetItem *___qtablewidgetitem11 = tableAnomalies->horizontalHeaderItem(2);
-        ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "Quantit\303\251", nullptr));
-        QTableWidgetItem *___qtablewidgetitem12 = tableAnomalies->horizontalHeaderItem(3);
-        ___qtablewidgetitem12->setText(QCoreApplication::translate("MainWindow", "Lot", nullptr));
-        QTableWidgetItem *___qtablewidgetitem13 = tableAnomalies->horizontalHeaderItem(4);
-        ___qtablewidgetitem13->setText(QCoreApplication::translate("MainWindow", "Date transaction", nullptr));
-        QTableWidgetItem *___qtablewidgetitem14 = tableAnomalies->horizontalHeaderItem(5);
-        ___qtablewidgetitem14->setText(QCoreApplication::translate("MainWindow", "Motif", nullptr));
-        lblPrevision->setText(QCoreApplication::translate("MainWindow", "Pr\303\251vision du chiffre d'affaires (bas\303\251e sur l'historique)", nullptr));
-        QTableWidgetItem *___qtablewidgetitem15 = tablePrevisions->horizontalHeaderItem(0);
-        ___qtablewidgetitem15->setText(QCoreApplication::translate("MainWindow", "Date", nullptr));
-        QTableWidgetItem *___qtablewidgetitem16 = tablePrevisions->horizontalHeaderItem(1);
-        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "Chiffre d'affaires", nullptr));
+        chatInput->setPlaceholderText(QCoreApplication::translate("MainWindow", "D\303\251crivez la transaction anormale...", nullptr));
+        btnSendChat->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
+        lblFishPricing->setText(QCoreApplication::translate("MainWindow", "Estimation de Prix de Poissons", nullptr));
+        lblSelectFish->setText(QCoreApplication::translate("MainWindow", "Liste des Poissons Disponibles:", nullptr));
+        fishComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "-- S\303\251lectionner un poisson --", nullptr));
+        fishComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Sardine", nullptr));
+        fishComboBox->setItemText(2, QCoreApplication::translate("MainWindow", "Anchois", nullptr));
+        fishComboBox->setItemText(3, QCoreApplication::translate("MainWindow", "Maquereau", nullptr));
+        fishComboBox->setItemText(4, QCoreApplication::translate("MainWindow", "Dorade", nullptr));
+        fishComboBox->setItemText(5, QCoreApplication::translate("MainWindow", "Rouget", nullptr));
+        fishComboBox->setItemText(6, QCoreApplication::translate("MainWindow", "Sole", nullptr));
+        fishComboBox->setItemText(7, QCoreApplication::translate("MainWindow", "Poulpe", nullptr));
+        fishComboBox->setItemText(8, QCoreApplication::translate("MainWindow", "Crevette", nullptr));
+        fishComboBox->setItemText(9, QCoreApplication::translate("MainWindow", "Lieu", nullptr));
+        fishComboBox->setItemText(10, QCoreApplication::translate("MainWindow", "Encornet", nullptr));
+        fishComboBox->setItemText(11, QCoreApplication::translate("MainWindow", "Merlan", nullptr));
+        fishComboBox->setItemText(12, QCoreApplication::translate("MainWindow", "Cabillaud", nullptr));
+        fishComboBox->setItemText(13, QCoreApplication::translate("MainWindow", "Trout", nullptr));
+        fishComboBox->setItemText(14, QCoreApplication::translate("MainWindow", "Turbot", nullptr));
+
+        btnAfficherPrix->setText(QCoreApplication::translate("MainWindow", "Afficher Prix", nullptr));
+        priceResultLabel->setText(QCoreApplication::translate("MainWindow", "S\303\251lectionnez un poisson pour voir le prix estim\303\251", nullptr));
     } // retranslateUi
 
 };

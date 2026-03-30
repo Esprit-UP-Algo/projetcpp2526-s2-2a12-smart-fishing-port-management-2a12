@@ -1,11 +1,15 @@
 transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/QObject \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/QPropertyAnimation \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/q23utility.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractanimation.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qalgorithms.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qanystringview.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qarraydata.h \
@@ -36,6 +40,7 @@ transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qdatastream.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qdebug.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qeasingcurve.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qendian.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qexceptionhandling.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qflags.h \
@@ -73,6 +78,7 @@ transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qpair.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qpoint.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qprocessordetection.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qpropertyanimation.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qrect.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qrefcount.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qscopedpointer.h \
@@ -118,6 +124,7 @@ transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qtypes.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qutf8stringview.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qvariant.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qvariantanimation.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qvarlengtharray.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qversiontagging.h \
@@ -309,6 +316,31 @@ transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsTargets-relwithdebinfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkPlugins.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportAdditionalTargetInfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportConfigVersion.cmake \
@@ -318,6 +350,31 @@ transaction_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportTargets-relwithdebinfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6PrintSupport/Qt6PrintSupportVersionlessTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \
@@ -585,6 +642,10 @@ transaction_autogen/timestamp: \
 	C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/moc_predefs.h \
+	C:/Users/chebbi/Desktop/transaction/connection.cpp \
+	C:/Users/chebbi/Desktop/transaction/connection.h \
+	C:/Users/chebbi/Desktop/transaction/fishpricingdialog.cpp \
+	C:/Users/chebbi/Desktop/transaction/fishpricingdialog.h \
 	C:/Users/chebbi/Desktop/transaction/main.cpp \
 	C:/Users/chebbi/Desktop/transaction/mainwindow.cpp \
 	C:/Users/chebbi/Desktop/transaction/mainwindow.h \

@@ -41,13 +41,29 @@ endif()
 # _directory_contents at C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/chebbi/Desktop/transaction/*.cpp")
 set(OLD_GLOB
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/debug/moc_mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/connection.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/main.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/debug/moc_mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/debug/moc_mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/connection.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/main.cpp"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/assistantdialog.cpp"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+  "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/moc_assistantdialog.cpp"
+  "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/moc_fishpricingdialog.cpp"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/moc_mainwindow.cpp"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/moc_transactiondialog.cpp"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/EWIEGA46WW/qrc_resources.cpp"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/mocs_compilation.cpp"
+  "C:/Users/chebbi/Desktop/transaction/build_new/CMakeFiles/3.30.5/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+  "C:/Users/chebbi/Desktop/transaction/connection.cpp"
+  "C:/Users/chebbi/Desktop/transaction/fishpricingdialog.cpp"
   "C:/Users/chebbi/Desktop/transaction/main.cpp"
   "C:/Users/chebbi/Desktop/transaction/mainwindow.cpp"
+  "C:/Users/chebbi/Desktop/transaction/mainwindow_slots.cpp"
   "C:/Users/chebbi/Desktop/transaction/transactiondialog.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
@@ -67,9 +83,22 @@ endif()
 # _directory_contents at C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/chebbi/Desktop/transaction/*.h")
 set(OLD_GLOB
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/debug/moc_predefs.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/ui_mainwindow.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/connection.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/mainwindow.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/debug/moc_predefs.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_7_3_llvm_mingw_64_bit-Debug/ui_mainwindow.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/debug/moc_predefs.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/ui_mainwindow.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/connection.h"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/mainwindow.h"
+  "C:/Users/chebbi/Desktop/transaction/assistantdialog.h"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/include/ui_mainwindow.h"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/include/ui_transactiondialog.h"
   "C:/Users/chebbi/Desktop/transaction/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/transaction_autogen/moc_predefs.h"
+  "C:/Users/chebbi/Desktop/transaction/connection.h"
+  "C:/Users/chebbi/Desktop/transaction/fishpricingdialog.h"
   "C:/Users/chebbi/Desktop/transaction/mainwindow.h"
   "C:/Users/chebbi/Desktop/transaction/transaction.h"
   "C:/Users/chebbi/Desktop/transaction/transactiondialog.h"
@@ -174,6 +203,8 @@ endif()
 # _directory_contents at C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6LinguistTools/Qt6LinguistToolsMacros.cmake:55 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/chebbi/Desktop/transaction/*.ui")
 set(OLD_GLOB
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/Atelier_Connexion/mainwindow.ui"
+  "C:/Users/chebbi/Desktop/transaction/Atelier_Connexion/mainwindow.ui"
   "C:/Users/chebbi/Desktop/transaction/mainwindow.ui"
   "C:/Users/chebbi/Desktop/transaction/transactiondialog.ui"
   )

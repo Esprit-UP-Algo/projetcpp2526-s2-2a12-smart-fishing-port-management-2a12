@@ -275,6 +275,7 @@
 #define __INT_LEAST16_MAX__ 0x7fff
 #define __DEC64_MANT_DIG__ 16
 #define __INT64_MAX__ 0x7fffffffffffffffLL
+#define QT_NETWORK_LIB 1
 #define __SEG_GS 1
 #define __FLT32_DENORM_MIN__ 1.40129846432481707092372958328991613e-45F32
 #define __SIG_ATOMIC_WIDTH__ 32
@@ -368,6 +369,7 @@
 #define __fastcall __attribute__((__fastcall__))
 #define __cpp_namespace_attributes 201411L
 #define __FLT64X_MIN__ 3.36210314311209350626267781732175260e-4932F64x
+#define QT_SQL_LIB 1
 #define __STDCPP_THREADS__ 1
 #define __GNUC_STDC_INLINE__ 1
 #define __FLT64_HAS_DENORM__ 1

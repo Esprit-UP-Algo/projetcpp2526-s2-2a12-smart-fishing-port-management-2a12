@@ -8,6 +8,7 @@
 struct Transaction {
     QString numFacture;
     QString pecheur;
+    // `lot` column removed from DB schema; keep field for UI but allow empty
     QString lot;
     double  prixKg     = 0.0;
     double  quantite   = 0.0;

@@ -37,7 +37,7 @@ public:
     QLabel *lblPecheur;
     QLineEdit *linePecheur;
     QLabel *lblLot;
-    QLineEdit *lineLot;
+    QComboBox *comboLot;
     QLabel *lblPrixKg;
     QDoubleSpinBox *spinPrixKg;
     QLabel *lblQuantite;
@@ -243,10 +243,25 @@ public:
 
         formLayout->setWidget(2, QFormLayout::LabelRole, lblLot);
 
-        lineLot = new QLineEdit(TransactionDialog);
-        lineLot->setObjectName("lineLot");
+        comboLot = new QComboBox(TransactionDialog);
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->addItem(QString());
+        comboLot->setObjectName("comboLot");
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, lineLot);
+        formLayout->setWidget(2, QFormLayout::FieldRole, comboLot);
 
         lblPrixKg = new QLabel(TransactionDialog);
         lblPrixKg->setObjectName("lblPrixKg");
@@ -370,14 +385,29 @@ public:
         lineNumFacture->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "FCT-100", nullptr));
         lblPecheur->setText(QCoreApplication::translate("TransactionDialog", "P\303\252cheur", nullptr));
         linePecheur->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "Nom du p\303\252cheur", nullptr));
-        lblLot->setText(QCoreApplication::translate("TransactionDialog", "Lot", nullptr));
-        lineLot->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "LOT-100", nullptr));
+        lblLot->setText(QCoreApplication::translate("TransactionDialog", "Poisson", nullptr));
+        comboLot->setItemText(0, QCoreApplication::translate("TransactionDialog", "-- S\303\251lectionner --", nullptr));
+        comboLot->setItemText(1, QCoreApplication::translate("TransactionDialog", "Sardine", nullptr));
+        comboLot->setItemText(2, QCoreApplication::translate("TransactionDialog", "Anchois", nullptr));
+        comboLot->setItemText(3, QCoreApplication::translate("TransactionDialog", "Maquereau", nullptr));
+        comboLot->setItemText(4, QCoreApplication::translate("TransactionDialog", "Dorade", nullptr));
+        comboLot->setItemText(5, QCoreApplication::translate("TransactionDialog", "Rouget", nullptr));
+        comboLot->setItemText(6, QCoreApplication::translate("TransactionDialog", "Sole", nullptr));
+        comboLot->setItemText(7, QCoreApplication::translate("TransactionDialog", "Poulpe", nullptr));
+        comboLot->setItemText(8, QCoreApplication::translate("TransactionDialog", "Crevette", nullptr));
+        comboLot->setItemText(9, QCoreApplication::translate("TransactionDialog", "Lieu", nullptr));
+        comboLot->setItemText(10, QCoreApplication::translate("TransactionDialog", "Encornet", nullptr));
+        comboLot->setItemText(11, QCoreApplication::translate("TransactionDialog", "Merlan", nullptr));
+        comboLot->setItemText(12, QCoreApplication::translate("TransactionDialog", "Cabillaud", nullptr));
+        comboLot->setItemText(13, QCoreApplication::translate("TransactionDialog", "Trout", nullptr));
+        comboLot->setItemText(14, QCoreApplication::translate("TransactionDialog", "Turbot", nullptr));
+
         lblPrixKg->setText(QCoreApplication::translate("TransactionDialog", "Prix / kg", nullptr));
-        spinPrixKg->setSuffix(QCoreApplication::translate("TransactionDialog", " DT", nullptr));
+        spinPrixKg->setSuffix(QCoreApplication::translate("TransactionDialog", " TND", nullptr));
         lblQuantite->setText(QCoreApplication::translate("TransactionDialog", "Quantit\303\251", nullptr));
         spinQuantite->setSuffix(QCoreApplication::translate("TransactionDialog", " kg", nullptr));
         lblTotal->setText(QCoreApplication::translate("TransactionDialog", "Total", nullptr));
-        totalValue->setText(QCoreApplication::translate("TransactionDialog", "0,00 DT", nullptr));
+        totalValue->setText(QCoreApplication::translate("TransactionDialog", "0,00 TND", nullptr));
         lblDate->setText(QCoreApplication::translate("TransactionDialog", "Date transaction", nullptr));
         dateTransaction->setDisplayFormat(QCoreApplication::translate("TransactionDialog", "yyyy-MM-dd HH:mm", nullptr));
         lblModePaiement->setText(QCoreApplication::translate("TransactionDialog", "Mode paiement", nullptr));

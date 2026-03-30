@@ -208,12 +208,56 @@ QComboBox QAbstractItemView {
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="lblLot">
-       <property name="text"><string>Lot</string></property>
+       <property name="text"><string>Poisson</string></property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineLot">
-       <property name="placeholderText"><string>LOT-100</string></property>
+      <widget class="QComboBox" name="comboLot">
+       <item>
+        <property name="text"><string>-- Sélectionner --</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Sardine</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Anchois</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Maquereau</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Dorade</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Rouget</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Sole</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Poulpe</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Crevette</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Lieu</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Encornet</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Merlan</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Cabillaud</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Trout</string></property>
+       </item>
+       <item>
+        <property name="text"><string>Turbot</string></property>
+       </item>
       </widget>
      </item>
      <item row="3" column="0">
@@ -227,7 +271,7 @@ QComboBox QAbstractItemView {
        <property name="maximum"><double>999999999.000000000000000</double></property>
        <property name="decimals"><number>2</number></property>
        <property name="singleStep"><double>0.500000000000000</double></property>
-       <property name="suffix"><string> DT</string></property>
+       <property name="suffix"><string> TND</string></property>
       </widget>
      </item>
      <item row="4" column="0">
@@ -251,7 +295,7 @@ QComboBox QAbstractItemView {
      </item>
      <item row="5" column="1">
       <widget class="QLabel" name="totalValue">
-       <property name="text"><string>0,00 DT</string></property>
+       <property name="text"><string>0,00 TND</string></property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignVCenter</set>
        </property>
