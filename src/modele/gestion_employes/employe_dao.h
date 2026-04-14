@@ -10,6 +10,13 @@ namespace employes {
 class EmployeDAO
 {
 public:
+    struct Salaire {
+        float brut = 0.0f;
+        float cnss = 0.0f;
+        float impot = 0.0f;
+        float net = 0.0f;
+    };
+
     EmployeDAO();
     ~EmployeDAO();
 
@@ -25,7 +32,7 @@ public:
 
     static QString validatePassword(const QString &password);
 
-    static QString validateEmploye(const EmployeUser &employe);
+    static QString validateEmploye(const EmployeUser &employe, bool checkCINUnique = true, const QString &excludeCIN = "");
 
     static QString ajouter(const EmployeUser &employe);
 
@@ -35,6 +42,14 @@ public:
 
     static QString supprimer(const QString &cin);
     static EmployeUser findByLogin(const QString &login);
+
+    // Calcul salarial (regles simplifiees inspirees de la legislation tunisienne)
+    static float getTauxHoraire(const QString &role);
+    static float calculerSalaireBrut(float heures, const QString &role);
+    static float calculerCNSS(float brut);
+    static float calculerImpot(float brut);
+    static float calculerSalaireNet(float brut);
+    static Salaire calculerSalaireComplet(float heures, const QString &role);
 
 
 

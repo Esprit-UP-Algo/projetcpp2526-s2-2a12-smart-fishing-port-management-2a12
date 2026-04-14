@@ -2,25 +2,40 @@
 #include "ui_employe_mainwindow.h"
 
 #include "employe_userdialog.h"
+#include "payslip_pdf_exporter.h"
+#include "smtp_mailer.h"
+#include "smtp_settingsdialog.h"
 #include "../../modele/gestion_employes/employe_dao.h"
+#include "../../modele/gestion_employes/input_validator.h"
 
 #include <QDate>
+#include <QDateTime>
 #include <QDebug>
 #include <QFileDialog>
+#include <QAction>
+#include <QActionGroup>
 #include <QLocale>
+#include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPdfWriter>
 #include <QHeaderView>
 #include <QStyle>
 #include <QDesktopServices>
+#include <QDir>
 #include <QUrl>
+#include <QFileInfo>
 #include <algorithm>
 #include <cmath>
 #include <limits>
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QPainterPath>
+#include <QVBoxLayout>
+#include <QScrollArea>
+#include <QFutureWatcher>
+#include <QPointer>
+#include <QtConcurrent/QtConcurrent>
 
 namespace employes {
 
@@ -29,6 +44,8 @@ EmployeMainWindow::EmployeMainWindow(QWidget *parent)
     , ui(new Ui::EmployeMainWindow)
 {
     ui->setupUi(this);
+
+    setupEmployeesDropdown();
 
     setupLogo();
 
@@ -89,6 +106,197 @@ EmployeMainWindow::~EmployeMainWindow()
 void EmployeMainWindow::setSidebarActiveEmployees()
 {
     setActiveSidebarButton(ui->btnEmployees);
+}
+
+void EmployeMainWindow::setupEmployeesDropdown()
+{
+    // Build the 3-subsection dropdown for the Employees sidebar button.
+    m_empDropdownMenu = new QMenu(this);
+    m_empDropdownGroup = new QActionGroup(this);
+    m_empDropdownGroup->setExclusive(true);
+
+    m_empActionAffichage = m_empDropdownMenu->addAction(tr("Affichage"));
+    m_empActionAffichage->setCheckable(true);
+    m_empDropdownGroup->addAction(m_empActionAffichage);
+
+    m_empActionStatistique = m_empDropdownMenu->addAction(tr("Statistique"));
+    m_empActionStatistique->setCheckable(true);
+    m_empDropdownGroup->addAction(m_empActionStatistique);
+
+    m_empActionFichePaie = m_empDropdownMenu->addAction(tr("Fiche de paie"));
+    m_empActionFichePaie->setCheckable(true);
+    m_empDropdownGroup->addAction(m_empActionFichePaie);
+
+    m_empDropdownMenu->setStyleSheet(
+        "QMenu {"
+        "  background-color: #101c2c;"
+        "  border: 1px solid #23374e;"
+        "  padding: 4px;"
+        "}"
+        "QMenu::item {"
+        "  color: #e6eef6;"
+        "  padding: 8px 14px;"
+        "  border-radius: 6px;"
+        "}"
+        "QMenu::item:selected {"
+        "  background-color: #18304a;"
+        "}"
+        "QMenu::item:checked {"
+        "  color: #39c0fa;"
+        "  background-color: rgba(57, 192, 250, 22);"
+        "}"
+    );
+
+    connect(ui->btnEmployees, &QPushButton::clicked, this, [this]() {
+        setEmployeesSubmenuExpanded(!m_empDropdownExpanded);
+    });
+
+    connect(m_empDropdownMenu, &QMenu::aboutToHide, this, [this]() {
+        m_empDropdownExpanded = false;
+    });
+
+    connect(m_empActionAffichage, &QAction::triggered, this, [this]() {
+        setEmployeesSection(EmployeesSection::Affichage);
+    });
+    connect(m_empActionStatistique, &QAction::triggered, this, [this]() {
+        setEmployeesSection(EmployeesSection::Statistique);
+    });
+    connect(m_empActionFichePaie, &QAction::triggered, this, [this]() {
+        setEmployeesSection(EmployeesSection::FicheDePaie);
+    });
+
+    // Add dedicated pages for statistics and payslip to the existing stacked widget.
+    m_empStatsPage = new QWidget(ui->stackedWidget);
+    {
+        auto *pageLayout = new QVBoxLayout(m_empStatsPage);
+        pageLayout->setContentsMargins(0, 0, 0, 0);
+        pageLayout->setSpacing(0);
+
+        auto *scroll = new QScrollArea(m_empStatsPage);
+        scroll->setWidgetResizable(true);
+        scroll->setFrameShape(QFrame::NoFrame);
+
+        auto *content = new QWidget(scroll);
+        auto *contentLayout = new QVBoxLayout(content);
+        contentLayout->setSpacing(14);
+        contentLayout->setContentsMargins(16, 14, 16, 14);
+        contentLayout->addWidget(ui->empStatsFrame);
+        contentLayout->addStretch();
+
+        scroll->setWidget(content);
+        pageLayout->addWidget(scroll);
+    }
+    ui->stackedWidget->addWidget(m_empStatsPage);
+
+    m_empPayslipPage = new QWidget(ui->stackedWidget);
+    {
+        auto *pageLayout = new QVBoxLayout(m_empPayslipPage);
+        pageLayout->setContentsMargins(0, 0, 0, 0);
+        pageLayout->setSpacing(0);
+
+        auto *scroll = new QScrollArea(m_empPayslipPage);
+        scroll->setWidgetResizable(true);
+        scroll->setFrameShape(QFrame::NoFrame);
+
+        auto *content = new QWidget(scroll);
+        auto *contentLayout = new QVBoxLayout(content);
+        contentLayout->setSpacing(14);
+        contentLayout->setContentsMargins(16, 14, 16, 14);
+        contentLayout->addWidget(ui->empPayslipFrame);
+        contentLayout->addStretch();
+
+        scroll->setWidget(content);
+        pageLayout->addWidget(scroll);
+    }
+    ui->stackedWidget->addWidget(m_empPayslipPage);
+
+    setEmployeesSection(EmployeesSection::Affichage);
+}
+
+void EmployeMainWindow::setEmployeesSubmenuExpanded(bool expanded)
+{
+    if (!m_empDropdownMenu || !ui->btnEmployees) {
+        m_empDropdownExpanded = false;
+        return;
+    }
+
+    if (expanded) {
+        m_empDropdownMenu->popup(ui->btnEmployees->mapToGlobal(QPoint(0, ui->btnEmployees->height())));
+        m_empDropdownExpanded = true;
+    } else {
+        m_empDropdownMenu->hide();
+        m_empDropdownExpanded = false;
+    }
+}
+
+void EmployeMainWindow::setEmployeesSection(EmployeesSection section)
+{
+    switch (section) {
+    case EmployeesSection::Affichage:
+        ui->stackedWidget->setCurrentIndex(0);
+        setActiveEmployeesSubButton(m_empActionAffichage);
+        break;
+    case EmployeesSection::Statistique:
+        if (m_empStatsPage) {
+            ui->stackedWidget->setCurrentWidget(m_empStatsPage);
+            setActiveEmployeesSubButton(m_empActionStatistique);
+        }
+        break;
+    case EmployeesSection::FicheDePaie:
+        if (m_empPayslipPage) {
+            ui->stackedWidget->setCurrentWidget(m_empPayslipPage);
+            setActiveEmployeesSubButton(m_empActionFichePaie);
+        }
+        break;
+    }
+}
+
+void EmployeMainWindow::setActiveEmployeesSubButton(QAction *action)
+{
+    if (!action) {
+        return;
+    }
+    action->setChecked(true);
+}
+
+void EmployeMainWindow::sendPayslipEmailAsync(const EmployeUser &user,
+                                              const QString &month,
+                                              const QString &pdfPath,
+                                              const QString &subject,
+                                              const QString &body)
+{
+    auto *watcher = new QFutureWatcher<QPair<bool, QString>>(this);
+    const QString recipient = user.email;
+
+    connect(watcher, &QFutureWatcher<QPair<bool, QString>>::finished, this,
+            [this, watcher, pdfPath, recipient, user]() {
+        const QPair<bool, QString> result = watcher->result();
+        watcher->deleteLater();
+        QFile::remove(pdfPath);
+
+        if (!result.first) {
+            const QString message = result.second;
+            if (message.contains("Configuration SMTP manquante", Qt::CaseInsensitive)
+                || message.contains("Email invalide", Qt::CaseInsensitive)
+                || message.contains("PDF introuvable", Qt::CaseInsensitive)) {
+                QMessageBox::warning(this, tr("Erreur envoi"), message);
+            } else {
+                QMessageBox::critical(this, tr("Erreur envoi"), message);
+            }
+            return;
+        }
+
+        QMessageBox::information(this,
+                                 tr("Succès"),
+                                 tr("Email envoyé avec succès à %1 %2 (%3).")
+                                 .arg(user.prenom, user.nom, recipient));
+    });
+
+    watcher->setFuture(QtConcurrent::run([recipient, subject, body, pdfPath]() {
+        QString smtpError;
+        const bool ok = SmtpMailer::envoyerEmailSMTP(recipient, subject, body, pdfPath, &smtpError);
+        return qMakePair(ok, smtpError);
+    }));
 }
 
 
@@ -342,7 +550,7 @@ void EmployeMainWindow::onModifierUser()
     EmployeUser employeModifie = dlg.user();
     
     // Valider tous les champs
-    QString validationError = EmployeDAO::validateEmploye(employeModifie);
+    QString validationError = EmployeDAO::validateEmploye(employeModifie, false);
     if (!validationError.isEmpty()) {
         QMessageBox::warning(this, 
             tr("Erreur Validation"), 
@@ -557,56 +765,31 @@ void EmployeMainWindow::onPayslipPDF()
 {
     int idx = ui->comboPayrollUser->currentIndex();
     if (idx <= 0) { QMessageBox::information(this, tr("Info"), tr("Sélectionnez un employé.")); return; }
+
+    if (idx - 1 >= m_users.size()) {
+        QMessageBox::warning(this, tr("Erreur"), tr("L'employé sélectionné est introuvable."));
+        return;
+    }
+
     const EmployeUser &u = m_users[idx - 1];
     QString month = ui->comboPayrollMonth->currentText();
 
+    QString safeNom = u.nom.trimmed().toLower().replace(' ', '_');
+    QString safePrenom = u.prenom.trimmed().toLower().replace(' ', '_');
+    QString safeMonth = month.trimmed().toLower().replace(' ', '_');
+    QString defaultName = QString("fiche_paie_%1_%2_%3.pdf").arg(safeNom, safePrenom, safeMonth);
+
     QString path = QFileDialog::getSaveFileName(this, tr("Exporter PDF"),
-        u.nom + "_" + month + ".pdf", "PDF (*.pdf)");
+        QDir::homePath() + "/" + defaultName, "PDF (*.pdf)");
     if (path.isEmpty()) return;
 
-    QPdfWriter writer(path);
-    writer.setPageSize(QPageSize::A4);
-    writer.setResolution(300);
-    QPainter p(&writer);
+    const QString exportError = PayslipPdfExporter::createPDF(u, month, path);
+    if (!exportError.isEmpty()) {
+        QMessageBox::warning(this, tr("Erreur export PDF"), exportError);
+        return;
+    }
 
-    QFont titleFont("Arial", 24, QFont::Bold);
-    QFont headerFont("Arial", 14, QFont::Bold);
-    QFont bodyFont("Arial", 12);
-
-    int y = 200;
-    p.setFont(titleFont);
-    p.drawText(300, y, "FICHE DE PAIE"); y += 400;
-
-    p.setFont(headerFont);
-    p.drawText(200, y, "Employé:"); p.setFont(bodyFont);
-    p.drawText(1400, y, u.nom + " " + u.prenom); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "CIN:"); p.setFont(bodyFont);
-    p.drawText(1400, y, u.cin); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "Email:"); p.setFont(bodyFont);
-    p.drawText(1400, y, u.email); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "Rôle:"); p.setFont(bodyFont);
-    p.drawText(1400, y, u.role); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "Mois:"); p.setFont(bodyFont);
-    p.drawText(1400, y, month); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "Heures travaillées:"); p.setFont(bodyFont);
-    p.drawText(1400, y, QString::number(u.heures, 'f', 1)); y += 250;
-    p.setFont(headerFont);
-    p.drawText(200, y, "Statut:"); p.setFont(bodyFont);
-    p.drawText(1400, y, u.statut); y += 400;
-
-    p.setPen(QPen(Qt::gray, 3));
-    p.drawLine(200, y, 2200, y); y += 200;
-    p.setPen(Qt::black);
-    p.setFont(bodyFont);
-    p.drawText(200, y, "Généré le " + QDate::currentDate().toString("dd/MM/yyyy"));
-
-    p.end();
-    QMessageBox::information(this, tr("Succès"), tr("Fiche de paie exportée en PDF."));
+    QMessageBox::information(this, tr("Succès"), tr("Fiche de paie exportée en PDF :\n%1").arg(path));
 }
 
 void EmployeMainWindow::onPayslipExcel()
@@ -643,15 +826,72 @@ void EmployeMainWindow::onPayslipEmail()
 {
     int idx = ui->comboPayrollUser->currentIndex();
     if (idx <= 0) { QMessageBox::information(this, tr("Info"), tr("Sélectionnez un employé.")); return; }
+
+    if (idx - 1 >= m_users.size()) {
+        QMessageBox::warning(this, tr("Erreur"), tr("L'employé sélectionné est introuvable."));
+        return;
+    }
+
     const EmployeUser &u = m_users[idx - 1];
     QString month = ui->comboPayrollMonth->currentText();
 
-    QString subject = QUrl::toPercentEncoding("Fiche de paie - " + month);
-    QString body = QUrl::toPercentEncoding(
-        "Bonjour " + u.prenom + ",\n\nVeuillez trouver ci-joint votre fiche de paie pour le mois de "
-        + month + ".\n\nCordialement,\nVISION SIGHT RH");
-    QString mailto = "mailto:" + u.email + "?subject=" + subject + "&body=" + body;
-    QDesktopServices::openUrl(QUrl(mailto));
+    SmtpConfig smtpConfig = SmtpMailer::loadConfig();
+    if (!smtpConfig.isComplete()) {
+        QMessageBox::warning(this,
+                             tr("Configuration SMTP manquante"),
+                             tr("La configuration SMTP est incomplète. Ouvrez les paramètres SMTP pour la renseigner."));
+
+        SmtpSettingsDialog settingsDialog(this);
+        if (settingsDialog.exec() != QDialog::Accepted) {
+            return;
+        }
+
+        smtpConfig = SmtpMailer::loadConfig();
+        if (!smtpConfig.isComplete()) {
+            QMessageBox::warning(this,
+                                 tr("Configuration SMTP manquante"),
+                                 tr("La configuration SMTP est toujours incomplète."));
+            return;
+        }
+    }
+
+    const QString emailError = employes::InputValidator::validateEmail(u.email);
+    if (!emailError.isEmpty()) {
+        QMessageBox::warning(this, tr("Email invalide"), emailError);
+        return;
+    }
+
+    const QString baseName = QString("fiche_paie_%1_%2_%3_%4.pdf")
+        .arg(u.nom.trimmed().toLower().replace(' ', '_'),
+             u.prenom.trimmed().toLower().replace(' ', '_'),
+             month.trimmed().toLower().replace(' ', '_'),
+             QString::number(QDateTime::currentMSecsSinceEpoch()));
+
+    QDir tempDir(QDir::tempPath());
+    if (!tempDir.mkpath("vision_sight_payslips")) {
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible de préparer le dossier temporaire."));
+        return;
+    }
+
+    const QString tempPdfPath = tempDir.filePath(QString("vision_sight_payslips/%1").arg(baseName));
+    const QString exportError = PayslipPdfExporter::createPDF(u, month, tempPdfPath);
+    if (!exportError.isEmpty()) {
+        QMessageBox::warning(this, tr("Erreur export PDF"), exportError);
+        return;
+    }
+
+    qDebug() << "[MAIL] PDF temporaire genere:" << tempPdfPath;
+
+    const QString subject = tr("Fiche de paie - %1").arg(month);
+    const QString body = tr(
+        "Bonjour %1 %2,\n\n"
+        "Veuillez trouver ci-joint votre fiche de paie pour le mois de %3.\n\n"
+        "Cordialement,\n"
+        "VISION SIGHT RH")
+        .arg(u.prenom, u.nom, month);
+
+    qDebug() << "[MAIL] Demarrage envoi asynchrone pour" << u.email;
+    sendPayslipEmailAsync(u, month, tempPdfPath, subject, body);
 }
 
 } // namespace employes

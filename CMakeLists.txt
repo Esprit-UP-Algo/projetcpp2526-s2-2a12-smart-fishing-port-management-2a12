@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Core Gui Widgets Sql Network)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Core Gui Widgets Sql Network Concurrent)
 
 # ============================================
 # Main Application Executable
@@ -32,6 +32,8 @@ qt_add_executable(AppGestionEmploye
     src/modele/gestion_employes/employe_service.cpp
     src/modele/gestion_employes/auth_helper.h
     src/modele/gestion_employes/auth_helper.cpp
+    src/modele/gestion_employes/input_validator.h
+    src/modele/gestion_employes/input_validator.cpp
 
     # ========== VIEW LAYER ==========
     
@@ -51,6 +53,14 @@ qt_add_executable(AppGestionEmploye
     src/view/gestion_employes/employe_payslip.h
     src/view/gestion_employes/employe_payslip.cpp
     src/view/gestion_employes/employe_payslipdialog.ui
+    src/view/gestion_employes/payslip_pdf_exporter.h
+    src/view/gestion_employes/payslip_pdf_exporter.cpp
+    src/view/gestion_employes/config_manager.h
+    src/view/gestion_employes/config_manager.cpp
+    src/view/gestion_employes/smtp_mailer.h
+    src/view/gestion_employes/smtp_mailer.cpp
+    src/view/gestion_employes/smtp_settingsdialog.h
+    src/view/gestion_employes/smtp_settingsdialog.cpp
     
     # Resources & Translations
     src/view/gestion_employes/employe_resources.qrc
@@ -66,4 +76,5 @@ target_link_libraries(AppGestionEmploye PUBLIC
     Qt6::Widgets
     Qt6::Sql
     Qt6::Network
+    Qt6::Concurrent
 )

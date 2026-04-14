@@ -714,6 +714,8 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                       <item><property name="text"><string>Agent d'exploitation</string></property></item>
                       <item><property name="text"><string>Responsable stock</string></property></item>
                       <item><property name="text"><string>Responsable finance</string></property></item>
+                        <item><property name="text"><string>ouvrier</string></property></item>
+                        <item><property name="text"><string>admin</string></property></item>
                      </widget>
                     </item>
                     <item>

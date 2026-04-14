@@ -1,4 +1,5 @@
 #include "employe_dao.h"
+#include "input_validator.h"
 #include "../db/connection.h"
 
 #include <QSqlQuery>
@@ -6,6 +7,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QRegularExpression>
+#include <stdexcept>
 
 using namespace employes;
 
@@ -19,32 +21,12 @@ EmployeDAO::~EmployeDAO()
 
 QString EmployeDAO::validateCIN(const QString &cin)
 {
-    if (cin.isEmpty()) {
-        return "Le CIN est obligatoire.";
-    }
-    
-    if (!isAllDigits(cin)) {
-        return "Le CIN doit contenir uniquement des chiffres.";
-    }
-    
-    if (cin.length() != 8) {
-        return "Le CIN doit contenir exactement 8 chiffres.";
-    }
-    
-    return "";
+    return InputValidator::validateCIN(cin, 8);
 }
 
 QString EmployeDAO::validateEmail(const QString &email)
 {
-    if (email.isEmpty()) {
-        return "L'email est obligatoire.";
-    }
-    
-    if (!isValidEmail(email)) {
-        return "L'email n'est pas valide (doit contenir '@' et '.').";
-    }
-    
-    return "";
+    return InputValidator::validateEmail(email);
 }
 
 QString EmployeDAO::validateNotEmpty(const QString &field, const QString &fieldName)
@@ -85,30 +67,109 @@ QString EmployeDAO::validatePassword(const QString &password)
     return "";
 }
 
-QString EmployeDAO::validateEmploye(const EmployeUser &employe)
+QString EmployeDAO::validateEmploye(const EmployeUser &employe, bool checkCINUnique, const QString &excludeCIN)
 {
     QString cinError = validateCIN(employe.cin);
     if (!cinError.isEmpty()) return cinError;
-    
-    QString cinUniqueError = validateCINUnique(employe.cin);
-    if (!cinUniqueError.isEmpty()) return cinUniqueError;
-    
+
+    if (checkCINUnique) {
+        QString cinUniqueError = validateCINUnique(employe.cin, excludeCIN);
+        if (!cinUniqueError.isEmpty()) return cinUniqueError;
+    }
+
     QString emailError = validateEmail(employe.email);
     if (!emailError.isEmpty()) return emailError;
-    
-    QString nomError = validateNotEmpty(employe.nom, "Le nom");
+
+    QString nomError = InputValidator::validateName(employe.nom, "Le nom", true);
     if (!nomError.isEmpty()) return nomError;
-    
-    QString prenomError = validateNotEmpty(employe.prenom, "Le prénom");
+
+    QString prenomError = InputValidator::validateName(employe.prenom, "Le prenom", true);
     if (!prenomError.isEmpty()) return prenomError;
-    
+
+    QString heuresError = InputValidator::validatePositiveDouble(employe.heures, "Les heures de travail");
+    if (!heuresError.isEmpty()) return heuresError;
+
     QString passwordError = validatePassword(employe.password);
     if (!passwordError.isEmpty()) return passwordError;
-    
+
     QString roleError = validateNotEmpty(employe.role, "Le rôle");
     if (!roleError.isEmpty()) return roleError;
 
     return "";
+}
+
+float EmployeDAO::getTauxHoraire(const QString &role)
+{
+    const QString normalizedRole = role.trimmed().toLower();
+
+    if (normalizedRole == "ouvrier") return 11.0f;
+    if (normalizedRole == "technicien") return 13.0f;
+    if (normalizedRole == "agent") return 14.0f;
+    if (normalizedRole == "chef_equipe") return 17.0f;
+    if (normalizedRole == "superviseur") return 19.0f;
+    if (normalizedRole == "admin") return 22.0f;
+
+    throw std::invalid_argument("Role inconnu pour le calcul de salaire");
+}
+
+float EmployeDAO::calculerSalaireBrut(float heures, const QString &role)
+{
+    if (heures < 0.0f) {
+        throw std::invalid_argument("Le nombre d'heures ne peut pas etre negatif");
+    }
+
+    const float taux = getTauxHoraire(role);
+
+    const float heuresNormales = qMin(heures, 48.0f);
+    const float heuresSup1 = qMax(qMin(heures - 48.0f, 12.0f), 0.0f);
+    const float heuresSup2 = qMax(heures - 60.0f, 0.0f);
+
+    return (heuresNormales * taux)
+           + (heuresSup1 * taux * 1.25f)
+           + (heuresSup2 * taux * 1.50f);
+}
+
+float EmployeDAO::calculerCNSS(float brut)
+{
+    if (brut < 0.0f) {
+        throw std::invalid_argument("Le salaire brut ne peut pas etre negatif");
+    }
+
+    return brut * 0.0918f;
+}
+
+float EmployeDAO::calculerImpot(float brut)
+{
+    if (brut < 0.0f) {
+        throw std::invalid_argument("Le salaire brut ne peut pas etre negatif");
+    }
+
+    if (brut <= 500.0f) return 0.0f;
+    if (brut <= 1000.0f) return brut * 0.10f;
+    if (brut <= 2000.0f) return brut * 0.20f;
+    return brut * 0.30f;
+}
+
+float EmployeDAO::calculerSalaireNet(float brut)
+{
+    if (brut < 0.0f) {
+        throw std::invalid_argument("Le salaire brut ne peut pas etre negatif");
+    }
+
+    return brut - calculerCNSS(brut) - calculerImpot(brut);
+}
+
+EmployeDAO::Salaire EmployeDAO::calculerSalaireComplet(float heures, const QString &role)
+{
+    const float brut = calculerSalaireBrut(heures, role);
+
+    Salaire salaire;
+    salaire.brut = brut;
+    salaire.cnss = calculerCNSS(brut);
+    salaire.impot = calculerImpot(brut);
+    salaire.net = brut - salaire.cnss - salaire.impot;
+
+    return salaire;
 }
 
 QString EmployeDAO::ajouter(const EmployeUser &employe)
