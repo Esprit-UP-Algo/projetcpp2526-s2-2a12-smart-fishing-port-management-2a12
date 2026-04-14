@@ -440,13 +440,12 @@ QString TransactionChatBot::handleFishPrice(const QString &message)
         
         return QString("🐟 <b>Prix Estimé - %1</b>\n\n")
                .arg(capitalFish)
-               + QString("<b>Prix minimum:</b> %1 DZD/kg\n")
+               + QString("<b>Prix minimum:</b> %1 TND/kg\n")
                .arg(QString::number(info.minPrice, 'f', 0))
-               + QString("<b>Prix moyen:</b> %1 DZD/kg\n")
+               + QString("<b>Prix moyen:</b> %1 TND/kg\n")
                .arg(QString::number(info.avgPrice, 'f', 0))
-               + QString("<b>Prix maximum:</b> %1 DZD/kg\n\n")
-               .arg(QString::number(info.maxPrice, 'f', 0))
-               + "<b>Source:</b> Tarif de référence (fichier poissons.txt)";
+               + QString("<b>Prix maximum:</b> %1 TND/kg")
+               .arg(QString::number(info.maxPrice, 'f', 0));
     }
     
     // If not in file, fall back to historical prices
