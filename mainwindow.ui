@@ -1054,6 +1054,11 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                     </column>
                     <column>
                      <property name="text">
+                      <string>Référence</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
                       <string>Lot</string>
                      </property>
                     </column>
@@ -1362,6 +1367,382 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                    </widget>
                   </item>
                   <item>
+                   <widget class="QFrame" name="priceEstimateFrame">
+                    <property name="styleSheet">
+                     <string notr="true">
+QFrame#priceEstimateFrame {
+  border: 2px solid #39c0fa;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #101c2c;
+}
+                     </string>
+                    </property>
+                    <layout class="QVBoxLayout" name="priceEstimateLayout">
+                     <property name="spacing">
+                      <number>12</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="priceEstimateLabel">
+                       <property name="text">
+                        <string>📊 Prix Estimé de Poisson</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QLabel {
+  color: #39c0fa;
+  font-size: 14px;
+  font-weight: bold;
+}
+                        </string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="fishPriceSelectLayout">
+                       <property name="spacing">
+                        <number>8</number>
+                       </property>
+                       <item>
+                        <widget class="QComboBox" name="fishPriceComboBox">
+                         <property name="minimumHeight">
+                          <number>40</number>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QComboBox {
+  background-color: #0d1b2a;
+  color: #39c0fa;
+  border: 1px solid #39c0fa;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+QComboBox:hover {
+  border-color: #56cdfc;
+  background-color: #132437;
+}
+QComboBox:focus {
+  border-color: #56cdfc;
+  background-color: #132437;
+}
+QComboBox::drop-down {
+  border-left: 1px solid #39c0fa;
+  background-color: #0d1b2a;
+  width: 30px;
+}
+QComboBox QAbstractItemView {
+  background-color: #132437;
+  color: #e6eef6;
+  border: 1px solid #39c0fa;
+  selection-background-color: #39c0fa;
+  selection-color: #0c1a29;
+  padding: 4px 0px;
+}
+                          </string>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>-- Sélectionner un poisson --</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Sardine</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Anchois</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Maquereau</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Dorade</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Rouget</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Sole</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Poulpe</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Crevette</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Lieu</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Encornet</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Merlan</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Cabillaud</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Trout</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Turbot</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Hareng</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Moule</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Bar</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Basse</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Seiche</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Calmar</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Saumon</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Esturgeon</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Tilapia</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Goberge</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Flétan</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Morue</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Truite</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Daurade royale</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Bar rayé</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Anguille</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Mulet</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Rouget barbarin</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Brème</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Daurade rose</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Sar</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Loup de mer</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Poutine</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Crapet</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Carpe</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>Silure</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="btnPrixEstime">
+                         <property name="minimumHeight">
+                          <number>40</number>
+                         </property>
+                         <property name="maximumWidth">
+                          <number>140</number>
+                         </property>
+                         <property name="text">
+                          <string>Prix Estimé</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QPushButton {
+  background-color: #1e90ff;
+  color: #ffffff;
+  border: 2px solid #0033cc;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+QPushButton:hover {
+  background-color: #4169e1;
+  border-color: #1e90ff;
+}
+QPushButton:pressed {
+  background-color: #0033cc;
+  border-color: #ffffff;
+}
+                          </string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <widget class="QFrame" name="priceResultDisplayFrame">
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QFrame {
+  background-color: #ffffff;
+  border: 1px solid #1e90ff;
+  border-radius: 6px;
+  padding: 12px;
+}
+                        </string>
+                       </property>
+                       <layout class="QVBoxLayout" name="priceResultLayout">
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QLabel" name="priceResultDisplayLabel">
+                          <property name="text">
+                           <string>Sélectionnez un poisson et cliquez sur "Prix Estimé"</string>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">
+QLabel {
+  color: #0033cc;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px;
+}
+                           </string>
+                          </property>
+                          <property name="alignment">
+                           <set>Qt::AlignCenter</set>
+                          </property>
+                          <property name="minimumHeight">
+                           <number>60</number>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QLabel" name="lblDetection">
                     <property name="text">
                      <string>Détection des transactions anormales</string>
@@ -1388,6 +1769,14 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                     </property>
                     <property name="frameShape">
                      <enum>QFrame::StyledPanel</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">
+QFrame#chatFrame {
+  background-color: transparent;
+  border: none;
+}
+                     </string>
                     </property>
                     <layout class="QVBoxLayout" name="chatFrameLayout">
                      <property name="leftMargin">
@@ -1416,9 +1805,9 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none;
                        <property name="styleSheet">
                         <string notr="true">
 QTextBrowser {
-  background-color: #1a2a3a;
+  background-color: transparent;
   color: #e6eef6;
-  border: 1px solid #2a3f55;
+  border: none;
   border-radius: 8px;
   padding: 12px;
   font-size: 13px;
@@ -1432,331 +1821,210 @@ QTextBrowser {
                        <property name="spacing">
                         <number>8</number>
                        </property>
-                       <item>
-                        <widget class="QLineEdit" name="chatInput">
-                         <property name="placeholderText">
-                          <string>Décrivez la transaction anormale...</string>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">
-QLineEdit {
-  background-color: #1a2a3a;
-  color: #e6eef6;
-  border: 1px solid #2a3f55;
-  border-radius: 8px;
-  padding: 8px 12px;
-  min-height: 30px;
-  font-size: 13px;
-}
-QLineEdit:focus {
-  border-color: #39a8d8;
-}
-                          </string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QPushButton" name="btnSendChat">
-                         <property name="text">
-                          <string>Envoyer</string>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">
-QPushButton {
-  background-color: #2da4d8;
-  color: white;
-  border: 0px;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  min-width: 80px;
-}
-QPushButton:hover {
-  background-color: #3dbae8;
-}
-                          </string>
-                         </property>
-                        </widget>
-                       </item>
                       </layout>
                      </item>
                     </layout>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="lblFishPricing">
-                    <property name="text">
-                     <string>Estimation de Prix de Poissons</string>
-                    </property>
+                   <widget class="QFrame" name="chatbotFrame">
                     <property name="styleSheet">
                      <string notr="true">
-QLabel {
-  color: #1e90ff;
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-}
-                     </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="separatorFish">
-                    <property name="frameShape">
-                     <enum>QFrame::HLine</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Sunken</enum>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">
-QFrame {
-  border: 1px solid #1e90ff;
-  background: transparent;
-}
-                     </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="lblSelectFish">
-                    <property name="text">
-                     <string>Liste des Poissons Disponibles:</string>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">
-QLabel {
-  color: #0066cc;
-  font-weight: 700;
-  font-size: 13px;
-  padding: 8px 0px 4px 0px;
-}
-                     </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout">
-                    <item>
-                     <widget class="QComboBox" name="fishComboBox">
-                      <property name="minimumHeight">
-                       <number>45</number>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">
-QComboBox {
-  background-color: #ffffff;
-  color: #0033cc;
-  border: 2px solid #1e90ff;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 500;
-}
-QComboBox:hover {
-  border-color: #4169e1;
-  background-color: #f0f8ff;
-}
-QComboBox:focus {
-  border-color: #1e90ff;
-  outline: none;
-}
-QComboBox::drop-down {
-  border-left: 2px solid #1e90ff;
-  background-color: #e6f2ff;
-  width: 40px;
-}
-QComboBox::down-arrow {
-  image: none;
-}
-QComboBox QAbstractItemView {
-  background-color: #ffffff;
-  color: #0033cc;
-  border: 2px solid #1e90ff;
-  border-radius: 4px;
-  selection-background-color: #1e90ff;
-  selection-color: #ffffff;
-  outline: none;
-}
-QComboBox QAbstractItemView::item {
-  padding: 8px;
-  border: none;
-  margin: 2px 0px;
-}
-QComboBox QAbstractItemView::item:hover {
-  background-color: #e6f2ff;
-  color: #0033cc;
-}
-QComboBox QAbstractItemView::item:selected {
-  background-color: #1e90ff;
-  color: #ffffff;
-  font-weight: 600;
-}
-                       </string>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string>-- Sélectionner un poisson --</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Sardine</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Anchois</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Maquereau</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Dorade</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Rouget</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Sole</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Poulpe</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Crevette</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Lieu</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Encornet</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Merlan</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Cabillaud</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Trout</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Turbot</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btnAfficherPrix">
-                      <property name="minimumHeight">
-                       <number>45</number>
-                      </property>
-                      <property name="maximumWidth">
-                       <number>120</number>
-                      </property>
-                      <property name="text">
-                       <string>Afficher Prix</string>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">
-QPushButton {
-  background-color: #1e90ff;
-  color: #ffffff;
-  border: 2px solid #0033cc;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-}
-QPushButton:hover {
-  background-color: #4169e1;
-  border-color: #1e90ff;
-}
-QPushButton:pressed {
-  background-color: #0033cc;
-  border-color: #ffffff;
-}
-                       </string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="priceDisplayFrame">
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">
-QFrame {
-  background-color: #e6f2ff;
-  border: 2px solid #1e90ff;
+QFrame#chatbotFrame {
+  border: 2px solid #00bcd4;
   border-radius: 8px;
   padding: 16px;
 }
                      </string>
                     </property>
-                    <layout class="QVBoxLayout" name="priceLayoutFrame">
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
+                    <layout class="QVBoxLayout" name="chatbotLayout">
+                     <property name="spacing">
+                      <number>12</number>
                      </property>
                      <item>
-                      <widget class="QLabel" name="priceResultLabel">
+                      <widget class="QLabel" name="chatbotLabel">
                        <property name="text">
-                        <string>Sélectionnez un poisson pour voir le prix estimé</string>
+                        <string>🤖 Assistant Métier - Chatbot</string>
                        </property>
                        <property name="styleSheet">
                         <string notr="true">
 QLabel {
-  color: #0033cc;
-  font-size: 13px;
-  font-weight: 500;
+  color: #00bcd4;
+  font-size: 14px;
+  font-weight: bold;
 }
                         </string>
                        </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QTextEdit" name="chatDisplay">
+                       <property name="readOnly">
+                        <bool>true</bool>
                        </property>
                        <property name="minimumHeight">
-                        <number>100</number>
+                        <number>120</number>
+                       </property>
+                       <property name="maximumHeight">
+                        <number>400</number>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">
+QTextEdit {
+  border: 2px solid #00bcd4;
+  border-radius: 6px;
+  padding: 12px;
+  background-color: #0d1b2a;
+  color: #ecf0f1;
+  font-family: 'Segoe UI', Arial;
+  font-size: 11px;
+  line-height: 1.6;
+}
+                        </string>
                        </property>
                       </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="suggestionsLayout">
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QPushButton" name="suggestPrice">
+                         <property name="text">
+                          <string>Quel prix?</string>
+                         </property>
+                         <property name="maximumWidth">
+                          <number>130</number>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QPushButton {
+  background-color: #1a237e;
+  color: #00bcd4;
+  border: 1px solid #00bcd4;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+QPushButton:hover {
+  background-color: #283593;
+  color: #00e5ff;
+}
+                          </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="suggestAnomaly">
+                         <property name="text">
+                          <string>Anomalies?</string>
+                         </property>
+                         <property name="maximumWidth">
+                          <number>130</number>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QPushButton {
+  background-color: #1a237e;
+  color: #00bcd4;
+  border: 1px solid #00bcd4;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+QPushButton:hover {
+  background-color: #283593;
+  color: #00e5ff;
+}
+                          </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="suggestSpacer">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="chatInputLayout">
+                       <property name="spacing">
+                        <number>8</number>
+                       </property>
+                       <item>
+                        <widget class="QLineEdit" name="chatInput">
+                         <property name="placeholderText">
+                          <string>Posez une question...</string>
+                         </property>
+                         <property name="minimumHeight">
+                          <number>36</number>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QLineEdit {
+  border: 2px solid #00bcd4;
+  border-radius: 5px;
+  padding: 6px 10px;
+  background-color: #0d1b2a;
+  color: #00bcd4;
+  font-weight: bold;
+  font-size: 11px;
+}
+QLineEdit:focus {
+  border: 2px solid #00e5ff;
+}
+QLineEdit::placeholder {
+  color: #64b5f6;
+}
+                         </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="chatSendButton">
+                         <property name="text">
+                          <string>Envoyer</string>
+                         </property>
+                         <property name="minimumHeight">
+                          <number>36</number>
+                         </property>
+                         <property name="minimumWidth">
+                          <number>100</number>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">
+QPushButton {
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 16px;
+  font-weight: bold;
+  font-size: 11px;
+}
+QPushButton:hover {
+  background-color: #00e5ff;
+}
+QPushButton:pressed {
+  background-color: #0097a7;
+}
+                         </string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
                    </widget>

@@ -36,6 +36,8 @@ public:
     QLineEdit *lineNumFacture;
     QLabel *lblPecheur;
     QLineEdit *linePecheur;
+    QLabel *lblReference;
+    QLineEdit *lineReference;
     QLabel *lblLot;
     QComboBox *comboLot;
     QLabel *lblPrixKg;
@@ -220,11 +222,13 @@ public:
         formLayout->setVerticalSpacing(20);
         lblNumFacture = new QLabel(TransactionDialog);
         lblNumFacture->setObjectName("lblNumFacture");
+        lblNumFacture->setVisible(false);
 
         formLayout->setWidget(0, QFormLayout::LabelRole, lblNumFacture);
 
         lineNumFacture = new QLineEdit(TransactionDialog);
         lineNumFacture->setObjectName("lineNumFacture");
+        lineNumFacture->setVisible(false);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, lineNumFacture);
 
@@ -238,10 +242,20 @@ public:
 
         formLayout->setWidget(1, QFormLayout::FieldRole, linePecheur);
 
+        lblReference = new QLabel(TransactionDialog);
+        lblReference->setObjectName("lblReference");
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, lblReference);
+
+        lineReference = new QLineEdit(TransactionDialog);
+        lineReference->setObjectName("lineReference");
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, lineReference);
+
         lblLot = new QLabel(TransactionDialog);
         lblLot->setObjectName("lblLot");
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, lblLot);
+        formLayout->setWidget(3, QFormLayout::LabelRole, lblLot);
 
         comboLot = new QComboBox(TransactionDialog);
         comboLot->addItem(QString());
@@ -261,12 +275,12 @@ public:
         comboLot->addItem(QString());
         comboLot->setObjectName("comboLot");
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, comboLot);
+        formLayout->setWidget(3, QFormLayout::FieldRole, comboLot);
 
         lblPrixKg = new QLabel(TransactionDialog);
         lblPrixKg->setObjectName("lblPrixKg");
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, lblPrixKg);
+        formLayout->setWidget(4, QFormLayout::LabelRole, lblPrixKg);
 
         spinPrixKg = new QDoubleSpinBox(TransactionDialog);
         spinPrixKg->setObjectName("spinPrixKg");
@@ -275,12 +289,12 @@ public:
         spinPrixKg->setDecimals(2);
         spinPrixKg->setSingleStep(0.500000000000000);
 
-        formLayout->setWidget(3, QFormLayout::FieldRole, spinPrixKg);
+        formLayout->setWidget(4, QFormLayout::FieldRole, spinPrixKg);
 
         lblQuantite = new QLabel(TransactionDialog);
         lblQuantite->setObjectName("lblQuantite");
 
-        formLayout->setWidget(4, QFormLayout::LabelRole, lblQuantite);
+        formLayout->setWidget(5, QFormLayout::LabelRole, lblQuantite);
 
         spinQuantite = new QDoubleSpinBox(TransactionDialog);
         spinQuantite->setObjectName("spinQuantite");
@@ -289,34 +303,34 @@ public:
         spinQuantite->setDecimals(3);
         spinQuantite->setSingleStep(1.000000000000000);
 
-        formLayout->setWidget(4, QFormLayout::FieldRole, spinQuantite);
+        formLayout->setWidget(5, QFormLayout::FieldRole, spinQuantite);
 
         lblTotal = new QLabel(TransactionDialog);
         lblTotal->setObjectName("lblTotal");
 
-        formLayout->setWidget(5, QFormLayout::LabelRole, lblTotal);
+        formLayout->setWidget(6, QFormLayout::LabelRole, lblTotal);
 
         totalValue = new QLabel(TransactionDialog);
         totalValue->setObjectName("totalValue");
         totalValue->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 
-        formLayout->setWidget(5, QFormLayout::FieldRole, totalValue);
+        formLayout->setWidget(6, QFormLayout::FieldRole, totalValue);
 
         lblDate = new QLabel(TransactionDialog);
         lblDate->setObjectName("lblDate");
 
-        formLayout->setWidget(6, QFormLayout::LabelRole, lblDate);
+        formLayout->setWidget(7, QFormLayout::LabelRole, lblDate);
 
         dateTransaction = new QDateTimeEdit(TransactionDialog);
         dateTransaction->setObjectName("dateTransaction");
         dateTransaction->setCalendarPopup(true);
 
-        formLayout->setWidget(6, QFormLayout::FieldRole, dateTransaction);
+        formLayout->setWidget(7, QFormLayout::FieldRole, dateTransaction);
 
         lblModePaiement = new QLabel(TransactionDialog);
         lblModePaiement->setObjectName("lblModePaiement");
 
-        formLayout->setWidget(7, QFormLayout::LabelRole, lblModePaiement);
+        formLayout->setWidget(8, QFormLayout::LabelRole, lblModePaiement);
 
         comboModePaiement = new QComboBox(TransactionDialog);
         comboModePaiement->addItem(QString());
@@ -324,12 +338,12 @@ public:
         comboModePaiement->addItem(QString());
         comboModePaiement->setObjectName("comboModePaiement");
 
-        formLayout->setWidget(7, QFormLayout::FieldRole, comboModePaiement);
+        formLayout->setWidget(8, QFormLayout::FieldRole, comboModePaiement);
 
         lblStatutPaiement = new QLabel(TransactionDialog);
         lblStatutPaiement->setObjectName("lblStatutPaiement");
 
-        formLayout->setWidget(8, QFormLayout::LabelRole, lblStatutPaiement);
+        formLayout->setWidget(9, QFormLayout::LabelRole, lblStatutPaiement);
 
         comboStatutPaiement = new QComboBox(TransactionDialog);
         comboStatutPaiement->addItem(QString());
@@ -337,7 +351,7 @@ public:
         comboStatutPaiement->addItem(QString());
         comboStatutPaiement->setObjectName("comboStatutPaiement");
 
-        formLayout->setWidget(8, QFormLayout::FieldRole, comboStatutPaiement);
+        formLayout->setWidget(9, QFormLayout::FieldRole, comboStatutPaiement);
 
 
         mainLayout->addLayout(formLayout);
@@ -385,6 +399,8 @@ public:
         lineNumFacture->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "FCT-100", nullptr));
         lblPecheur->setText(QCoreApplication::translate("TransactionDialog", "P\303\252cheur", nullptr));
         linePecheur->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "Nom du p\303\252cheur", nullptr));
+        lblReference->setText(QCoreApplication::translate("TransactionDialog", "R\303\251f\303\251rence", nullptr));
+        lineReference->setPlaceholderText(QCoreApplication::translate("TransactionDialog", "Num\303\251ro de r\303\251f\303\251rence", nullptr));
         lblLot->setText(QCoreApplication::translate("TransactionDialog", "Poisson", nullptr));
         comboLot->setItemText(0, QCoreApplication::translate("TransactionDialog", "-- S\303\251lectionner --", nullptr));
         comboLot->setItemText(1, QCoreApplication::translate("TransactionDialog", "Sardine", nullptr));

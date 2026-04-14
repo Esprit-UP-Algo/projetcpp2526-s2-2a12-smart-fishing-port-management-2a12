@@ -188,11 +188,13 @@ QComboBox QAbstractItemView {
      <property name="verticalSpacing"><number>20</number></property>
      <item row="0" column="0">
       <widget class="QLabel" name="lblNumFacture">
+       <property name="visible"><bool>false</bool></property>
        <property name="text"><string>Num Facture</string></property>
       </widget>
      </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineNumFacture">
+       <property name="visible"><bool>false</bool></property>
        <property name="placeholderText"><string>FCT-100</string></property>
       </widget>
      </item>
@@ -207,11 +209,21 @@ QComboBox QAbstractItemView {
       </widget>
      </item>
      <item row="2" column="0">
+      <widget class="QLabel" name="lblReference">
+       <property name="text"><string>Référence</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineReference">
+       <property name="placeholderText"><string>Numéro de référence</string></property>
+      </widget>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="lblLot">
        <property name="text"><string>Poisson</string></property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QComboBox" name="comboLot">
        <item>
         <property name="text"><string>-- Sélectionner --</string></property>
@@ -260,12 +272,12 @@ QComboBox QAbstractItemView {
        </item>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="lblPrixKg">
        <property name="text"><string>Prix / kg</string></property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QDoubleSpinBox" name="spinPrixKg">
        <property name="minimum"><double>0.000000000000000</double></property>
        <property name="maximum"><double>999999999.000000000000000</double></property>
@@ -274,12 +286,12 @@ QComboBox QAbstractItemView {
        <property name="suffix"><string> TND</string></property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="lblQuantite">
        <property name="text"><string>Quantité</string></property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="5" column="1">
       <widget class="QDoubleSpinBox" name="spinQuantite">
        <property name="minimum"><double>0.000000000000000</double></property>
        <property name="maximum"><double>999999999.000000000000000</double></property>
@@ -288,12 +300,12 @@ QComboBox QAbstractItemView {
        <property name="suffix"><string> kg</string></property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="lblTotal">
        <property name="text"><string>Total</string></property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QLabel" name="totalValue">
        <property name="text"><string>0,00 TND</string></property>
        <property name="alignment">
@@ -301,35 +313,35 @@ QComboBox QAbstractItemView {
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="lblDate">
        <property name="text"><string>Date transaction</string></property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="7" column="1">
       <widget class="QDateTimeEdit" name="dateTransaction">
        <property name="displayFormat"><string>yyyy-MM-dd HH:mm</string></property>
        <property name="calendarPopup"><bool>true</bool></property>
       </widget>
      </item>
-     <item row="7" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="lblModePaiement">
        <property name="text"><string>Mode paiement</string></property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="8" column="1">
       <widget class="QComboBox" name="comboModePaiement">
        <item><property name="text"><string>Espèces</string></property></item>
        <item><property name="text"><string>Chèque</string></property></item>
        <item><property name="text"><string>Virement</string></property></item>
       </widget>
      </item>
-     <item row="8" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="lblStatutPaiement">
        <property name="text"><string>Statut paiement</string></property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="9" column="1">
       <widget class="QComboBox" name="comboStatutPaiement">
        <item><property name="text"><string>Payé</string></property></item>
        <item><property name="text"><string>En attente</string></property></item>

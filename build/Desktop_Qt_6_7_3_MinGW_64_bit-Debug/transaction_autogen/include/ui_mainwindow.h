@@ -25,6 +25,7 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -143,23 +144,32 @@ public:
     QFrame *optionsFrame;
     QVBoxLayout *optionsFrameLayout;
     QLabel *lblOptionsAvancees;
+    QFrame *priceEstimateFrame;
+    QVBoxLayout *priceEstimateLayout;
+    QLabel *priceEstimateLabel;
+    QHBoxLayout *fishPriceSelectLayout;
+    QComboBox *fishPriceComboBox;
+    QPushButton *btnPrixEstime;
+    QFrame *priceResultDisplayFrame;
+    QVBoxLayout *priceResultLayout;
+    QLabel *priceResultDisplayLabel;
     QLabel *lblDetection;
     QFrame *separator1;
     QFrame *chatFrame;
     QVBoxLayout *chatFrameLayout;
     QTextBrowser *chatDisplay;
     QHBoxLayout *inputLayout;
+    QFrame *chatbotFrame;
+    QVBoxLayout *chatbotLayout;
+    QLabel *chatbotLabel;
+    QTextEdit *chatDisplay1;
+    QHBoxLayout *suggestionsLayout;
+    QPushButton *suggestPrice;
+    QPushButton *suggestAnomaly;
+    QSpacerItem *suggestSpacer;
+    QHBoxLayout *chatInputLayout;
     QLineEdit *chatInput;
-    QPushButton *btnSendChat;
-    QLabel *lblFishPricing;
-    QFrame *separatorFish;
-    QLabel *lblSelectFish;
-    QHBoxLayout *hboxLayout;
-    QComboBox *fishComboBox;
-    QPushButton *btnAfficherPrix;
-    QFrame *priceDisplayFrame;
-    QVBoxLayout *priceLayoutFrame;
-    QLabel *priceResultLabel;
+    QPushButton *chatSendButton;
     QSpacerItem *contentBottomSpacer;
 
     void setupUi(QMainWindow *MainWindow)
@@ -779,8 +789,8 @@ public:
         affichageFrameLayout->addLayout(buttonsLayout);
 
         tableTransactions = new QTableWidget(affichageFrame);
-        if (tableTransactions->columnCount() < 9)
-            tableTransactions->setColumnCount(9);
+        if (tableTransactions->columnCount() < 10)
+            tableTransactions->setColumnCount(10);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableTransactions->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -799,6 +809,8 @@ public:
         tableTransactions->setHorizontalHeaderItem(7, __qtablewidgetitem7);
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
         tableTransactions->setHorizontalHeaderItem(8, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        tableTransactions->setHorizontalHeaderItem(9, __qtablewidgetitem9);
         tableTransactions->setObjectName("tableTransactions");
         tableTransactions->setMinimumSize(QSize(0, 300));
         tableTransactions->setAlternatingRowColors(true);
@@ -1074,6 +1086,177 @@ public:
 
         optionsFrameLayout->addWidget(lblOptionsAvancees);
 
+        priceEstimateFrame = new QFrame(optionsFrame);
+        priceEstimateFrame->setObjectName("priceEstimateFrame");
+        priceEstimateFrame->setStyleSheet(QString::fromUtf8("\n"
+"QFrame#priceEstimateFrame {\n"
+"  border: 2px solid #39c0fa;\n"
+"  border-radius: 8px;\n"
+"  padding: 16px;\n"
+"  background-color: #101c2c;\n"
+"}\n"
+"                     "));
+        priceEstimateLayout = new QVBoxLayout(priceEstimateFrame);
+        priceEstimateLayout->setSpacing(12);
+        priceEstimateLayout->setObjectName("priceEstimateLayout");
+        priceEstimateLabel = new QLabel(priceEstimateFrame);
+        priceEstimateLabel->setObjectName("priceEstimateLabel");
+        priceEstimateLabel->setStyleSheet(QString::fromUtf8("\n"
+"QLabel {\n"
+"  color: #39c0fa;\n"
+"  font-size: 14px;\n"
+"  font-weight: bold;\n"
+"}\n"
+"                        "));
+
+        priceEstimateLayout->addWidget(priceEstimateLabel);
+
+        fishPriceSelectLayout = new QHBoxLayout();
+        fishPriceSelectLayout->setSpacing(8);
+        fishPriceSelectLayout->setObjectName("fishPriceSelectLayout");
+        fishPriceComboBox = new QComboBox(priceEstimateFrame);
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->addItem(QString());
+        fishPriceComboBox->setObjectName("fishPriceComboBox");
+        fishPriceComboBox->setMinimumHeight(40);
+        fishPriceComboBox->setStyleSheet(QString::fromUtf8("\n"
+"QComboBox {\n"
+"  background-color: #0d1b2a;\n"
+"  color: #39c0fa;\n"
+"  border: 1px solid #39c0fa;\n"
+"  border-radius: 6px;\n"
+"  padding: 6px 10px;\n"
+"  font-size: 12px;\n"
+"  font-weight: 500;\n"
+"}\n"
+"QComboBox:hover {\n"
+"  border-color: #56cdfc;\n"
+"  background-color: #132437;\n"
+"}\n"
+"QComboBox:focus {\n"
+"  border-color: #56cdfc;\n"
+"  background-color: #132437;\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"  border-left: 1px solid #39c0fa;\n"
+"  background-color: #0d1b2a;\n"
+"  width: 30px;\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"  background-color: #132437;\n"
+"  color: #e6eef6;\n"
+"  border: 1px solid #39c0fa;\n"
+"  selection-background-color: #39c0fa;\n"
+"  selection-color: #0c1a29;\n"
+"  padding: 4px 0px;\n"
+"}\n"
+"                          "));
+
+        fishPriceSelectLayout->addWidget(fishPriceComboBox);
+
+        btnPrixEstime = new QPushButton(priceEstimateFrame);
+        btnPrixEstime->setObjectName("btnPrixEstime");
+        btnPrixEstime->setMinimumHeight(40);
+        btnPrixEstime->setMaximumWidth(140);
+        btnPrixEstime->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #1e90ff;\n"
+"  color: #ffffff;\n"
+"  border: 2px solid #0033cc;\n"
+"  border-radius: 6px;\n"
+"  padding: 8px 16px;\n"
+"  font-size: 12px;\n"
+"  font-weight: 600;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #4169e1;\n"
+"  border-color: #1e90ff;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"  background-color: #0033cc;\n"
+"  border-color: #ffffff;\n"
+"}\n"
+"                          "));
+
+        fishPriceSelectLayout->addWidget(btnPrixEstime);
+
+
+        priceEstimateLayout->addLayout(fishPriceSelectLayout);
+
+        priceResultDisplayFrame = new QFrame(priceEstimateFrame);
+        priceResultDisplayFrame->setObjectName("priceResultDisplayFrame");
+        priceResultDisplayFrame->setFrameShape(QFrame::StyledPanel);
+        priceResultDisplayFrame->setStyleSheet(QString::fromUtf8("\n"
+"QFrame {\n"
+"  background-color: #ffffff;\n"
+"  border: 1px solid #1e90ff;\n"
+"  border-radius: 6px;\n"
+"  padding: 12px;\n"
+"}\n"
+"                        "));
+        priceResultLayout = new QVBoxLayout(priceResultDisplayFrame);
+        priceResultLayout->setObjectName("priceResultLayout");
+        priceResultLayout->setContentsMargins(0, 0, 0, 0);
+        priceResultDisplayLabel = new QLabel(priceResultDisplayFrame);
+        priceResultDisplayLabel->setObjectName("priceResultDisplayLabel");
+        priceResultDisplayLabel->setStyleSheet(QString::fromUtf8("\n"
+"QLabel {\n"
+"  color: #0033cc;\n"
+"  font-size: 12px;\n"
+"  font-weight: 500;\n"
+"  padding: 8px;\n"
+"}\n"
+"                           "));
+        priceResultDisplayLabel->setAlignment(Qt::AlignCenter);
+        priceResultDisplayLabel->setMinimumHeight(60);
+
+        priceResultLayout->addWidget(priceResultDisplayLabel);
+
+
+        priceEstimateLayout->addWidget(priceResultDisplayFrame);
+
+
+        optionsFrameLayout->addWidget(priceEstimateFrame);
+
         lblDetection = new QLabel(optionsFrame);
         lblDetection->setObjectName("lblDetection");
 
@@ -1090,6 +1273,12 @@ public:
         chatFrame->setObjectName("chatFrame");
         chatFrame->setMinimumSize(QSize(0, 300));
         chatFrame->setFrameShape(QFrame::StyledPanel);
+        chatFrame->setStyleSheet(QString::fromUtf8("\n"
+"QFrame#chatFrame {\n"
+"  background-color: transparent;\n"
+"  border: none;\n"
+"}\n"
+"                     "));
         chatFrameLayout = new QVBoxLayout(chatFrame);
         chatFrameLayout->setSpacing(8);
         chatFrameLayout->setObjectName("chatFrameLayout");
@@ -1099,9 +1288,9 @@ public:
         chatDisplay->setMinimumSize(QSize(0, 200));
         chatDisplay->setStyleSheet(QString::fromUtf8("\n"
 "QTextBrowser {\n"
-"  background-color: #1a2a3a;\n"
+"  background-color: transparent;\n"
 "  color: #e6eef6;\n"
-"  border: 1px solid #2a3f55;\n"
+"  border: none;\n"
 "  border-radius: 8px;\n"
 "  padding: 12px;\n"
 "  font-size: 13px;\n"
@@ -1113,223 +1302,163 @@ public:
         inputLayout = new QHBoxLayout();
         inputLayout->setSpacing(8);
         inputLayout->setObjectName("inputLayout");
-        chatInput = new QLineEdit(chatFrame);
-        chatInput->setObjectName("chatInput");
-        chatInput->setStyleSheet(QString::fromUtf8("\n"
-"QLineEdit {\n"
-"  background-color: #1a2a3a;\n"
-"  color: #e6eef6;\n"
-"  border: 1px solid #2a3f55;\n"
-"  border-radius: 8px;\n"
-"  padding: 8px 12px;\n"
-"  min-height: 30px;\n"
-"  font-size: 13px;\n"
-"}\n"
-"QLineEdit:focus {\n"
-"  border-color: #39a8d8;\n"
-"}\n"
-"                          "));
-
-        inputLayout->addWidget(chatInput);
-
-        btnSendChat = new QPushButton(chatFrame);
-        btnSendChat->setObjectName("btnSendChat");
-        btnSendChat->setStyleSheet(QString::fromUtf8("\n"
-"QPushButton {\n"
-"  background-color: #2da4d8;\n"
-"  color: white;\n"
-"  border: 0px;\n"
-"  border-radius: 8px;\n"
-"  padding: 8px 16px;\n"
-"  font-size: 13px;\n"
-"  font-weight: 700;\n"
-"  min-width: 80px;\n"
-"}\n"
-"QPushButton:hover {\n"
-"  background-color: #3dbae8;\n"
-"}\n"
-"                          "));
-
-        inputLayout->addWidget(btnSendChat);
-
 
         chatFrameLayout->addLayout(inputLayout);
 
 
         optionsFrameLayout->addWidget(chatFrame);
 
-        lblFishPricing = new QLabel(optionsFrame);
-        lblFishPricing->setObjectName("lblFishPricing");
-        lblFishPricing->setStyleSheet(QString::fromUtf8("\n"
-"QLabel {\n"
-"  color: #1e90ff;\n"
-"  font-size: 16px;\n"
-"  font-weight: 800;\n"
-"  letter-spacing: 0.5px;\n"
-"}\n"
-"                     "));
-
-        optionsFrameLayout->addWidget(lblFishPricing);
-
-        separatorFish = new QFrame(optionsFrame);
-        separatorFish->setObjectName("separatorFish");
-        separatorFish->setFrameShape(QFrame::HLine);
-        separatorFish->setFrameShadow(QFrame::Sunken);
-        separatorFish->setStyleSheet(QString::fromUtf8("\n"
-"QFrame {\n"
-"  border: 1px solid #1e90ff;\n"
-"  background: transparent;\n"
-"}\n"
-"                     "));
-
-        optionsFrameLayout->addWidget(separatorFish);
-
-        lblSelectFish = new QLabel(optionsFrame);
-        lblSelectFish->setObjectName("lblSelectFish");
-        lblSelectFish->setStyleSheet(QString::fromUtf8("\n"
-"QLabel {\n"
-"  color: #0066cc;\n"
-"  font-weight: 700;\n"
-"  font-size: 13px;\n"
-"  padding: 8px 0px 4px 0px;\n"
-"}\n"
-"                     "));
-
-        optionsFrameLayout->addWidget(lblSelectFish);
-
-        hboxLayout = new QHBoxLayout();
-        hboxLayout->setObjectName("hboxLayout");
-        fishComboBox = new QComboBox(optionsFrame);
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->addItem(QString());
-        fishComboBox->setObjectName("fishComboBox");
-        fishComboBox->setMinimumHeight(45);
-        fishComboBox->setStyleSheet(QString::fromUtf8("\n"
-"QComboBox {\n"
-"  background-color: #ffffff;\n"
-"  color: #0033cc;\n"
-"  border: 2px solid #1e90ff;\n"
-"  border-radius: 6px;\n"
-"  padding: 8px 12px;\n"
-"  font-size: 13px;\n"
-"  font-weight: 500;\n"
-"}\n"
-"QComboBox:hover {\n"
-"  border-color: #4169e1;\n"
-"  background-color: #f0f8ff;\n"
-"}\n"
-"QComboBox:focus {\n"
-"  border-color: #1e90ff;\n"
-"  outline: none;\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"  border-left: 2px solid #1e90ff;\n"
-"  background-color: #e6f2ff;\n"
-"  width: 40px;\n"
-"}\n"
-"QComboBox::down-arrow {\n"
-"  image: none;\n"
-"}\n"
-"QComboBox QAbstractItemView {\n"
-"  background-color: #ffffff;\n"
-"  color: #0033cc;\n"
-"  border: 2px solid #1e90ff;\n"
-"  border-radius: 4px;\n"
-"  selection-background-color: #1e90ff;\n"
-"  selection-color: #ffffff;\n"
-"  outline: none;\n"
-"}\n"
-"QComboBox QAbstractItemView::item {\n"
-"  padding: 8px;\n"
-"  border: none;\n"
-"  margin: 2px 0px;\n"
-"}\n"
-"QComboBox QAbstractItemView::item:hover {\n"
-"  background-color: #e6f2ff;\n"
-"  color: #0033cc;\n"
-"}\n"
-"QC"
-                        "omboBox QAbstractItemView::item:selected {\n"
-"  background-color: #1e90ff;\n"
-"  color: #ffffff;\n"
-"  font-weight: 600;\n"
-"}\n"
-"                       "));
-
-        hboxLayout->addWidget(fishComboBox);
-
-        btnAfficherPrix = new QPushButton(optionsFrame);
-        btnAfficherPrix->setObjectName("btnAfficherPrix");
-        btnAfficherPrix->setMinimumHeight(45);
-        btnAfficherPrix->setMaximumWidth(120);
-        btnAfficherPrix->setStyleSheet(QString::fromUtf8("\n"
-"QPushButton {\n"
-"  background-color: #1e90ff;\n"
-"  color: #ffffff;\n"
-"  border: 2px solid #0033cc;\n"
-"  border-radius: 6px;\n"
-"  padding: 8px 16px;\n"
-"  font-size: 13px;\n"
-"  font-weight: 600;\n"
-"}\n"
-"QPushButton:hover {\n"
-"  background-color: #4169e1;\n"
-"  border-color: #1e90ff;\n"
-"}\n"
-"QPushButton:pressed {\n"
-"  background-color: #0033cc;\n"
-"  border-color: #ffffff;\n"
-"}\n"
-"                       "));
-
-        hboxLayout->addWidget(btnAfficherPrix);
-
-
-        optionsFrameLayout->addLayout(hboxLayout);
-
-        priceDisplayFrame = new QFrame(optionsFrame);
-        priceDisplayFrame->setObjectName("priceDisplayFrame");
-        priceDisplayFrame->setFrameShape(QFrame::StyledPanel);
-        priceDisplayFrame->setStyleSheet(QString::fromUtf8("\n"
-"QFrame {\n"
-"  background-color: #e6f2ff;\n"
-"  border: 2px solid #1e90ff;\n"
+        chatbotFrame = new QFrame(optionsFrame);
+        chatbotFrame->setObjectName("chatbotFrame");
+        chatbotFrame->setStyleSheet(QString::fromUtf8("\n"
+"QFrame#chatbotFrame {\n"
+"  border: 2px solid #00bcd4;\n"
 "  border-radius: 8px;\n"
 "  padding: 16px;\n"
 "}\n"
 "                     "));
-        priceLayoutFrame = new QVBoxLayout(priceDisplayFrame);
-        priceLayoutFrame->setObjectName("priceLayoutFrame");
-        priceLayoutFrame->setContentsMargins(0, 0, 0, 0);
-        priceResultLabel = new QLabel(priceDisplayFrame);
-        priceResultLabel->setObjectName("priceResultLabel");
-        priceResultLabel->setStyleSheet(QString::fromUtf8("\n"
+        chatbotLayout = new QVBoxLayout(chatbotFrame);
+        chatbotLayout->setSpacing(12);
+        chatbotLayout->setObjectName("chatbotLayout");
+        chatbotLabel = new QLabel(chatbotFrame);
+        chatbotLabel->setObjectName("chatbotLabel");
+        chatbotLabel->setStyleSheet(QString::fromUtf8("\n"
 "QLabel {\n"
-"  color: #0033cc;\n"
-"  font-size: 13px;\n"
-"  font-weight: 500;\n"
+"  color: #00bcd4;\n"
+"  font-size: 14px;\n"
+"  font-weight: bold;\n"
 "}\n"
 "                        "));
-        priceResultLabel->setAlignment(Qt::AlignCenter);
-        priceResultLabel->setMinimumHeight(100);
 
-        priceLayoutFrame->addWidget(priceResultLabel);
+        chatbotLayout->addWidget(chatbotLabel);
+
+        chatDisplay1 = new QTextEdit(chatbotFrame);
+        chatDisplay1->setObjectName("chatDisplay1");
+        chatDisplay1->setReadOnly(true);
+        chatDisplay1->setMinimumHeight(120);
+        chatDisplay1->setMaximumHeight(400);
+        chatDisplay1->setStyleSheet(QString::fromUtf8("\n"
+"QTextEdit {\n"
+"  border: 2px solid #00bcd4;\n"
+"  border-radius: 6px;\n"
+"  padding: 12px;\n"
+"  background-color: #0d1b2a;\n"
+"  color: #ecf0f1;\n"
+"  font-family: 'Segoe UI', Arial;\n"
+"  font-size: 11px;\n"
+"  line-height: 1.6;\n"
+"}\n"
+"                        "));
+
+        chatbotLayout->addWidget(chatDisplay1);
+
+        suggestionsLayout = new QHBoxLayout();
+        suggestionsLayout->setSpacing(6);
+        suggestionsLayout->setObjectName("suggestionsLayout");
+        suggestPrice = new QPushButton(chatbotFrame);
+        suggestPrice->setObjectName("suggestPrice");
+        suggestPrice->setMaximumWidth(130);
+        suggestPrice->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #1a237e;\n"
+"  color: #00bcd4;\n"
+"  border: 1px solid #00bcd4;\n"
+"  border-radius: 4px;\n"
+"  padding: 6px 10px;\n"
+"  font-size: 10px;\n"
+"  font-weight: bold;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #283593;\n"
+"  color: #00e5ff;\n"
+"}\n"
+"                          "));
+
+        suggestionsLayout->addWidget(suggestPrice);
+
+        suggestAnomaly = new QPushButton(chatbotFrame);
+        suggestAnomaly->setObjectName("suggestAnomaly");
+        suggestAnomaly->setMaximumWidth(130);
+        suggestAnomaly->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #1a237e;\n"
+"  color: #00bcd4;\n"
+"  border: 1px solid #00bcd4;\n"
+"  border-radius: 4px;\n"
+"  padding: 6px 10px;\n"
+"  font-size: 10px;\n"
+"  font-weight: bold;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #283593;\n"
+"  color: #00e5ff;\n"
+"}\n"
+"                          "));
+
+        suggestionsLayout->addWidget(suggestAnomaly);
+
+        suggestSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        suggestionsLayout->addItem(suggestSpacer);
 
 
-        optionsFrameLayout->addWidget(priceDisplayFrame);
+        chatbotLayout->addLayout(suggestionsLayout);
+
+        chatInputLayout = new QHBoxLayout();
+        chatInputLayout->setSpacing(8);
+        chatInputLayout->setObjectName("chatInputLayout");
+        chatInput = new QLineEdit(chatbotFrame);
+        chatInput->setObjectName("chatInput");
+        chatInput->setMinimumHeight(36);
+        chatInput->setStyleSheet(QString::fromUtf8("\n"
+"QLineEdit {\n"
+"  border: 2px solid #00bcd4;\n"
+"  border-radius: 5px;\n"
+"  padding: 6px 10px;\n"
+"  background-color: #0d1b2a;\n"
+"  color: #00bcd4;\n"
+"  font-weight: bold;\n"
+"  font-size: 11px;\n"
+"}\n"
+"QLineEdit:focus {\n"
+"  border: 2px solid #00e5ff;\n"
+"}\n"
+"QLineEdit::placeholder {\n"
+"  color: #64b5f6;\n"
+"}\n"
+"                         "));
+
+        chatInputLayout->addWidget(chatInput);
+
+        chatSendButton = new QPushButton(chatbotFrame);
+        chatSendButton->setObjectName("chatSendButton");
+        chatSendButton->setMinimumHeight(36);
+        chatSendButton->setMinimumWidth(100);
+        chatSendButton->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton {\n"
+"  background-color: #00bcd4;\n"
+"  color: white;\n"
+"  border: none;\n"
+"  border-radius: 5px;\n"
+"  padding: 6px 16px;\n"
+"  font-weight: bold;\n"
+"  font-size: 11px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"  background-color: #00e5ff;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"  background-color: #0097a7;\n"
+"}\n"
+"                         "));
+
+        chatInputLayout->addWidget(chatSendButton);
+
+
+        chatbotLayout->addLayout(chatInputLayout);
+
+
+        optionsFrameLayout->addWidget(chatbotFrame);
 
 
         contentLayout->addWidget(optionsFrame);
@@ -1402,19 +1531,21 @@ public:
         QTableWidgetItem *___qtablewidgetitem1 = tableTransactions->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "P\303\252cheur", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tableTransactions->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "Lot", nullptr));
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "R\303\251f\303\251rence", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = tableTransactions->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Prix/kg", nullptr));
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Lot", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = tableTransactions->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Quantit\303\251", nullptr));
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Prix/kg", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = tableTransactions->horizontalHeaderItem(5);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Quantit\303\251", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = tableTransactions->horizontalHeaderItem(6);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Date transaction", nullptr));
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = tableTransactions->horizontalHeaderItem(7);
-        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Mode paiement", nullptr));
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Date transaction", nullptr));
         QTableWidgetItem *___qtablewidgetitem8 = tableTransactions->horizontalHeaderItem(8);
-        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Statut paiement", nullptr));
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Mode paiement", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = tableTransactions->horizontalHeaderItem(9);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Statut paiement", nullptr));
         lblStatistiquesVentes->setText(QCoreApplication::translate("MainWindow", "Statistiques", nullptr));
         lblPeriode->setText(QCoreApplication::translate("MainWindow", "P\303\251riode:", nullptr));
         comboPeriode->setItemText(0, QCoreApplication::translate("MainWindow", "7j", nullptr));
@@ -1441,29 +1572,57 @@ public:
         lblChartREV->setText(QCoreApplication::translate("MainWindow", "--", nullptr));
         lblChartUnitREV->setText(QCoreApplication::translate("MainWindow", "DT", nullptr));
         lblOptionsAvancees->setText(QCoreApplication::translate("MainWindow", "Options avanc\303\251es", nullptr));
-        lblDetection->setText(QCoreApplication::translate("MainWindow", "D\303\251tection des transactions anormales", nullptr));
-        chatInput->setPlaceholderText(QCoreApplication::translate("MainWindow", "D\303\251crivez la transaction anormale...", nullptr));
-        btnSendChat->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
-        lblFishPricing->setText(QCoreApplication::translate("MainWindow", "Estimation de Prix de Poissons", nullptr));
-        lblSelectFish->setText(QCoreApplication::translate("MainWindow", "Liste des Poissons Disponibles:", nullptr));
-        fishComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "-- S\303\251lectionner un poisson --", nullptr));
-        fishComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Sardine", nullptr));
-        fishComboBox->setItemText(2, QCoreApplication::translate("MainWindow", "Anchois", nullptr));
-        fishComboBox->setItemText(3, QCoreApplication::translate("MainWindow", "Maquereau", nullptr));
-        fishComboBox->setItemText(4, QCoreApplication::translate("MainWindow", "Dorade", nullptr));
-        fishComboBox->setItemText(5, QCoreApplication::translate("MainWindow", "Rouget", nullptr));
-        fishComboBox->setItemText(6, QCoreApplication::translate("MainWindow", "Sole", nullptr));
-        fishComboBox->setItemText(7, QCoreApplication::translate("MainWindow", "Poulpe", nullptr));
-        fishComboBox->setItemText(8, QCoreApplication::translate("MainWindow", "Crevette", nullptr));
-        fishComboBox->setItemText(9, QCoreApplication::translate("MainWindow", "Lieu", nullptr));
-        fishComboBox->setItemText(10, QCoreApplication::translate("MainWindow", "Encornet", nullptr));
-        fishComboBox->setItemText(11, QCoreApplication::translate("MainWindow", "Merlan", nullptr));
-        fishComboBox->setItemText(12, QCoreApplication::translate("MainWindow", "Cabillaud", nullptr));
-        fishComboBox->setItemText(13, QCoreApplication::translate("MainWindow", "Trout", nullptr));
-        fishComboBox->setItemText(14, QCoreApplication::translate("MainWindow", "Turbot", nullptr));
+        priceEstimateLabel->setText(QCoreApplication::translate("MainWindow", "\360\237\223\212 Prix Estim\303\251 de Poisson", nullptr));
+        fishPriceComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "-- S\303\251lectionner un poisson --", nullptr));
+        fishPriceComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Sardine", nullptr));
+        fishPriceComboBox->setItemText(2, QCoreApplication::translate("MainWindow", "Anchois", nullptr));
+        fishPriceComboBox->setItemText(3, QCoreApplication::translate("MainWindow", "Maquereau", nullptr));
+        fishPriceComboBox->setItemText(4, QCoreApplication::translate("MainWindow", "Dorade", nullptr));
+        fishPriceComboBox->setItemText(5, QCoreApplication::translate("MainWindow", "Rouget", nullptr));
+        fishPriceComboBox->setItemText(6, QCoreApplication::translate("MainWindow", "Sole", nullptr));
+        fishPriceComboBox->setItemText(7, QCoreApplication::translate("MainWindow", "Poulpe", nullptr));
+        fishPriceComboBox->setItemText(8, QCoreApplication::translate("MainWindow", "Crevette", nullptr));
+        fishPriceComboBox->setItemText(9, QCoreApplication::translate("MainWindow", "Lieu", nullptr));
+        fishPriceComboBox->setItemText(10, QCoreApplication::translate("MainWindow", "Encornet", nullptr));
+        fishPriceComboBox->setItemText(11, QCoreApplication::translate("MainWindow", "Merlan", nullptr));
+        fishPriceComboBox->setItemText(12, QCoreApplication::translate("MainWindow", "Cabillaud", nullptr));
+        fishPriceComboBox->setItemText(13, QCoreApplication::translate("MainWindow", "Trout", nullptr));
+        fishPriceComboBox->setItemText(14, QCoreApplication::translate("MainWindow", "Turbot", nullptr));
+        fishPriceComboBox->setItemText(15, QCoreApplication::translate("MainWindow", "Hareng", nullptr));
+        fishPriceComboBox->setItemText(16, QCoreApplication::translate("MainWindow", "Moule", nullptr));
+        fishPriceComboBox->setItemText(17, QCoreApplication::translate("MainWindow", "Bar", nullptr));
+        fishPriceComboBox->setItemText(18, QCoreApplication::translate("MainWindow", "Basse", nullptr));
+        fishPriceComboBox->setItemText(19, QCoreApplication::translate("MainWindow", "Seiche", nullptr));
+        fishPriceComboBox->setItemText(20, QCoreApplication::translate("MainWindow", "Calmar", nullptr));
+        fishPriceComboBox->setItemText(21, QCoreApplication::translate("MainWindow", "Saumon", nullptr));
+        fishPriceComboBox->setItemText(22, QCoreApplication::translate("MainWindow", "Esturgeon", nullptr));
+        fishPriceComboBox->setItemText(23, QCoreApplication::translate("MainWindow", "Tilapia", nullptr));
+        fishPriceComboBox->setItemText(24, QCoreApplication::translate("MainWindow", "Goberge", nullptr));
+        fishPriceComboBox->setItemText(25, QCoreApplication::translate("MainWindow", "Fl\303\251tan", nullptr));
+        fishPriceComboBox->setItemText(26, QCoreApplication::translate("MainWindow", "Morue", nullptr));
+        fishPriceComboBox->setItemText(27, QCoreApplication::translate("MainWindow", "Truite", nullptr));
+        fishPriceComboBox->setItemText(28, QCoreApplication::translate("MainWindow", "Daurade royale", nullptr));
+        fishPriceComboBox->setItemText(29, QCoreApplication::translate("MainWindow", "Bar ray\303\251", nullptr));
+        fishPriceComboBox->setItemText(30, QCoreApplication::translate("MainWindow", "Anguille", nullptr));
+        fishPriceComboBox->setItemText(31, QCoreApplication::translate("MainWindow", "Mulet", nullptr));
+        fishPriceComboBox->setItemText(32, QCoreApplication::translate("MainWindow", "Rouget barbarin", nullptr));
+        fishPriceComboBox->setItemText(33, QCoreApplication::translate("MainWindow", "Br\303\250me", nullptr));
+        fishPriceComboBox->setItemText(34, QCoreApplication::translate("MainWindow", "Daurade rose", nullptr));
+        fishPriceComboBox->setItemText(35, QCoreApplication::translate("MainWindow", "Sar", nullptr));
+        fishPriceComboBox->setItemText(36, QCoreApplication::translate("MainWindow", "Loup de mer", nullptr));
+        fishPriceComboBox->setItemText(37, QCoreApplication::translate("MainWindow", "Poutine", nullptr));
+        fishPriceComboBox->setItemText(38, QCoreApplication::translate("MainWindow", "Crapet", nullptr));
+        fishPriceComboBox->setItemText(39, QCoreApplication::translate("MainWindow", "Carpe", nullptr));
+        fishPriceComboBox->setItemText(40, QCoreApplication::translate("MainWindow", "Silure", nullptr));
 
-        btnAfficherPrix->setText(QCoreApplication::translate("MainWindow", "Afficher Prix", nullptr));
-        priceResultLabel->setText(QCoreApplication::translate("MainWindow", "S\303\251lectionnez un poisson pour voir le prix estim\303\251", nullptr));
+        btnPrixEstime->setText(QCoreApplication::translate("MainWindow", "Prix Estim\303\251", nullptr));
+        priceResultDisplayLabel->setText(QCoreApplication::translate("MainWindow", "S\303\251lectionnez un poisson et cliquez sur \"Prix Estim\303\251\"", nullptr));
+        lblDetection->setText(QCoreApplication::translate("MainWindow", "D\303\251tection des transactions anormales", nullptr));
+        chatbotLabel->setText(QCoreApplication::translate("MainWindow", "\360\237\244\226 Assistant M\303\251tier - Chatbot", nullptr));
+        suggestPrice->setText(QCoreApplication::translate("MainWindow", "Quel prix?", nullptr));
+        suggestAnomaly->setText(QCoreApplication::translate("MainWindow", "Anomalies?", nullptr));
+        chatInput->setPlaceholderText(QCoreApplication::translate("MainWindow", "Posez une question...", nullptr));
+        chatSendButton->setText(QCoreApplication::translate("MainWindow", "Envoyer", nullptr));
     } // retranslateUi
 
 };

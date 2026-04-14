@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "transactiondialog.h"
 #include "connection.h"
+#include "transactionchatbot.h"
 
 #include <QDate>
 #include <QFileDialog>
@@ -34,6 +35,13 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <QComboBox>
+#include <QLabel>
+#include <QTextEdit>
+#include <QLineEdit>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -121,35 +129,40 @@ MainWindow::MainWindow(QWidget *parent)
     // Table headers resize
     ui->tableTransactions->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    // Initialize Fish Pricing
-    m_fishPricing = new FishPricingDialog(this);
+    // Initialize ChatBot UI components
+    m_chatDisplay = ui->chatDisplay;
+    m_chatInput = ui->chatInput;
     
-    // Fish pricing connections
-    connect(ui->fishComboBox, QOverload<const QString &>::of(&QComboBox::currentTextChanged),
-            this, &MainWindow::onFishSelected);
-    connect(ui->btnAfficherPrix, &QPushButton::clicked, this, &MainWindow::onAfficherPrix);
+    // ChatBot connections
+    connect(ui->chatSendButton, &QPushButton::clicked, this, &MainWindow::onSendChatMessage);
+    connect(ui->chatInput, &QLineEdit::returnPressed, this, &MainWindow::onSendChatMessage);
     
-    // Create default price file if needed and load it automatically
-    m_fishPricing->createDefaultPriceFileIfNeeded();
-    QString priceFile = QCoreApplication::applicationDirPath() + "/prix_poissons.txt";
-    qDebug() << "Loading price file from:" << priceFile;
-    m_fishPricing->loadFishPricesFromFile(priceFile);
-    connect(m_fishPricing, &FishPricingDialog::fishListLoaded, this, [this](const QStringList &fishes) {
-        // Clear all items
-        ui->fishComboBox->clear();
-        // Add placeholder
-        ui->fishComboBox->addItem("-- Sélectionner un poisson --");
-        // Add fish items from file
-        if (!fishes.isEmpty()) {
-            ui->fishComboBox->addItems(fishes);
-            qDebug() << "ComboBox populated with" << fishes.size() << "fishes from file";
-        } else {
-            qDebug() << "WARNING: No fishes loaded from file!";
-        }
-        // Mark as loaded
-        m_fishPricesLoaded = true;
-        qDebug() << "Fish prices loaded:" << fishes.size() << "types loaded";
+    // Suggestion button connections
+    connect(ui->suggestPrice, &QPushButton::clicked, this, [this]() {
+        ui->chatInput->setText("Quel prix pour une sardine?");
+        ui->chatInput->setFocus();
     });
+    connect(ui->suggestAnomaly, &QPushButton::clicked, this, [this]() {
+        ui->chatInput->setText("Y a-t-il des anomalies?");
+        ui->chatInput->setFocus();
+    });
+    
+    setupChatBotUI();
+    
+    // Price estimation connections
+    connect(ui->btnPrixEstime, &QPushButton::clicked, this, &MainWindow::onPrixEstimeButtonClicked);
+    
+    // Configure price display label to accept rich text (HTML)
+    ui->priceResultDisplayLabel->setTextFormat(Qt::RichText);
+    ui->priceResultDisplayLabel->setWordWrap(true);
+    
+    // Load fish prices from file
+    loadFishPricesFromFile();
+    
+    // Pass loaded fish prices to chatbot
+    if (m_chatBot) {
+        m_chatBot->setFishPrices(m_fishPriceEstimates);
+    }
 
     // CRUD buttons
     connect(ui->btnCreer,    &QPushButton::clicked, this, &MainWindow::onCreer);
@@ -414,8 +427,8 @@ void MainWindow::loadDataFromDb()
     };
 
     if (m_hasLotColumn) {
-        QString sel = QString("SELECT %1, %2, %3, %4, %5, %6, %7, %8, %9 FROM %10")
-            .arg(col("NUMFACTURE"), col("PECHEUR"), col("LOT"), col("PRIX_KG"), col("QUANTITE"), col("TOTAL"), col("DATETRANSACTION"), col("MODEPAIEMENT"), col("STATUTPAIEMENT"), m_tableName);
+        QString sel = QString("SELECT %1, %2, %3, %4, %5, %6, %7, %8, %9, %10 FROM %11")
+            .arg(col("NUMFACTURE"), col("PECHEUR"), col("REFERENCE"), col("LOT"), col("PRIX_KG"), col("QUANTITE"), col("TOTAL"), col("DATETRANSACTION"), col("MODEPAIEMENT"), col("STATUTPAIEMENT"), m_tableName);
         if (!q.exec(sel)) {
             qDebug() << "Select failed:" << q.lastError().text() << " SQL:" << sel;
             // Try fallback: SELECT * from table (unqualified), then try qualified owner.table
@@ -437,6 +450,7 @@ void MainWindow::loadDataFromDb()
                 };
                 int idxNum = findIndexLocal("NUMFACTURE");
                 int idxPecheur = findIndexLocal("PECHEUR"); if (idxPecheur < 0) idxPecheur = findIndexLocal("PECHER");
+                int idxReference = findIndexLocal("REFERENCE");
                 int idxLot = findIndexLocal("LOT");
                 int idxPrix = findIndexLocal("PRIX_KG"); if (idxPrix < 0) idxPrix = findIndexLocal("PRIXKG");
                 int idxQte = findIndexLocal("QUANTITE");
@@ -448,6 +462,7 @@ void MainWindow::loadDataFromDb()
                     Transaction t;
                     if (idxNum >= 0) t.numFacture = q2.value(idxNum).toString();
                     if (idxPecheur >= 0) t.pecheur = q2.value(idxPecheur).toString();
+                    if (idxReference >= 0) t.reference = q2.value(idxReference).toString();
                     if (idxLot >= 0) t.lot = q2.value(idxLot).toString();
                     if (idxPrix >= 0) t.prixKg = q2.value(idxPrix).toDouble();
                     if (idxQte >= 0) t.quantite = q2.value(idxQte).toDouble();
@@ -489,6 +504,7 @@ void MainWindow::loadDataFromDb()
                             };
                             int idxNum = findIndexLocal("NUMFACTURE");
                             int idxPecheur = findIndexLocal("PECHEUR"); if (idxPecheur < 0) idxPecheur = findIndexLocal("PECHER");
+                            int idxReference = findIndexLocal("REFERENCE");
                             int idxLot = findIndexLocal("LOT");
                             int idxPrix = findIndexLocal("PRIX_KG"); if (idxPrix < 0) idxPrix = findIndexLocal("PRIXKG");
                             int idxQte = findIndexLocal("QUANTITE");
@@ -500,6 +516,7 @@ void MainWindow::loadDataFromDb()
                                 Transaction t;
                                 if (idxNum >= 0) t.numFacture = q2.value(idxNum).toString();
                                 if (idxPecheur >= 0) t.pecheur = q2.value(idxPecheur).toString();
+                                if (idxReference >= 0) t.reference = q2.value(idxReference).toString();
                                 if (idxLot >= 0) t.lot = q2.value(idxLot).toString();
                                 if (idxPrix >= 0) t.prixKg = q2.value(idxPrix).toDouble();
                                 if (idxQte >= 0) t.quantite = q2.value(idxQte).toDouble();
@@ -540,18 +557,19 @@ void MainWindow::loadDataFromDb()
                     if (!uname.isEmpty()) t.pecheur = uname;
                 }
             }
-            t.lot             = q.value(2).toString();
-            t.prixKg          = q.value(3).toDouble();
-            t.quantite        = q.value(4).toDouble();
-            t.total           = q.value(5).toDouble();
-            t.dateTransaction = q.value(6).toDateTime();
-            t.modePaiement    = q.value(7).toString();
-            t.statutPaiement  = q.value(8).toString();
+            t.reference       = q.value(2).toString();
+            t.lot             = q.value(3).toString();
+            t.prixKg          = q.value(4).toDouble();
+            t.quantite        = q.value(5).toDouble();
+            t.total           = q.value(6).toDouble();
+            t.dateTransaction = q.value(7).toDateTime();
+            t.modePaiement    = q.value(8).toString();
+            t.statutPaiement  = q.value(9).toString();
             m_transactions.append(t);
         }
     } else {
-        QString sel2 = QString("SELECT %1, %2, %3, %4, %5, %6, %7, %8 FROM %9")
-            .arg(col("NUMFACTURE"), col("PECHEUR"), col("PRIX_KG"), col("QUANTITE"), col("TOTAL"), col("DATETRANSACTION"), col("MODEPAIEMENT"), col("STATUTPAIEMENT"), m_tableName);
+        QString sel2 = QString("SELECT %1, %2, %3, %4, %5, %6, %7, %8, %9 FROM %10")
+            .arg(col("NUMFACTURE"), col("PECHEUR"), col("REFERENCE"), col("PRIX_KG"), col("QUANTITE"), col("TOTAL"), col("DATETRANSACTION"), col("MODEPAIEMENT"), col("STATUTPAIEMENT"), m_tableName);
         if (!q.exec(sel2)) {
             qDebug() << "Select failed (no-lot):" << q.lastError().text() << " SQL:" << sel2;
             // fallback to SELECT * similar to the other branch
@@ -573,6 +591,7 @@ void MainWindow::loadDataFromDb()
                 };
                 int idxNum = findIndexLocal("NUMFACTURE");
                 int idxPecheur = findIndexLocal("PECHEUR"); if (idxPecheur < 0) idxPecheur = findIndexLocal("PECHER");
+                int idxReference = findIndexLocal("REFERENCE");
                 int idxPrix = findIndexLocal("PRIX_KG"); if (idxPrix < 0) idxPrix = findIndexLocal("PRIXKG");
                 int idxQte = findIndexLocal("QUANTITE");
                 int idxTotal = findIndexLocal("TOTAL");
@@ -583,6 +602,7 @@ void MainWindow::loadDataFromDb()
                     Transaction t;
                     if (idxNum >= 0) t.numFacture = q2.value(idxNum).toString();
                     if (idxPecheur >= 0) t.pecheur = q2.value(idxPecheur).toString();
+                    if (idxReference >= 0) t.reference = q2.value(idxReference).toString();
                     if (idxPrix >= 0) t.prixKg = q2.value(idxPrix).toDouble();
                     if (idxQte >= 0) t.quantite = q2.value(idxQte).toDouble();
                     if (idxTotal >= 0) t.total = q2.value(idxTotal).toDouble();
@@ -623,6 +643,7 @@ void MainWindow::loadDataFromDb()
                             };
                             int idxNum = findIndexLocal("NUMFACTURE");
                             int idxPecheur = findIndexLocal("PECHEUR"); if (idxPecheur < 0) idxPecheur = findIndexLocal("PECHER");
+                            int idxReference = findIndexLocal("REFERENCE");
                             int idxPrix = findIndexLocal("PRIX_KG"); if (idxPrix < 0) idxPrix = findIndexLocal("PRIXKG");
                             int idxQte = findIndexLocal("QUANTITE");
                             int idxTotal = findIndexLocal("TOTAL");
@@ -633,6 +654,7 @@ void MainWindow::loadDataFromDb()
                                 Transaction t;
                                 if (idxNum >= 0) t.numFacture = q2.value(idxNum).toString();
                                 if (idxPecheur >= 0) t.pecheur = q2.value(idxPecheur).toString();
+                                if (idxReference >= 0) t.reference = q2.value(idxReference).toString();
                                 if (idxPrix >= 0) t.prixKg = q2.value(idxPrix).toDouble();
                                 if (idxQte >= 0) t.quantite = q2.value(idxQte).toDouble();
                                 if (idxTotal >= 0) t.total = q2.value(idxTotal).toDouble();
@@ -668,13 +690,14 @@ void MainWindow::loadDataFromDb()
                     if (!uname.isEmpty()) t.pecheur = uname;
                 }
             }
+            t.reference       = q.value(2).toString();
             t.lot             = QString();
-            t.prixKg          = q.value(2).toDouble();
-            t.quantite        = q.value(3).toDouble();
-            t.total           = q.value(4).toDouble();
-            t.dateTransaction = q.value(5).toDateTime();
-            t.modePaiement    = q.value(6).toString();
-            t.statutPaiement  = q.value(7).toString();
+            t.prixKg          = q.value(3).toDouble();
+            t.quantite        = q.value(4).toDouble();
+            t.total           = q.value(5).toDouble();
+            t.dateTransaction = q.value(6).toDateTime();
+            t.modePaiement    = q.value(7).toString();
+            t.statutPaiement  = q.value(8).toString();
             m_transactions.append(t);
         }
     // Debug/status: show how many transactions loaded and whether LOT detected
@@ -698,31 +721,28 @@ void MainWindow::onCreer()
     Transaction t = dlg.transaction();
     t.calcTotal(); // ensure total is correct
     
-    // Numéro de facture est NUMBER(10,0) -> conversion entière
-    if (t.numFacture.isEmpty()) {
-        QMessageBox::warning(this, tr("Erreur"), tr("Le numéro de facture est obligatoire."));
-        return;
-    }
-    bool ok;
-    int numFactureInt = t.numFacture.toInt(&ok);
-    if (!ok) {
-        QMessageBox::warning(this, tr("Erreur"), tr("Le numéro de facture doit être un nombre valide."));
-        return;
-    }
-
-    // Check duplicate in DB? Or let DB constraint handle it?
-    // Let's check locally first via pre-loaded list or just fetch
-    // Actually, SQL constraint is better but handling error is good too.
-    // For now we trust m_transactions is sync.
-    for (const auto &existing : m_transactions) {
-        if (existing.numFacture == t.numFacture) {
-            QMessageBox::warning(this, tr("Erreur"), tr("Une transaction avec ce numéro existe déjà."));
-            return;
-        }
-    }
+    // Stocker la référence pour les messages d'erreur
+    m_lastReference = t.reference;
+    
+    // numFacture est auto-généré par la base de données (SEQUENCE)
 
     QSqlDatabase db = Connection::createInstance().database();
     if (db.isOpen()) {
+            // Create NUMFACTURE auto-increment sequence if it doesn't exist
+            QSqlQuery seqCheck(db);
+            if (!seqCheck.exec(QString("SELECT 1 FROM user_sequences WHERE sequence_name = 'SEQ_NUMFACTURE'"))) {
+                qDebug() << "Sequence check query failed:" << seqCheck.lastError().text();
+            } else if (!seqCheck.next()) {
+                // Sequence doesn't exist, create it
+                QSqlQuery seqCreate(db);
+                if (seqCreate.exec(QStringLiteral("CREATE SEQUENCE SEQ_NUMFACTURE START WITH 1 INCREMENT BY 1 MAXVALUE 999 NOCACHE"))) {
+                    statusBar()->showMessage(tr("Séquence SEQ_NUMFACTURE créée (001-999)."), 5000);
+                } else {
+                    qDebug() << "Sequence creation failed:" << seqCreate.lastError().text();
+                    // Non-fatal, we'll try to use it anyway
+                }
+            }
+            
             // If the DB doesn't have a LOT column, try to add it automatically before update.
             if (!m_hasLotColumn) {
                 QSqlQuery alt(db);
@@ -773,18 +793,7 @@ void MainWindow::onCreer()
                         .arg(alt.lastError().text(), m_tableName));
                 }
             }
-            // Double-check in DB that the NUMFACTURE doesn't already exist (avoid PK violation)
-            QSqlQuery chk(db);
-            QString chkSql = QString("SELECT COUNT(*) FROM %1 WHERE %2 = :id").arg(m_tableName, colName("NUMFACTURE"));
-            if (chk.prepare(chkSql)) {
-                chk.bindValue(":id", numFactureInt);
-                if (chk.exec() && chk.next()) {
-                    if (chk.value(0).toInt() > 0) {
-                        QMessageBox::warning(this, tr("Erreur"), tr("Une transaction avec ce numéro existe déjà dans la base de données."));
-                        return;
-                    }
-                }
-            }
+            // numFacture is now auto-generated by DB, no need to check for duplicates
             QVariant pecheurBind;
             if (m_pecheurIsNumeric) {
                 bool okPecheur;
@@ -799,9 +808,10 @@ void MainWindow::onCreer()
             QSqlQuery q(db);
         if (m_hasLotColumn) {
             // Resolve actual LOT column name and detect its data type so we bind correct QVariant
-            const QString actualLotCol = colName("LOT");
             const QString numFactCol = colName("NUMFACTURE");
+            const QString actualLotCol = colName("LOT");
             const QString pecheurCol = colName("PECHEUR");
+            const QString referenceCol = colName("REFERENCE");
             const QString prixCol = colName("PRIX_KG");
             const QString qteCol = colName("QUANTITE");
             const QString totalCol = colName("TOTAL");
@@ -809,11 +819,12 @@ void MainWindow::onCreer()
             const QString modeCol = colName("MODEPAIEMENT");
             const QString statutCol = colName("STATUTPAIEMENT");
 
-            QString ins = QString("INSERT INTO %1 (%2, %3, %4, %5, %6, %7, %8, %9, %10) VALUES (:id, :pecheur, :lot, :prix, :qte, :total, :date, :mode, :statut)")
-                    .arg(m_tableName, numFactCol, pecheurCol, actualLotCol, prixCol, qteCol, totalCol, dateCol, modeCol, statutCol);
+            // NUMFACTURE is auto-generated using SEQ_NUMFACTURE.NEXTVAL formatted to 3 digits (001, 002, ...)
+            QString ins = QString("INSERT INTO %1 (%2, %3, %4, %5, %6, %7, %8, %9, %10, %11) VALUES (LPAD(SEQ_NUMFACTURE.NEXTVAL, 3, '0'), :pecheur, :reference, :lot, :prix, :qte, :total, :date, :mode, :statut)")
+                    .arg(m_tableName, numFactCol, pecheurCol, referenceCol, actualLotCol, prixCol, qteCol, totalCol, dateCol, modeCol, statutCol);
             q.prepare(ins);
-            q.bindValue(":id", numFactureInt);
             q.bindValue(":pecheur", pecheurBind);
+            q.bindValue(":reference", t.reference);
 
             // Determine LOT column type
             QVariant lotBind;
@@ -853,11 +864,12 @@ void MainWindow::onCreer()
             }
             q.bindValue(":statut", statutVal);
         } else {
-                QString ins2 = QString("INSERT INTO %1 (%2, %3, %4, %5, %6, %7, %8, %9) VALUES (:id, :pecheur, :prix, :qte, :total, :date, :mode, :statut)")
-                    .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"));
+                // NUMFACTURE is auto-generated using SEQ_NUMFACTURE.NEXTVAL formatted to 3 digits (001, 002, ...)
+                QString ins2 = QString("INSERT INTO %1 (%2, %3, %4, %5, %6, %7, %8, %9, %10) VALUES (LPAD(SEQ_NUMFACTURE.NEXTVAL, 3, '0'), :pecheur, :reference, :prix, :qte, :total, :date, :mode, :statut)")
+                    .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("REFERENCE"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"));
                 q.prepare(ins2);
-            q.bindValue(":id", numFactureInt);
             q.bindValue(":pecheur", pecheurBind);
+            q.bindValue(":reference", t.reference);
             q.bindValue(":prix", t.prixKg);
             q.bindValue(":qte", t.quantite);
             q.bindValue(":total", t.total);
@@ -879,7 +891,23 @@ void MainWindow::onCreer()
             refreshTable();
         } else {
             const QString err = q.lastError().text();
-            if (err.contains("ORA-02290") || err.contains("check constraint", Qt::CaseInsensitive)) {
+            
+            // Gestion spécifique de l'erreur de contrainte UNIQUE sur la REFERENCE
+            if (err.contains("ORA-00001", Qt::CaseInsensitive) || err.contains("unique constraint", Qt::CaseInsensitive)) {
+                QMessageBox msg(this);
+                msg.setIcon(QMessageBox::Warning);
+                msg.setWindowTitle(tr("Erreur de saisie"));
+                msg.setText(tr("❌ La référence '%1' existe déjà dans la base de données.\n\nVeuillez utiliser une référence différente.").arg(m_lastReference));
+                msg.setStyleSheet(
+                    "QMessageBox { background-color: #2c3e50; }"
+                    "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 12px; }"
+                    "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+                );
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+            }
+            // Gestion de l'erreur de contrainte CHECK sur STATUTPAIEMENT
+            else if (err.contains("ORA-02290", Qt::CaseInsensitive) || err.contains("check constraint", Qt::CaseInsensitive)) {
                 QStringList allowedRetry = allowedValuesForCheckConstraint(m_tableName, colName("STATUTPAIEMENT"));
                 if (!allowedRetry.isEmpty()) {
                     QString newStat = allowedRetry.first();
@@ -891,8 +919,12 @@ void MainWindow::onCreer()
                         return;
                     }
                 }
+                QMessageBox::critical(this, tr("Erreur BDD"), tr("Erreur de contrainte.\n%1").arg(err));
             }
-            QMessageBox::critical(this, tr("Erreur BDD"), tr("L'ajout a échoué.\n%1").arg(err));
+            // Autres erreurs
+            else {
+                QMessageBox::critical(this, tr("Erreur BDD"), tr("L'ajout a échoué.\n%1").arg(err));
+            }
         }
     } else {
          QMessageBox::warning(this, tr("Erreur"), tr("Base de données non connectée."));
@@ -951,6 +983,7 @@ void MainWindow::onModifier()
             const QString actualLotCol = colName("LOT");
             const QString numFactCol = colName("NUMFACTURE");
             const QString pecheurCol = colName("PECHEUR");
+            const QString referenceCol = colName("REFERENCE");
             const QString prixCol = colName("PRIX_KG");
             const QString qteCol = colName("QUANTITE");
             const QString totalCol = colName("TOTAL");
@@ -958,12 +991,13 @@ void MainWindow::onModifier()
             const QString modeCol = colName("MODEPAIEMENT");
             const QString statutCol = colName("STATUTPAIEMENT");
 
-            QString upd = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:lot, %5=:prix, %6=:qte, %7=:total, %8=:date, %9=:mode, %10=:statut WHERE %11=:oldId")
-                        .arg(m_tableName, numFactCol, pecheurCol, actualLotCol, prixCol, qteCol, totalCol, dateCol, modeCol, statutCol, numFactCol);
+            QString upd = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:reference, %5=:lot, %6=:prix, %7=:qte, %8=:total, %9=:date, %10=:mode, %11=:statut WHERE %12=:oldId")
+                        .arg(m_tableName, numFactCol, pecheurCol, referenceCol, actualLotCol, prixCol, qteCol, totalCol, dateCol, modeCol, statutCol, numFactCol);
             q.prepare(upd);
 
             q.bindValue(":newId", t.numFacture.toInt());
             q.bindValue(":pecheur", pecheurBind);
+            q.bindValue(":reference", t.reference);
 
             // Determine LOT column type and bind appropriately
             QVariant lotBind;
@@ -1002,12 +1036,13 @@ void MainWindow::onModifier()
             q.bindValue(":oldId", m_transactions[idx].numFacture.toInt());
         } else {
             {
-                QString upd2 = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:prix, %5=:qte, %6=:total, %7=:date, %8=:mode, %9=:statut WHERE %10=:oldId")
-                            .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"), colName("NUMFACTURE"));
+                QString upd2 = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:reference, %5=:prix, %6=:qte, %7=:total, %8=:date, %9=:mode, %10=:statut WHERE %11=:oldId")
+                            .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("REFERENCE"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"), colName("NUMFACTURE"));
                 q.prepare(upd2);
             }
             q.bindValue(":newId", t.numFacture.toInt());
             q.bindValue(":pecheur", pecheurBind);
+            q.bindValue(":reference", t.reference);
             q.bindValue(":prix", QVariant::fromValue(t.prixKg));
             q.bindValue(":qte", QVariant::fromValue(t.quantite));
             q.bindValue(":total", QVariant::fromValue(t.total));
@@ -1039,12 +1074,13 @@ void MainWindow::onModifier()
             if (err.contains("LOT", Qt::CaseInsensitive) || err.contains("ORA-00904") || err.contains("invalid identifier", Qt::CaseInsensitive)) {
                 QSqlQuery q2(db);
                 {
-                    QString upd3 = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:prix, %5=:qte, %6=:total, %7=:date, %8=:mode, %9=:statut WHERE %10=:oldId")
-                                .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"), colName("NUMFACTURE"));
+                    QString upd3 = QString("UPDATE %1 SET %2=:newId, %3=:pecheur, %4=:reference, %5=:prix, %6=:qte, %7=:total, %8=:date, %9=:mode, %10=:statut WHERE %11=:oldId")
+                                .arg(m_tableName, colName("NUMFACTURE"), colName("PECHEUR"), colName("REFERENCE"), colName("PRIX_KG"), colName("QUANTITE"), colName("TOTAL"), colName("DATETRANSACTION"), colName("MODEPAIEMENT"), colName("STATUTPAIEMENT"), colName("NUMFACTURE"));
                     q2.prepare(upd3);
                 }
                 q2.bindValue(":newId", t.numFacture.toInt());
                 q2.bindValue(":pecheur", pecheurBind);
+                q2.bindValue(":reference", t.reference);
                 q2.bindValue(":prix", QVariant::fromValue(t.prixKg));
                 q2.bindValue(":qte", QVariant::fromValue(t.quantite));
                 q2.bindValue(":total", QVariant::fromValue(t.total));
@@ -1196,13 +1232,14 @@ void MainWindow::populateRow(int row, const Transaction &t)
     };
     setItem(0, t.numFacture);
     setItem(1, t.pecheur);
-    setItem(2, t.lot);
-    setItem(3, loc.toString(t.prixKg, 'f', 2));
-    setItem(4, loc.toString(t.quantite, 'f', 3));
-    setItem(5, loc.toString(t.total, 'f', 2));
-    setItem(6, t.dateTransaction.toString("yyyy-MM-dd HH:mm"));
-    setItem(7, t.modePaiement);
-    setItem(8, t.statutPaiement);
+    setItem(2, t.reference);
+    setItem(3, t.lot);
+    setItem(4, loc.toString(t.prixKg, 'f', 2));
+    setItem(5, loc.toString(t.quantite, 'f', 3));
+    setItem(6, loc.toString(t.total, 'f', 2));
+    setItem(7, t.dateTransaction.toString("yyyy-MM-dd HH:mm"));
+    setItem(8, t.modePaiement);
+    setItem(9, t.statutPaiement);
 }
 
 int MainWindow::resolvePecheurId(const QString &input, bool &ok) const
@@ -1580,12 +1617,12 @@ void MainWindow::onExportPDF()
     // Transaction details
     painter.setFont(headerFont);
     QStringList labels = {
-        tr("Num Facture:"), tr("Pêcheur:"), tr("Lot:"),
+        tr("Num Facture:"), tr("Pêcheur:"), tr("Référence:"), tr("Lot:"),
         tr("Prix/kg:"), tr("Quantité:"), tr("Total:"),
         tr("Date:"), tr("Mode paiement:"), tr("Statut:")
     };
     QStringList values = {
-        t.numFacture, t.pecheur, t.lot,
+        t.numFacture, t.pecheur, t.reference, t.lot,
         loc.toString(t.prixKg, 'f', 2),
         loc.toString(t.quantite, 'f', 3),
         loc.toString(t.total, 'f', 2),
@@ -1769,81 +1806,223 @@ void MainWindow::refreshPrevisions()
     // Fish pricing display is now handled in onFishSelected()
 }
 
-// ─── Fish Pricing ──────────────────────────────────────
-
-void MainWindow::onFishSelected(const QString &fishName)
+void MainWindow::setupChatBotUI()
 {
-    // Ignore placeholder and wait until prices are loaded
-    if (fishName.isEmpty() || fishName.startsWith("--") || !m_fishPricesLoaded) {
-        if (!m_fishPricesLoaded) {
-            qDebug() << "Waiting for fish prices to load...";
-        }
-        ui->priceResultLabel->setText("Sélectionnez un poisson pour voir le prix estimé");
-        return;
-    }
-
-    FishPrice fishInfo = m_fishPricing->getFishInfo(fishName);
+    if (!m_chatDisplay || !m_chatInput) return;
     
-    if (fishInfo.averagePrice < 0) {
-        qDebug() << "Fish not found:" << fishName;
-        qDebug() << "Available fishes:" << m_fishPricing->getAvailableFishes();
-        ui->priceResultLabel->setText("<div style='color: #ff6b6b;'><b>⚠ Erreur:</b> Poisson non trouvé dans la base de données</div>");
-    } else {
-        QString result = QString(
-            "<div style='color: #0033cc; font-weight: bold; text-align: center; font-size: 14px;'>%1</div>"
-            "<div style='color: #1e90ff; text-align: center; font-size: 22px; margin: 12px 0; font-weight: bold;'>"
-            "%2 TND/kg</div>"
-            "<div style='color: #0033cc; text-align: center; font-size: 12px;'>"
-            "Min: %3 | Max: %4<br>"
-            "<span style='font-size: 11px;'>Basé sur %5 transactions</span></div>"
-        ).arg(fishName)
-         .arg(QString::number(fishInfo.averagePrice, 'f', 2))
-         .arg(QString::number(fishInfo.minPrice, 'f', 2))
-         .arg(QString::number(fishInfo.maxPrice, 'f', 2))
-         .arg(QString::number(fishInfo.count));
-        
-        ui->priceResultLabel->setText(result);
-        qDebug() << "Price displayed for " << fishName << " : " << fishInfo.averagePrice << "TND/kg";
+    // Initialize chatbot if needed
+    if (!m_chatBot) {
+        QMap<QString, QString> emptyPrices;  // No price data for chatbot
+        m_chatBot = new TransactionChatBot(m_transactions, emptyPrices);
     }
+    
+    // Display greeting message
+    QString greeting = "";
+    
+    m_chatDisplay->setHtml(greeting);
 }
 
-void MainWindow::onAfficherPrix()
+void MainWindow::onSendChatMessage()
 {
-    QString selectedFish = ui->fishComboBox->currentText();
+    if (!m_chatInput || !m_chatDisplay || !m_chatBot) return;
+    
+    QString userMessage = m_chatInput->text().trimmed();
+    if (userMessage.isEmpty()) return;
+    
+    // Display user message
+    QString userHtml = QString(
+        "<div style='margin: 8px 0; padding: 10px; background-color: #1a73e8; "
+        "border-radius: 8px; color: white; text-align: right;'>"
+        "<b>Vous:</b> %1</div>"
+    ).arg(userMessage);
+    m_chatDisplay->append(userHtml);
+    
+    // Get chatbot response
+    QString response = m_chatBot->processMessage(userMessage);
+    
+    // Display assistant message
+    QString assistantHtml = QString(
+        "<div style='margin: 8px 0; padding: 10px; background-color: #0d4a6f; "
+        "border-radius: 8px; color: #ecf0f1;'>"
+        "<b>🤖 Assistant:</b><br/>%1</div>"
+    ).arg(response);
+    m_chatDisplay->append(assistantHtml);
+    
+    // Clear input and focus
+    m_chatInput->clear();
+    m_chatInput->setFocus();
+}
+
+void MainWindow::loadFishPricesFromFile()
+{
+    // Try multiple paths to find the file - prioritize poissons.txt
+    QStringList possiblePaths;
+    possiblePaths << QCoreApplication::applicationDirPath() + "/poissons.txt"
+                  << QCoreApplication::applicationDirPath() + "/../poissons.txt"
+                  << QCoreApplication::applicationDirPath() + "/../../poissons.txt"
+                  << "./poissons.txt"
+                  << "../poissons.txt"
+                  << QCoreApplication::applicationDirPath() + "/prix_poissons.txt"
+                  << QCoreApplication::applicationDirPath() + "/../prix_poissons.txt";
+    
+    QString filePath;
+    QFile file;
+    
+    for (const QString &path : possiblePaths) {
+        QFile testFile(path);
+        if (testFile.exists()) {
+            filePath = path;
+            file.setFileName(filePath);
+            break;
+        }
+    }
+    
+    qDebug() << "Searching for poissons.txt or prix_poissons.txt...";
+    qDebug() << "Application dir:" << QCoreApplication::applicationDirPath();
+    
+    if (!file.isOpen()) {
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qWarning() << "ERROR: Could not open poissons.txt from any location";
+            qWarning() << "Looked in:" << possiblePaths;
+            return;
+        }
+    }
+    
+    qDebug() << "Successfully opened:" << filePath;
+    
+    // Clear existing data
+    m_fishPriceEstimates.clear();
+    ui->fishPriceComboBox->clear();
+    ui->fishPriceComboBox->addItem("-- Sélectionner un poisson --");
+    
+    int loadedCount = 0;
+    
+    // Parse file: format is "FishName|minPrice|maxPrice"
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty() || line.startsWith("#")) continue;
+        
+        QStringList parts = line.split("|");
+        if (parts.size() == 3) {
+            QString fishName = parts[0].trimmed();
+            bool okMin = false, okMax = false;
+            double minPrice = parts[1].toDouble(&okMin);
+            double maxPrice = parts[2].toDouble(&okMax);
+            
+            if (okMin && okMax && minPrice > 0 && maxPrice > 0) {
+                FishPriceInfo info;
+                info.minPrice = minPrice;
+                info.maxPrice = maxPrice;
+                info.avgPrice = (minPrice + maxPrice) / 2.0;
+                
+                m_fishPriceEstimates[fishName.toLower()] = info;
+                ui->fishPriceComboBox->addItem(fishName);
+                loadedCount++;
+                
+                qDebug() << "Loaded:" << fishName << "- Min:" << minPrice << "Max:" << maxPrice;
+            }
+        }
+    }
+    
+    file.close();
+    qDebug() << "Total fish types loaded:" << loadedCount;
+}
+
+void MainWindow::onPrixEstimeButtonClicked()
+{
+    QString selectedFish = ui->fishPriceComboBox->currentText();
+    
+    qDebug() << "=== Prix Estimé Button Clicked ===";
+    qDebug() << "Selected fish:" << selectedFish;
+    qDebug() << "Map size:" << m_fishPriceEstimates.size();
+    qDebug() << "Map keys:" << m_fishPriceEstimates.keys();
     
     if (selectedFish.isEmpty() || selectedFish.startsWith("--")) {
-        ui->priceResultLabel->setText("<div style='color: #ff6b6b;'><b>⚠</b> Veuillez sélectionner un poisson</div>");
-        qDebug() << "No fish selected";
+        ui->priceResultDisplayLabel->setText(
+            "<div style='color: #ff6b6b;'><b>⚠️ Veuillez sélectionner un poisson</b></div>"
+        );
         return;
     }
-
-    qDebug() << "Button clicked: Getting price for:" << selectedFish;
-    qDebug() << "Fish prices loaded:" << m_fishPricesLoaded;
-    qDebug() << "Available fishes:" << m_fishPricing->getAvailableFishes();
-
-    FishPrice fishInfo = m_fishPricing->getFishInfo(selectedFish);
     
-    if (fishInfo.averagePrice < 0) {
-        qDebug() << "Fish not found in database:" << selectedFish;
-        qDebug() << "Available:" << m_fishPricing->getAvailableFishes();
-        ui->priceResultLabel->setText(QString("<div style='color: #ff6b6b;'><b>⚠ Erreur:</b> '%1' non trouvé<br><small>Poissons disponibles: %2</small></div>")
-            .arg(selectedFish, m_fishPricing->getAvailableFishes().join(", ")));
-    } else {
-        QString result = QString(
-            "<div style='color: #0033cc; font-weight: bold; text-align: center; font-size: 14px;'>%1</div>"
-            "<div style='color: #1e90ff; text-align: center; font-size: 22px; margin: 12px 0; font-weight: bold;'>"
-            "%2 TND/kg</div>"
-            "<div style='color: #0033cc; text-align: center; font-size: 12px;'>"
-            "Min: %3 TND | Max: %4 TND<br>"
-            "<span style='font-size: 11px;'>Basé sur %5 transactions</span></div>"
-        ).arg(selectedFish)
-         .arg(QString::number(fishInfo.averagePrice, 'f', 2))
-         .arg(QString::number(fishInfo.minPrice, 'f', 2))
-         .arg(QString::number(fishInfo.maxPrice, 'f', 2))
-         .arg(QString::number(fishInfo.count));
+    QString fishKey = selectedFish.toLower().trimmed();
+    qDebug() << "Looking for key:" << fishKey;
+    
+    // Try exact match first
+    if (m_fishPriceEstimates.contains(fishKey)) {
+        qDebug() << "Found exact match!";
+        FishPriceInfo info = m_fishPriceEstimates[fishKey];
         
-        ui->priceResultLabel->setText(result);
-        qDebug() << "Price displayed for" << selectedFish << ":" << fishInfo.averagePrice << "TND/kg";
+        QString displayHtml = QString(
+            "<div style='text-align: center;'>"
+            "<b style='color: #39c0fa; font-size: 14px;'>%1</b><br/><br/>"
+            "<table width='100%' cellpadding='8' style='text-align: center;'>"
+            "<tr style='background-color: #0d1b2a;'>"
+            "<td style='color: #39c0fa;'><b>Prix Min:</b></td>"
+            "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%2 TND/kg</td>"
+            "</tr>"
+            "<tr>"
+            "<td style='color: #39c0fa;'><b>Prix Estimé:</b></td>"
+            "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%3 TND/kg</td>"
+            "</tr>"
+            "<tr style='background-color: #0d1b2a;'>"
+            "<td style='color: #39c0fa;'><b>Prix Max:</b></td>"
+            "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%4 TND/kg</td>"
+            "</tr>"
+            "</table>"
+            "<br/><small style='color: #aaa;'>Basé sur l'historique des transactions</small>"
+            "</div>"
+        )
+        .arg(selectedFish)
+        .arg(QString::number(info.minPrice, 'f', 2))
+        .arg(QString::number(info.avgPrice, 'f', 2))
+        .arg(QString::number(info.maxPrice, 'f', 2));
+        
+        ui->priceResultDisplayLabel->setText(displayHtml);
+    } else {
+        // Try to find partial match or similar key
+        bool found = false;
+        for (auto it = m_fishPriceEstimates.begin(); it != m_fishPriceEstimates.end(); ++it) {
+            if (it.key().contains(fishKey) || fishKey.contains(it.key())) {
+                qDebug() << "Found partial match:" << it.key();
+                FishPriceInfo info = it.value();
+                
+                QString displayHtml = QString(
+                    "<div style='text-align: center;'>"
+                    "<b style='color: #39c0fa; font-size: 14px;'>%1</b><br/><br/>"
+                    "<table width='100%' cellpadding='8' style='text-align: center;'>"
+                    "<tr style='background-color: #0d1b2a;'>"
+                    "<td style='color: #39c0fa;'><b>Prix Min:</b></td>"
+                    "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%2 TND/kg</td>"
+                    "</tr>"
+                    "<tr>"
+                    "<td style='color: #39c0fa;'><b>Prix Estimé:</b></td>"
+                    "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%3 TND/kg</td>"
+                    "</tr>"
+                    "<tr style='background-color: #0d1b2a;'>"
+                    "<td style='color: #39c0fa;'><b>Prix Max:</b></td>"
+                    "<td style='color: #39c0fa; font-size: 16px; font-weight: bold;'>%4 TND/kg</td>"
+                    "</tr>"
+                    "</table>"
+                    "<br/><small style='color: #aaa;'>Basé sur l'historique des transactions</small>"
+                    "</div>"
+                )
+                .arg(selectedFish)
+                .arg(QString::number(info.minPrice, 'f', 2))
+                .arg(QString::number(info.avgPrice, 'f', 2))
+                .arg(QString::number(info.maxPrice, 'f', 2));
+                
+                ui->priceResultDisplayLabel->setText(displayHtml);
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            qDebug() << "No match found!";
+            ui->priceResultDisplayLabel->setText(
+                "<div style='color: #ff6b6b;'><b>❌ Prix non trouvé pour ce poisson</b></div>"
+            );
+        }
     }
 }
-

@@ -15,11 +15,6 @@ TransactionDialog::TransactionDialog(QWidget *parent, const QString &title)
     ui->dialogSubtitle->setText(tr("Veuillez remplir les informations de la transaction."));
     setWindowTitle(title);
 
-    // Contrôle de saisie : Num Facture doit être un nombre entier
-    // car la base de données attend NUMBER(10,0).
-    ui->lineNumFacture->setValidator(new QIntValidator(1, 999999999, this));
-    ui->lineNumFacture->setPlaceholderText("Ex: 100");
-
     ui->dateTransaction->setDateTime(QDateTime::currentDateTime());
 
     connect(ui->btnOk,     &QPushButton::clicked, this, &TransactionDialog::onOkClicked);
@@ -33,46 +28,124 @@ TransactionDialog::TransactionDialog(QWidget *parent, const QString &title)
 
 void TransactionDialog::onOkClicked()
 {
-    const QString nom = ui->linePecheur->text().trimmed();
-    if (nom.isEmpty()) {
+    // Contrôle Pêcheur
+    const QString pecheur = ui->linePecheur->text().trimmed();
+    if (pecheur.isEmpty()) {
         QMessageBox msg(this);
         msg.setIcon(QMessageBox::Warning);
-        msg.setWindowTitle(tr("Contrôle de saisie"));
-        msg.setText(tr("Le nom est obligatoire."));
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ Le nom du pêcheur est obligatoire."));
         msg.setStyleSheet(
-            "QMessageBox {"
-            "  background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #eaf6fd, stop:1 #ffffff);"
-            "  border-radius: 6px;"
-            "}"
-            "QLabel { color: #000000; font-weight: normal; }"
-            "QPushButton { min-width: 80px; padding: 6px 12px; }"
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
         );
+        msg.setStandardButtons(QMessageBox::Ok);
         msg.exec();
+        ui->linePecheur->setFocus();
         return;
     }
-
-    const QString num = ui->lineNumFacture->text().trimmed();
-    if (num.isEmpty()) {
+    
+    // Contrôle Référence - MAINTENANT OBLIGATOIRE
+    const QString reference = ui->lineReference->text().trimmed();
+    if (reference.isEmpty()) {
         QMessageBox msg(this);
         msg.setIcon(QMessageBox::Warning);
-        msg.setWindowTitle(tr("Contrôle de saisie"));
-        msg.setText(tr("Le numéro de facture est obligatoire."));
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setDefaultButton(QMessageBox::Ok);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ La référence est obligatoire."));
         msg.setStyleSheet(
-            "QMessageBox {"
-            "  background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #eaf6fd, stop:1 #ffffff);"
-            "  border-radius: 6px;"
-            "}"
-            "QLabel { color: #000000; font-weight: normal; }"
-            "QPushButton { min-width: 80px; padding: 6px 12px; }"
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
         );
+        msg.setStandardButtons(QMessageBox::Ok);
         msg.exec();
+        ui->lineReference->setFocus();
         return;
     }
-
+    if (reference.length() < 2) {
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ La référence doit avoir au moins 2 caractères."));
+        msg.setStyleSheet(
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+        );
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        ui->lineReference->setFocus();
+        return;
+    }
+    if (reference.length() > 100) {
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ La référence ne doit pas dépasser 100 caractères."));
+        msg.setStyleSheet(
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+        );
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        ui->lineReference->setFocus();
+        return;
+    }
+    
+    // Contrôle Poisson
+    if (ui->comboLot->currentIndex() == 0) {
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ Veuillez sélectionner un poisson."));
+        msg.setStyleSheet(
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+        );
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        ui->comboLot->setFocus();
+        return;
+    }
+    
+    // Contrôle Prix/kg
+    if (ui->spinPrixKg->value() <= 0) {
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ Le prix doit être supérieur à 0."));
+        msg.setStyleSheet(
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+        );
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        ui->spinPrixKg->setFocus();
+        return;
+    }
+    
+    // Contrôle Quantité
+    if (ui->spinQuantite->value() <= 0) {
+        QMessageBox msg(this);
+        msg.setIcon(QMessageBox::Warning);
+        msg.setWindowTitle(tr("Erreur de saisie"));
+        msg.setText(tr("❌ La quantité doit être supérieure à 0."));
+        msg.setStyleSheet(
+            "QMessageBox { background-color: #2c3e50; }"
+            "QMessageBox QLabel { color: #FFFFFF; font-weight: bold; font-size: 13px; }"
+            "QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px 18px; }"
+        );
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.exec();
+        ui->spinQuantite->setFocus();
+        return;
+    }
+    
+    // Tous les contrôles sont validés
     accept();
 }
 
@@ -91,6 +164,7 @@ void TransactionDialog::setTransaction(const Transaction &t)
 {
     ui->lineNumFacture->setText(t.numFacture);
     ui->linePecheur->setText(t.pecheur);
+    ui->lineReference->setText(t.reference);
     int lotIdx = ui->comboLot->findText(t.lot);
     if (lotIdx >= 0) ui->comboLot->setCurrentIndex(lotIdx);
     else ui->comboLot->setCurrentIndex(0);
@@ -113,6 +187,7 @@ Transaction TransactionDialog::transaction() const
     Transaction t;
     t.numFacture      = ui->lineNumFacture->text().trimmed();
     t.pecheur         = ui->linePecheur->text().trimmed();
+    t.reference       = ui->lineReference->text().trimmed();
     t.lot             = ui->comboLot->currentText();
     t.prixKg          = ui->spinPrixKg->value();
     t.quantite        = ui->spinQuantite->value();
@@ -125,8 +200,8 @@ Transaction TransactionDialog::transaction() const
 
 void TransactionDialog::setReadOnly(bool ro)
 {
-    ui->lineNumFacture->setReadOnly(ro);
     ui->linePecheur->setReadOnly(ro);
+    ui->lineReference->setReadOnly(ro);
     ui->comboLot->setEnabled(!ro);
     ui->spinPrixKg->setReadOnly(ro);
     ui->spinQuantite->setReadOnly(ro);

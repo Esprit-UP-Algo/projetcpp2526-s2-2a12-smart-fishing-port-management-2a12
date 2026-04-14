@@ -27,6 +27,8 @@ set(PROJECT_SOURCES
         transactiondialog.h
         transactiondialog.cpp
         transactiondialog.ui
+        transactionchatbot.h
+        transactionchatbot.cpp
         resources.qrc
         ${TS_FILES}
 )

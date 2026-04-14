@@ -1,31 +1,40 @@
-LISTE DES PRIX DE POISSONS - ESTIMATION DE VENTE
-================================================
-
-Mise à jour: 28 Mars 2026
-Devise: TND (Dinar Tunisien)
-
--------------------------------------------
-NOM DU POISSON         | PRIX ESTIMÉ (TND/kg)
--------------------------------------------
-Sardine                | 8 - 10
-Anchois                | 7 - 9
-Maquereau              | 9 - 11
-Dorade                 | 30 - 35
-Rouget                 | 14 - 18
-Sole                   | 16 - 20
-Poulpe                 | 11 - 14
-Crevette               | 24 - 30
-Lieu                   | 10 - 13
-Encornet               | 12 - 16
-Merlan                 | 8 - 11
-Cabillaud              | 10 - 14
-Trout                  | 13 - 17
-Turbot                 | 18 - 24
--------------------------------------------
-
-NOTES:
-------
-- Les prix varient en fonction de la qualité et de la taille
-- Les prix sont basés sur les transactions historiques
-- Pour les prix exacts, consultez la base de données
-- Mise à jour régulière des tarifs recommandée
+﻿Sardine|8.50|10.50
+Anchois|9.00|11.00
+Maquereau|10.00|12.50
+Dorade|30.00|35.00
+Rouget|14.00|18.00
+Sole|16.00|20.00
+Poulpe|11.00|14.00
+Crevette|24.00|30.00
+Lieu|10.50|13.00
+Encornet|12.00|16.00
+Merlan|8.50|11.00
+Cabillaud|10.00|14.00
+Trout|13.00|17.00
+Turbot|18.00|24.00
+Hareng|7.50|9.50
+Moule|6.00|8.00
+Bar|16.00|19.00
+Basse|16.00|19.00
+Seiche|13.00|15.00
+Calmar|14.00|16.50
+Saumon|22.00|28.00
+Esturgeon|35.00|45.00
+Tilapia|8.00|10.00
+Goberge|9.00|12.00
+Flétan|18.00|24.00
+Morue|12.00|16.00
+Truite|14.00|18.00
+Daurade royale|32.00|38.00
+Bar rayé|15.00|19.00
+Anguille|18.00|22.00
+Mulet|9.00|12.00
+Rouget barbarin|15.00|19.00
+Brème|8.00|11.00
+Daurade rose|28.00|32.00
+Sar|12.00|15.00
+Loup de mer|18.00|23.00
+Poutine|20.00|26.00
+Crapet|7.00|9.00
+Carpe|6.00|8.00
+Silure|10.00|14.00

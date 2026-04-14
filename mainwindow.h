@@ -5,8 +5,11 @@
 #include <QPushButton>
 #include <QPropertyAnimation>
 #include <QVector>
+#include <QTextEdit>
+#include <QLineEdit>
 #include "transaction.h"
 #include "fishpricingdialog.h"
+#include "transactionchatbot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -43,10 +46,16 @@ private slots:
 
     // PDF
     void onExportPDF();
+    
+    // Chatbot
+    void onSendChatMessage();
+    void setupChatBotUI();
+    
+    // Price Estimation
+    void onPrixEstimeButtonClicked();
+    void loadFishPricesFromFile();
 
-    // Fish Pricing
-    void onFishSelected(const QString &fishName);
-    void onAfficherPrix();
+
 
 private:
     void setActiveVentesOption(QPushButton *btn);
@@ -70,6 +79,8 @@ private:
     bool matchesSearch(const Transaction &t) const;
     QPixmap generateQRCode(const QString &text, int size);
 
+
+
     Ui::MainWindow *ui;
     QVector<Transaction> m_transactions;
     bool m_hasLotColumn = false;
@@ -80,9 +91,19 @@ private:
     bool m_ventesMenuExpanded = false;
     QPropertyAnimation *m_ventesMenuAnim = nullptr;
     
-    // Fish Pricing
-    FishPricingDialog *m_fishPricing = nullptr;
-    bool m_fishPricesLoaded = false;
+    // Chatbot
+    TransactionChatBot *m_chatBot = nullptr;
+    QTextEdit *m_chatDisplay = nullptr;
+    QLineEdit *m_chatInput = nullptr;
+    
+    // Price estimation - use alias for FishPriceInfo from chatbot
+    using FishPriceInfo = TransactionChatBot::FishPriceInfo;
+    QMap<QString, FishPriceInfo> m_fishPriceEstimates;
+    
+    // Error tracking
+    QString m_lastReference;
+
+
 };
 
 #endif // MAINWINDOW_H
