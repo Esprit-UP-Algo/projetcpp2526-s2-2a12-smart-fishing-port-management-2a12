@@ -1,0 +1,509 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3
+					]
+				},
+				{
+					"build" : "_modules/transaction",
+					"jsonFile" : "directory-_modules.transaction-Debug-e3cb286fd0315dcc2023.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/transaction",
+					"targetIndexes" : 
+					[
+						22,
+						23,
+						24
+					]
+				},
+				{
+					"build" : "_modules/GestionDesNavires",
+					"jsonFile" : "directory-_modules.GestionDesNavires-Debug-de54600295f3e7e2d6c3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires",
+					"targetIndexes" : 
+					[
+						13,
+						14,
+						15
+					]
+				},
+				{
+					"build" : "_modules/interface_raef",
+					"jsonFile" : "directory-_modules.interface_raef-Debug-3e2c44e9662a0b629e40.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef",
+					"targetIndexes" : 
+					[
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "_modules/ferdawes",
+					"jsonFile" : "directory-_modules.ferdawes-Debug-bec3a6ed4488b2245b18.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/ferdawes",
+					"targetIndexes" : 
+					[
+						10,
+						11,
+						12
+					]
+				},
+				{
+					"build" : "_modules/gestion_stock_frigo_capture",
+					"childIndexes" : 
+					[
+						6,
+						7
+					],
+					"jsonFile" : "directory-_modules.gestion_stock_frigo_capture-Debug-10ac63c77d140654600f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture",
+					"targetIndexes" : 
+					[
+						7,
+						8,
+						9,
+						19,
+						20,
+						21
+					]
+				},
+				{
+					"build" : "_modules/gestion_stock_frigo_capture/captures/lot_poisson",
+					"jsonFile" : "directory-_modules.gestion_stock_frigo_capture.captures.lot_poisson-Debug-b1ff53a884cbc108322b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/captures/lot_poisson",
+					"targetIndexes" : 
+					[
+						4,
+						5,
+						6
+					]
+				},
+				{
+					"build" : "_modules/gestion_stock_frigo_capture/stockage_frigo/stockage_ui",
+					"jsonFile" : "directory-_modules.gestion_stock_frigo_capture.stockage_frigo.stockage_ui-Debug-0cf94f9fc5da63be79ef.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 5,
+					"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/stockage_frigo/stockage_ui",
+					"targetIndexes" : 
+					[
+						0,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2,
+						3
+					],
+					"name" : "IntegrationFinale",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "transaction",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						22,
+						23,
+						24
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "AppGestionEmploye",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						10,
+						11,
+						12
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						4,
+						5
+					],
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "gestion_stock_frigo_capture",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						7,
+						8,
+						9,
+						19,
+						20,
+						21
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "VisionSightPoissons",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						4,
+						5,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "StockageFrigorifique",
+					"parentIndex" : 3,
+					"targetIndexes" : 
+					[
+						0,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 7,
+					"id" : "app_translations::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-app_translations-Debug-80aa6dbebb0ae1b1a85d.json",
+					"name" : "app_translations",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "integration_finale::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-integration_finale-Debug-dbed1359ec19bf930cc1.json",
+					"name" : "integration_finale",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "integration_finale_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-integration_finale_autogen-Debug-bc1e177a0c08bbe81030.json",
+					"name" : "integration_finale_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "integration_finale_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-integration_finale_autogen_timestamp_deps-Debug-52fb61ad316b4cad369e.json",
+					"name" : "integration_finale_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "lot_poisson_module::@abd4222952ad4de5eedd",
+					"jsonFile" : "target-lot_poisson_module-Debug-57199926e44e12cb4683.json",
+					"name" : "lot_poisson_module",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "lot_poisson_module_autogen::@abd4222952ad4de5eedd",
+					"jsonFile" : "target-lot_poisson_module_autogen-Debug-ea71ed2492b20684c122.json",
+					"name" : "lot_poisson_module_autogen",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "lot_poisson_module_autogen_timestamp_deps::@abd4222952ad4de5eedd",
+					"jsonFile" : "target-lot_poisson_module_autogen_timestamp_deps-Debug-43b9a5458fe848fafce3.json",
+					"name" : "lot_poisson_module_autogen_timestamp_deps",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_captures::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_captures-Debug-db5e1df1af3cabe96590.json",
+					"name" : "module_captures",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_captures_autogen::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_captures_autogen-Debug-5ed6012f912bf6a174b4.json",
+					"name" : "module_captures_autogen",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_captures_autogen_timestamp_deps::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_captures_autogen_timestamp_deps-Debug-b6cc0f7d3dedbc9cd1f8.json",
+					"name" : "module_captures_autogen_timestamp_deps",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "module_employees::@7d4be6c8bdf4d20f30a4",
+					"jsonFile" : "target-module_employees-Debug-64c8dfda087364cfb7b3.json",
+					"name" : "module_employees",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "module_employees_autogen::@7d4be6c8bdf4d20f30a4",
+					"jsonFile" : "target-module_employees_autogen-Debug-0e7cc3d4f7aa0e37eefa.json",
+					"name" : "module_employees_autogen",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "module_employees_autogen_timestamp_deps::@7d4be6c8bdf4d20f30a4",
+					"jsonFile" : "target-module_employees_autogen_timestamp_deps-Debug-228b5a823e03353546b0.json",
+					"name" : "module_employees_autogen_timestamp_deps",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "module_navires::@fb72fc6559535ce43e58",
+					"jsonFile" : "target-module_navires-Debug-18ddad357323b1bd33c2.json",
+					"name" : "module_navires",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "module_navires_autogen::@fb72fc6559535ce43e58",
+					"jsonFile" : "target-module_navires_autogen-Debug-67caa3c739a03ce86549.json",
+					"name" : "module_navires_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "module_navires_autogen_timestamp_deps::@fb72fc6559535ce43e58",
+					"jsonFile" : "target-module_navires_autogen_timestamp_deps-Debug-028f53907e4990ef0fae.json",
+					"name" : "module_navires_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "module_quais::@131901aca54e0eb5ff3b",
+					"jsonFile" : "target-module_quais-Debug-e9819f7a476bac627c12.json",
+					"name" : "module_quais",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "module_quais_autogen::@131901aca54e0eb5ff3b",
+					"jsonFile" : "target-module_quais_autogen-Debug-136316b8e6c192a75e4c.json",
+					"name" : "module_quais_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "module_quais_autogen_timestamp_deps::@131901aca54e0eb5ff3b",
+					"jsonFile" : "target-module_quais_autogen_timestamp_deps-Debug-8d2970ac4f942bc581d4.json",
+					"name" : "module_quais_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_stockage::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_stockage-Debug-38eccdd7994aa1233f83.json",
+					"name" : "module_stockage",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_stockage_autogen::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_stockage_autogen-Debug-58d4811e6fe88b81b184.json",
+					"name" : "module_stockage_autogen",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "module_stockage_autogen_timestamp_deps::@e85e006e854b85e0a384",
+					"jsonFile" : "target-module_stockage_autogen_timestamp_deps-Debug-3c4d7a202ea1b3e861b9.json",
+					"name" : "module_stockage_autogen_timestamp_deps",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "module_ventes::@ab876d66d4c5b0ff8f6d",
+					"jsonFile" : "target-module_ventes-Debug-e75e03975cfd668fb976.json",
+					"name" : "module_ventes",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "module_ventes_autogen::@ab876d66d4c5b0ff8f6d",
+					"jsonFile" : "target-module_ventes_autogen-Debug-54622ec55405e7223025.json",
+					"name" : "module_ventes_autogen",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "module_ventes_autogen_timestamp_deps::@ab876d66d4c5b0ff8f6d",
+					"jsonFile" : "target-module_ventes_autogen_timestamp_deps-Debug-775311be57978b5460a9.json",
+					"name" : "module_ventes_autogen_timestamp_deps",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_core::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_core-Debug-a93ace7023d035fcbec0.json",
+					"name" : "stockage_core",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_core_autogen::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_core_autogen-Debug-7dee3e8c4eca5f47a075.json",
+					"name" : "stockage_core_autogen",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_core_autogen_timestamp_deps::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_core_autogen_timestamp_deps-Debug-8357d71e1ade263ae465.json",
+					"name" : "stockage_core_autogen_timestamp_deps",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_embed::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_embed-Debug-af5cb380ec6d15d489b5.json",
+					"name" : "stockage_embed",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_embed_autogen::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_embed_autogen-Debug-45379be06336d4c7fc8d.json",
+					"name" : "stockage_embed_autogen",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "stockage_embed_autogen_timestamp_deps::@3c2962d1310b16d28d3e",
+					"jsonFile" : "target-stockage_embed_autogen_timestamp_deps-Debug-593b2969c342e5224208.json",
+					"name" : "stockage_embed_autogen_timestamp_deps",
+					"projectIndex" : 5
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/integration finale"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

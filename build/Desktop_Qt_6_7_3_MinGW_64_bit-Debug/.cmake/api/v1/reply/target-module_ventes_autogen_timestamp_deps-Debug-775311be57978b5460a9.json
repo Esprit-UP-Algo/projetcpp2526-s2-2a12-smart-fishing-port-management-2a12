@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/transaction/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "module_ventes_autogen_timestamp_deps::@ab876d66d4c5b0ff8f6d",
+	"isGeneratorProvided" : true,
+	"name" : "module_ventes_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/transaction",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/transaction"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

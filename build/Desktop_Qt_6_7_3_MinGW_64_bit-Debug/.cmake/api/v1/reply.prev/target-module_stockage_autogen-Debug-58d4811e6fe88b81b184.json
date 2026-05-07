@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "module_stockage_autogen_timestamp_deps::@e85e006e854b85e0a384"
+		}
+	],
+	"id" : "module_stockage_autogen::@e85e006e854b85e0a384",
+	"isGeneratorProvided" : true,
+	"name" : "module_stockage_autogen",
+	"paths" : 
+	{
+		"build" : "_modules/gestion_stock_frigo_capture",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/CMakeFiles/module_stockage_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/CMakeFiles/module_stockage_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/module_stockage_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

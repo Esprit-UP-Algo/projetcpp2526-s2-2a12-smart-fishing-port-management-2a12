@@ -1,0 +1,242 @@
+{
+	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
+	"BUILD_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/module_quais_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef",
+	"CMAKE_EXECUTABLE" : "C:/Qt/Tools/CMake_64/bin/cmake.exe",
+	"CMAKE_LIST_FILES" : 
+	[
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/CMakeLists.txt",
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/resources/resources.qrc"
+	],
+	"CMAKE_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale",
+	"CROSS_CONFIG" : false,
+	"DEP_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/module_quais_autogen/deps",
+	"DEP_FILE_RULE_NAME" : "module_quais_autogen/timestamp",
+	"HEADERS" : 
+	[
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/connection.h",
+			"MU",
+			"UVLADIE3JM/moc_connection.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/embedded_quais_host.h",
+			"MU",
+			"UVLADIE3JM/moc_embedded_quais_host.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/mainwindow.h",
+			"MU",
+			"UVLADIE3JM/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/module_quais_plugin.h",
+			"MU",
+			"UVLADIE3JM/moc_module_quais_plugin.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/pdfexporter.h",
+			"MU",
+			"UVLADIE3JM/moc_pdfexporter.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quai.h",
+			"MU",
+			"UVLADIE3JM/moc_quai.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaidialogs.h",
+			"MU",
+			"UVLADIE3JM/moc_quaidialogs.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaimodel.h",
+			"MU",
+			"UVLADIE3JM/moc_quaimodel.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaisearchfilterproxymodel.h",
+			"MU",
+			"UVLADIE3JM/moc_quaisearchfilterproxymodel.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaisortproxymodel.h",
+			"MU",
+			"UVLADIE3JM/moc_quaisortproxymodel.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/securepassword.h",
+			"MU",
+			"UVLADIE3JM/moc_securepassword.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/widgets/circularstatwidget.h",
+			"MU",
+			"RZ4CM6YYJ6/moc_circularstatwidget.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/widgets/minimapwidget.h",
+			"MU",
+			"RZ4CM6YYJ6/moc_minimapwidget.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/module_quais_autogen/include",
+	"MOC_COMPILATION_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/module_quais_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"MINGW_HAS_SECURE_API=1",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_PRINTSUPPORT_LIB",
+		"QT_SQL_LIB",
+		"QT_WIDGETS_LIB",
+		"UNICODE",
+		"WIN32",
+		"WIN64",
+		"_ENABLE_EXTENDED_ALIGNED_STORAGE",
+		"_UNICODE",
+		"_WIN64",
+		"module_quais_EXPORTS"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src",
+		"C:/Users/WSI/Desktop/integ/integ/integration finale/src",
+		"C:/Qt/6.7.3/mingw_64/include/QtWidgets",
+		"C:/Qt/6.7.3/mingw_64/include",
+		"C:/Qt/6.7.3/mingw_64/include/QtCore",
+		"C:/Qt/6.7.3/mingw_64/mkspecs/win32-g++",
+		"C:/Qt/6.7.3/mingw_64/include/QtGui",
+		"C:/Qt/6.7.3/mingw_64/include/QtPrintSupport",
+		"C:/Qt/6.7.3/mingw_64/include/QtSql",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed",
+		"C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include"
+	],
+	"MOC_MACRO_NAMES" : 
+	[
+		"Q_OBJECT",
+		"Q_GADGET",
+		"Q_NAMESPACE",
+		"Q_NAMESPACE_EXPORT",
+		"Q_GADGET_EXPORT",
+		"Q_ENUM_NS"
+	],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"C:/Qt/Tools/mingw1120_64/bin/g++.exe",
+		"-std=gnu++17",
+		"-dM",
+		"-E",
+		"-c",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/module_quais_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/CMakeFiles/module_quais_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/moc.exe",
+	"QT_UIC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/uic.exe",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 7,
+	"SETTINGS_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/interface_raef/CMakeFiles/module_quais_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/connection.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/embedded_quais_host.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/module_quais_plugin.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/pdfexporter.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaidialogs.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaimodel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaisearchfilterproxymodel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/quaisortproxymodel.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/securepassword.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/widgets/circularstatwidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/src/widgets/minimapwidget.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

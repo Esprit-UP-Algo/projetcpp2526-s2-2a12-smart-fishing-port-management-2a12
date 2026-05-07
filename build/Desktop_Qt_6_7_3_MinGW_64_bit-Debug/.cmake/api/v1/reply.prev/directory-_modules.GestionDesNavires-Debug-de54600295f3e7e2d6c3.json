@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "_modules/GestionDesNavires",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires"
+	}
+}

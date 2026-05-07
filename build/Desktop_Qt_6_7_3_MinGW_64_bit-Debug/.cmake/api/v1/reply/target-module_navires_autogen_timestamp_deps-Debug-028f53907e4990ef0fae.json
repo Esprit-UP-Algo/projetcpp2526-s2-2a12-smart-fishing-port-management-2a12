@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "module_navires_autogen_timestamp_deps::@fb72fc6559535ce43e58",
+	"isGeneratorProvided" : true,
+	"name" : "module_navires_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/GestionDesNavires",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/captures/lot_poisson/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "lot_poisson_module_autogen_timestamp_deps::@abd4222952ad4de5eedd"
+		}
+	],
+	"id" : "lot_poisson_module_autogen::@abd4222952ad4de5eedd",
+	"isGeneratorProvided" : true,
+	"name" : "lot_poisson_module_autogen",
+	"paths" : 
+	{
+		"build" : "_modules/gestion_stock_frigo_capture/captures/lot_poisson",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/captures/lot_poisson"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/captures/lot_poisson/CMakeFiles/lot_poisson_module_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/captures/lot_poisson/CMakeFiles/lot_poisson_module_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/gestion_stock_frigo_capture/captures/lot_poisson/lot_poisson_module_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

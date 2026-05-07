@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/ferdawes/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "module_employees_autogen_timestamp_deps::@7d4be6c8bdf4d20f30a4"
+		}
+	],
+	"id" : "module_employees_autogen::@7d4be6c8bdf4d20f30a4",
+	"isGeneratorProvided" : true,
+	"name" : "module_employees_autogen",
+	"paths" : 
+	{
+		"build" : "_modules/ferdawes",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/ferdawes"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/CMakeFiles/module_employees_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/CMakeFiles/module_employees_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/module_employees_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

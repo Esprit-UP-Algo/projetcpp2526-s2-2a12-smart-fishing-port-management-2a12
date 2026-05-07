@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/ferdawes/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "module_employees_autogen_timestamp_deps::@7d4be6c8bdf4d20f30a4",
+	"isGeneratorProvided" : true,
+	"name" : "module_employees_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/ferdawes",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/ferdawes"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

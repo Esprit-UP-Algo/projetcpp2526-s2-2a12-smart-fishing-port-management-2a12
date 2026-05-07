@@ -1,0 +1,266 @@
+{
+	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
+	"BUILD_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires",
+	"CMAKE_EXECUTABLE" : "C:/Qt/Tools/CMake_64/bin/cmake.exe",
+	"CMAKE_LIST_FILES" : 
+	[
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/CMakeLists.txt",
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/resources.qrc"
+	],
+	"CMAKE_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale",
+	"CROSS_CONFIG" : false,
+	"DEP_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen/deps",
+	"DEP_FILE_RULE_NAME" : "module_navires_autogen/timestamp",
+	"HEADERS" : 
+	[
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/calendrier_avance.h",
+			"MU",
+			"EWIEGA46WW/moc_calendrier_avance.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/connection.h",
+			"MU",
+			"EWIEGA46WW/moc_connection.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/dialogmouvement.h",
+			"MU",
+			"EWIEGA46WW/moc_dialogmouvement.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/dialognavire.h",
+			"MU",
+			"EWIEGA46WW/moc_dialognavire.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/embedded_navires_host.h",
+			"MU",
+			"EWIEGA46WW/moc_embedded_navires_host.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/logindialog.h",
+			"MU",
+			"EWIEGA46WW/moc_logindialog.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/mainwindow.h",
+			"MU",
+			"EWIEGA46WW/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/meteo_maritime.h",
+			"MU",
+			"EWIEGA46WW/moc_meteo_maritime.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/meteo_openmeteo.h",
+			"MU",
+			"EWIEGA46WW/moc_meteo_openmeteo.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/module_navires_plugin.h",
+			"MU",
+			"EWIEGA46WW/moc_module_navires_plugin.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/navire.h",
+			"MU",
+			"EWIEGA46WW/moc_navire.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/qrcodegen.hpp",
+			"MU",
+			"EWIEGA46WW/moc_qrcodegen.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/quais3dwidget.h",
+			"MU",
+			"EWIEGA46WW/moc_quais3dwidget.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/securepassword.h",
+			"MU",
+			"EWIEGA46WW/moc_securepassword.cpp",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/weathertablewidget.h",
+			"MU",
+			"EWIEGA46WW/moc_weathertablewidget.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen/include",
+	"MOC_COMPILATION_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"MINGW_HAS_SECURE_API=1",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NETWORK_LIB",
+		"QT_PRINTSUPPORT_LIB",
+		"QT_SQL_LIB",
+		"QT_WIDGETS_LIB",
+		"UNICODE",
+		"WIN32",
+		"WIN64",
+		"_ENABLE_EXTENDED_ALIGNED_STORAGE",
+		"_UNICODE",
+		"_WIN64",
+		"module_navires_EXPORTS"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires",
+		"C:/Users/WSI/Desktop/integ/integ/integration finale/src",
+		"C:/Qt/6.7.3/mingw_64/include/QtWidgets",
+		"C:/Qt/6.7.3/mingw_64/include",
+		"C:/Qt/6.7.3/mingw_64/include/QtCore",
+		"C:/Qt/6.7.3/mingw_64/mkspecs/win32-g++",
+		"C:/Qt/6.7.3/mingw_64/include/QtGui",
+		"C:/Qt/6.7.3/mingw_64/include/QtNetwork",
+		"C:/Qt/6.7.3/mingw_64/include/QtPrintSupport",
+		"C:/Qt/6.7.3/mingw_64/include/QtSql",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include",
+		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed",
+		"C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include"
+	],
+	"MOC_MACRO_NAMES" : 
+	[
+		"Q_OBJECT",
+		"Q_GADGET",
+		"Q_NAMESPACE",
+		"Q_NAMESPACE_EXPORT",
+		"Q_GADGET_EXPORT",
+		"Q_ENUM_NS"
+	],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"C:/Qt/Tools/mingw1120_64/bin/g++.exe",
+		"-std=gnu++17",
+		"-dM",
+		"-E",
+		"-c",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/CMakeFiles/module_navires_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/moc.exe",
+	"QT_UIC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/uic.exe",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 7,
+	"SETTINGS_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/CMakeFiles/module_navires_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/calendrier_avance.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/connection.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/dialogmouvement.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/dialognavire.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/embedded_navires_host.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/logindialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/meteo_maritime.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/meteo_openmeteo.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/module_navires_plugin.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/qrcodegen.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/quais3dwidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/securepassword.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/weathertablewidget.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

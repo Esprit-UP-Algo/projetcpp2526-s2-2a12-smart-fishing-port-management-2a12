@@ -1,0 +1,34 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "stockage_core::@3c2962d1310b16d28d3e"
+		}
+	],
+	"id" : "module_stockage_autogen_timestamp_deps::@e85e006e854b85e0a384",
+	"isGeneratorProvided" : true,
+	"name" : "module_stockage_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/gestion_stock_frigo_capture",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

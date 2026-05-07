@@ -1,0 +1,25 @@
+{
+	"BUILD_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/module_employees_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/ferdawes",
+	"CMAKE_SOURCE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/module_employees_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/Users/WSI/Desktop/integ/integ/ferdawes/ressources/vision_sight.jpeg"
+	],
+	"LOCK_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/CMakeFiles/module_employees_autogen.dir/AutoRcc_employe_resources_HYSANY5IKY_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "employe_resources" ],
+	"OUTPUT_CHECKSUM" : "HYSANY5IKY",
+	"OUTPUT_NAME" : "qrc_employe_resources.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/Users/WSI/Desktop/integ/integ/integration finale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/ferdawes/CMakeFiles/module_employees_autogen.dir/AutoRcc_employe_resources_HYSANY5IKY_Used.txt",
+	"SOURCE" : "C:/Users/WSI/Desktop/integ/integ/ferdawes/src/view/gestion_employes/employe_resources.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "module_quais_autogen_timestamp_deps::@131901aca54e0eb5ff3b",
+	"isGeneratorProvided" : true,
+	"name" : "module_quais_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/interface_raef",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/interface raef"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "module_navires_autogen_timestamp_deps::@fb72fc6559535ce43e58"
+		}
+	],
+	"id" : "module_navires_autogen::@fb72fc6559535ce43e58",
+	"isGeneratorProvided" : true,
+	"name" : "module_navires_autogen",
+	"paths" : 
+	{
+		"build" : "_modules/GestionDesNavires",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/integration/integration/GestionDesNavires"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/CMakeFiles/module_navires_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/CMakeFiles/module_navires_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/_modules/GestionDesNavires/module_navires_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

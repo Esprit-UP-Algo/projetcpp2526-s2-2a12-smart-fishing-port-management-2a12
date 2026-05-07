@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/captures/lot_poisson/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "lot_poisson_module_autogen_timestamp_deps::@abd4222952ad4de5eedd",
+	"isGeneratorProvided" : true,
+	"name" : "lot_poisson_module_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_modules/gestion_stock_frigo_capture/captures/lot_poisson",
+		"source" : "C:/Users/WSI/Desktop/integ/integ/doudi+arnouba/gestion_stock_frigo_capturee (2)/gestion_stock_frigo_capture/gestion_stock_frigo_capture/captures/lot_poisson"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}
